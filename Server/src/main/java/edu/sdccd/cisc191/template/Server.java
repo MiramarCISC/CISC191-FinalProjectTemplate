@@ -2,6 +2,8 @@ package edu.sdccd.cisc191.template;
 
 import java.net.*;
 import java.io.*;
+import java.text.DecimalFormat;
+import java.util.Scanner;
 
 /**
  * This program is a server that takes connection requests on
@@ -40,13 +42,63 @@ public class Server {
         serverSocket.close();
     }
 
-    public static void main(String[] args) {
-        Server server = new Server();
-        try {
-            server.start(4444);
-            server.stop();
-        } catch(Exception e) {
-            e.printStackTrace();
+    public static void menu(double[][] dataSet) {
+        Scanner scanner = new Scanner(System.in);
+        String input = "";
+
+        System.out.println("Welcome to Micro-Center \nPlease make a selection by entering a number between 1 and 3:\n\n1: Review data\n2: Add data\n3: Edit data");
+        input = scanner.nextLine();
+
+        switch (input) {
+            case "1": // Output entire dataset
+                outputData(dataSet);
+                break;
+            case "2": // Add 12 months of sales for a new store
+                System.out.println("Add data");
+                break;
+            case "3": // Edit data for a specific store or specific month
+                System.out.println("Edit data");
+                break;
+            default:
+                menu(dataSet);
+                break;
         }
+    }
+
+    public static void outputData(double[][] dataSet) {
+        for(int row = 0; row< dataSet.length; row++) {
+            for(int column = 0; column<dataSet[row].length; column++) {
+                DecimalFormat df = new DecimalFormat();
+                df.setMaximumFractionDigits(2);
+                System.out.print(df.format(dataSet[row][column])+ " || ");
+            }
+            System.out.println();
+        }
+    }
+
+    public static double[][] createDataSet() {
+
+        double[][] dataSet = new double[5][12];
+
+        for(int row = 0; row< dataSet.length; row++) {
+            for(int column = 0; column<dataSet[row].length; column++) {
+                dataSet[row][column] = (double)(Math.random() * 100000);
+            }
+        }
+
+        return dataSet;
+    }
+
+    public static void main(String[] args) {
+        double dataSet[][] = createDataSet();
+
+        menu(dataSet);
+//        Server server = new Server();
+//        try {
+//            server.start(4444);
+//            server.stop();
+//        } catch(Exception e) {
+//            e.printStackTrace();
+//        }
     }
 } //end class Server
