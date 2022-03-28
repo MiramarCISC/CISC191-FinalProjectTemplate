@@ -6,7 +6,7 @@ public class WordleTextField extends TextField {
 
     public WordleTextField() {
         setPrefColumnCount(1);
-        setPrefSize(40,5);
+        setPrefSize(50,5);
 
     }
 }

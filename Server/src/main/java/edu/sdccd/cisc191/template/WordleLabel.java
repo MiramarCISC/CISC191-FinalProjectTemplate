@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 
 public class WordleLabel extends Label {
+
     public static Insets LABEL_PADDING = new Insets(0,0,0,10);
 
     public WordleLabel(String s)
