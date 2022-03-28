@@ -12,10 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.geometry.Insets;
 import javafx.event.ActionEvent;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -206,11 +203,10 @@ public class Wordle extends Application {
      * ActionEvent methods.
      */
     public static ArrayList<Wordle> initialize() {
+        InputStream is = Wordle.class.getClassLoader().getResourceAsStream("unlimited_words.txt");
 
-        // The .txt pathfile will have to be changed for every user. The .txt is included in the repo.
-        File file = new File("Server\\src\\main\\resources\\unlimited_words.txt");
         try {
-            Scanner sc = new Scanner(file);
+            Scanner sc = new Scanner(is);
             // Create the array list
             ArrayList wordList = new ArrayList<>();
 
@@ -371,6 +367,11 @@ public class Wordle extends Application {
         for (int i = 0; i < wordList.size(); i++) {
             wordList.get(i).setExcludedLetters(false);
             wordList.get(i).setContainedLetters(false);
+            wordList.get(i).setContainedLettersOne(false);
+            wordList.get(i).setContainedLettersTwo(false);
+            wordList.get(i).setContainedLettersThree(false);
+            wordList.get(i).setContainedLettersFour(false);
+            wordList.get(i).setContainedLettersFive(false);
             wordList.get(i).setPositionalLettersOne(false);
             wordList.get(i).setPositionalLettersTwo(false);
             wordList.get(i).setPositionalLettersThree(false);
@@ -461,6 +462,10 @@ public class Wordle extends Application {
         public void handle(ActionEvent event) {
             excludedLettersField.clear();
             containedLettersFieldOne.clear();
+            containedLettersFieldTwo.clear();
+            containedLettersFieldThree.clear();
+            containedLettersFieldFour.clear();
+            containedLettersFieldFive.clear();
             positionOneField.clear();
             positionTwoField.clear();
             positionThreeField.clear();
