@@ -38,6 +38,14 @@ class WordleTest {
     @Test
     void containsLetters() {
         ArrayList<Wordle> wordList = initialize();
+
+
+
+    }
+
+    @Test
+    void containsLettersEliminateByPosition() {
+        ArrayList<Wordle> wordList = initialize();
         String positionOne = "";
         String positionTwo = "r";
         String positionThree = "";

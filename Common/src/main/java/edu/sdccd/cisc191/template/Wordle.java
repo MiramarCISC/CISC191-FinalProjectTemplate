@@ -233,10 +233,10 @@ public class Wordle extends Application {
     // Very simply see if words are contain any part of the passed in String then its value is set
     // to true and not printed later.
     {
-        for (int k = 0; k < wordList.size(); k++) { // Original
-            for(int j = 0; j < exclude.length(); j++) { // Nested
-                if (wordList.get(k).getTestString().contains(Character.toString(exclude.charAt(j))))
-                    wordList.get(k).setExcludedLetters(true);
+        for (Wordle wordle : wordList) { // Original
+            for (int j = 0; j < exclude.length(); j++) { // Nested
+                if (wordle.getTestString().contains(Character.toString(exclude.charAt(j))))
+                    wordle.setExcludedLetters(true);
             } // Nested
         } // Original
         return wordList;
@@ -251,45 +251,45 @@ public class Wordle extends Application {
      */
     public static ArrayList<Wordle> containsLetters(ArrayList<Wordle> wordList, String containsOne,
     String containsTwo, String containsThree, String containsFour, String containsFive) {
-        for (int i = 0; i < wordList.size(); i++) {
-            String a = Character.toString(wordList.get(i).getTestString().charAt(0));
-            if(a.equals(containsOne))
-                wordList.get(i).setContainedLettersOne(false);
-            else if (a.isEmpty() || wordList.get(i).getTestString().contains(containsOne))
-                wordList.get(i).setContainedLettersOne(true);
+        for (Wordle wordle : wordList) {
+            String a = Character.toString(wordle.getTestString().charAt(0));
+            if (a.equals(containsOne))
+                wordle.setContainedLettersOne(false);
+            else if (a.isEmpty() || wordle.getTestString().contains(containsOne))
+                wordle.setContainedLettersOne(true);
 
-            a = Character.toString(wordList.get(i).getTestString().charAt(1));
-            if(a.equals(containsTwo))
-                wordList.get(i).setContainedLettersTwo(false);
-            else if (a.isEmpty() || wordList.get(i).getTestString().contains(containsTwo))
-                wordList.get(i).setContainedLettersTwo(true);
+            a = Character.toString(wordle.getTestString().charAt(1));
+            if (a.equals(containsTwo))
+                wordle.setContainedLettersTwo(false);
+            else if (a.isEmpty() || wordle.getTestString().contains(containsTwo))
+                wordle.setContainedLettersTwo(true);
 
-            a = Character.toString(wordList.get(i).getTestString().charAt(2));
-            if(a.equals(containsThree))
-                wordList.get(i).setContainedLettersThree(false);
-            else if (a.isEmpty() || wordList.get(i).getTestString().contains(containsThree))
-                wordList.get(i).setContainedLettersThree(true);
+            a = Character.toString(wordle.getTestString().charAt(2));
+            if (a.equals(containsThree))
+                wordle.setContainedLettersThree(false);
+            else if (a.isEmpty() || wordle.getTestString().contains(containsThree))
+                wordle.setContainedLettersThree(true);
 
-            a = Character.toString(wordList.get(i).getTestString().charAt(3));
-            if(a.equals(containsFour))
-                wordList.get(i).setContainedLettersFour(false);
-            else if (a.isEmpty() || wordList.get(i).getTestString().contains(containsFour))
-                wordList.get(i).setContainedLettersFour(true);
+            a = Character.toString(wordle.getTestString().charAt(3));
+            if (a.equals(containsFour))
+                wordle.setContainedLettersFour(false);
+            else if (a.isEmpty() || wordle.getTestString().contains(containsFour))
+                wordle.setContainedLettersFour(true);
 
-            a = Character.toString(wordList.get(i).getTestString().charAt(4));
-            if(a.equals(containsFive))
-                wordList.get(i).setContainedLettersFive(false);
-            else if (a.isEmpty() || wordList.get(i).getTestString().contains(containsFive))
-                wordList.get(i).setContainedLettersFive(true);
+            a = Character.toString(wordle.getTestString().charAt(4));
+            if (a.equals(containsFive))
+                wordle.setContainedLettersFive(false);
+            else if (a.isEmpty() || wordle.getTestString().contains(containsFive))
+                wordle.setContainedLettersFive(true);
         }
 
-        for (int i = 0; i < wordList.size(); i++) {
-            if(wordList.get(i).getContainedLettersOne()
-                    && wordList.get(i).getContainedLettersTwo()
-                    && wordList.get(i).getContainedLettersThree()
-                    && wordList.get(i).getContainedLettersFour()
-                    && wordList.get(i).getContainedLettersFive())
-                wordList.get(i).setContainedLetters(true);
+        for (Wordle wordle : wordList) {
+            if (wordle.getContainedLettersOne()
+                    && wordle.getContainedLettersTwo()
+                    && wordle.getContainedLettersThree()
+                    && wordle.getContainedLettersFour()
+                    && wordle.getContainedLettersFive())
+                wordle.setContainedLetters(true);
         }
 
         return wordList;
@@ -311,46 +311,31 @@ public class Wordle extends Application {
                                                       String positionTwo, String positionThree,
                                                       String positionFour, String positionFive) {
         // The filtering of positional letters.
-        for (int i = 0; i < wordList.size(); i++) {
-            String a = Character.toString(wordList.get(i).getTestString().charAt(0));
-            if (a.equals(positionOne) || positionOne.isEmpty())
-                wordList.get(i).setPositionalLettersOne(true);
-            else
-                wordList.get(i).setPositionalLettersOne(false);
+        for (Wordle wordle : wordList) {
+            String a = Character.toString(wordle.getTestString().charAt(0));
+            wordle.setPositionalLettersOne(a.equals(positionOne) || positionOne.isEmpty());
 
-            a = Character.toString(wordList.get(i).getTestString().charAt(1));
-            if (a.equals(positionTwo) || positionTwo.isEmpty())
-                wordList.get(i).setPositionalLettersTwo(true);
-            else
-                wordList.get(i).setPositionalLettersTwo(false);
+            a = Character.toString(wordle.getTestString().charAt(1));
+            wordle.setPositionalLettersTwo(a.equals(positionTwo) || positionTwo.isEmpty());
 
-            a = Character.toString(wordList.get(i).getTestString().charAt(2));
-            if (a.equals(positionThree) || positionThree.isEmpty())
-                wordList.get(i).setPositionalLettersThree(true);
-            else
-                wordList.get(i).setPositionalLettersThree(false);
+            a = Character.toString(wordle.getTestString().charAt(2));
+            wordle.setPositionalLettersThree(a.equals(positionThree) || positionThree.isEmpty());
 
-            a = Character.toString(wordList.get(i).getTestString().charAt(3));
-            if (a.equals(positionFour) || positionFour.isEmpty())
-                wordList.get(i).setPositionalLettersFour(true);
-            else
-                wordList.get(i).setPositionalLettersFour(false);
+            a = Character.toString(wordle.getTestString().charAt(3));
+            wordle.setPositionalLettersFour(a.equals(positionFour) || positionFour.isEmpty());
 
-            a = Character.toString(wordList.get(i).getTestString().charAt(4));
-            if (a.equals(positionFive) || positionFive.isEmpty())
-                wordList.get(i).setPositionalLettersFive(true);
-            else
-                wordList.get(i).setPositionalLettersFive(false);
+            a = Character.toString(wordle.getTestString().charAt(4));
+            wordle.setPositionalLettersFive(a.equals(positionFive) || positionFive.isEmpty());
 
         }
 
-        for (int i = 0; i < wordList.size(); i++) {
-            if(wordList.get(i).getPositionalLettersOne()
-                    && wordList.get(i).getPositionalLettersTwo()
-                    && wordList.get(i).getPositionalLettersThree()
-                    && wordList.get(i).getPositionalLettersFour()
-                    && wordList.get(i).getPositionalLettersFive())
-                wordList.get(i).setPositionalLetters(true);
+        for (Wordle wordle : wordList) {
+            if (wordle.getPositionalLettersOne()
+                    && wordle.getPositionalLettersTwo()
+                    && wordle.getPositionalLettersThree()
+                    && wordle.getPositionalLettersFour()
+                    && wordle.getPositionalLettersFive())
+                wordle.setPositionalLetters(true);
         }
         return wordList;
     }
@@ -362,20 +347,20 @@ public class Wordle extends Application {
      */
     public static ArrayList<Wordle> resetValues(ArrayList<Wordle> wordList) {
         // Steps through every Wordle object to set the values to false.
-        for (int i = 0; i < wordList.size(); i++) {
-            wordList.get(i).setExcludedLetters(false);
-            wordList.get(i).setContainedLetters(false);
-            wordList.get(i).setContainedLettersOne(false);
-            wordList.get(i).setContainedLettersTwo(false);
-            wordList.get(i).setContainedLettersThree(false);
-            wordList.get(i).setContainedLettersFour(false);
-            wordList.get(i).setContainedLettersFive(false);
-            wordList.get(i).setPositionalLettersOne(false);
-            wordList.get(i).setPositionalLettersTwo(false);
-            wordList.get(i).setPositionalLettersThree(false);
-            wordList.get(i).setPositionalLettersFour(false);
-            wordList.get(i).setPositionalLettersFive(false);
-            wordList.get(i).setPositionalLetters(false);
+        for (Wordle wordle : wordList) {
+            wordle.setExcludedLetters(false);
+            wordle.setContainedLetters(false);
+            wordle.setContainedLettersOne(false);
+            wordle.setContainedLettersTwo(false);
+            wordle.setContainedLettersThree(false);
+            wordle.setContainedLettersFour(false);
+            wordle.setContainedLettersFive(false);
+            wordle.setPositionalLettersOne(false);
+            wordle.setPositionalLettersTwo(false);
+            wordle.setPositionalLettersThree(false);
+            wordle.setPositionalLettersFour(false);
+            wordle.setPositionalLettersFive(false);
+            wordle.setPositionalLetters(false);
         }
         return wordList;
     }
@@ -456,7 +441,7 @@ public class Wordle extends Application {
 
     } // End - Start
 
-    class ResetButtonHandler implements EventHandler<ActionEvent> {
+    static class ResetButtonHandler implements EventHandler<ActionEvent> {
         public void handle(ActionEvent event) {
             excludedLettersField.clear();
             containedLettersFieldOne.clear();
@@ -475,7 +460,7 @@ public class Wordle extends Application {
     }
 
 
-    class GoButtonHandler implements EventHandler<ActionEvent>
+    static class GoButtonHandler implements EventHandler<ActionEvent>
     {
         // Various String objects to hold the text passed into the JavaFX TextField objects
         public String excludedCharacters;
@@ -523,10 +508,10 @@ public class Wordle extends Application {
             wordList = positionalLetters(wordList, positionOne, positionTwo, positionThree, positionFour, positionFive);
 
             // Print to the terminal all applicable words
-            for(int i = 0; i < wordList.size(); i++) {
-                if (!wordList.get(i).getExcludedLetters() && wordList.get(i).getContainedLetters()
-                        && wordList.get(i).getPositionalLetter())
-                    System.out.println(wordList.get(i).getTestString());
+            for (Wordle wordle : wordList) {
+                if (!wordle.getExcludedLetters() && wordle.getContainedLetters()
+                        && wordle.getPositionalLetter())
+                    System.out.println(wordle.getTestString());
             }
             // Resets all the boolean attributes so that they can be set again properly.
             wordList = resetValues(wordList);
