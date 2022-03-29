@@ -11,11 +11,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.geometry.Insets;
 import javafx.event.ActionEvent;
-
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Scanner;
 
 /**
@@ -43,7 +40,7 @@ public class Wordle extends Application {
 
     /**
      * Each word in the .txt file will be instantiated with these fields. A string to hold the
-     * 5 letter word and 7 booleans to be altered to filter excluded and included words
+     * 5-letter word and 7 booleans to be altered to filter excluded and included words
      */
     private String testString;
     private boolean excludedLetters = false;
@@ -205,8 +202,8 @@ public class Wordle extends Application {
 
         try {
             Scanner sc = new Scanner(is);
-            // Create the array list
-            ArrayList wordList = new ArrayList<>();
+            // Create the array list of type Wordle
+            ArrayList<Wordle> wordList = new ArrayList<>();
 
             // Read file and write a new object to the list for every word
             // and initialize the TestString attribute with the nextLine(); method
@@ -246,16 +243,22 @@ public class Wordle extends Application {
      *
      * @param wordList The filtered ArrayList of Wordle objects that previously passed through
      *                 the exclude method.
-     // * @param contains The user input of letters contained in the Worlde word.
-     * @return Returns wordList with the contained letters.
+     * @param containsOne The user input of letter at contained at position one.
+     * @param containsTwo The user input of letter at contained at position two.
+     * @param containsThree The user input of letter at contained at position three.
+     * @param containsFour The user input of letter at contained at position four.
+     * @param containsFive The user input of letter at contained at position five.
+     * @return Returns wordList filtered for contained letters.
      */
     public static ArrayList<Wordle> containsLetters(ArrayList<Wordle> wordList, String containsOne,
     String containsTwo, String containsThree, String containsFour, String containsFive) {
+
+        // Parses every word from the Wordle list
         for (Wordle wordle : wordList) {
             String a = Character.toString(wordle.getTestString().charAt(0));
-            if (a.equals(containsOne))
+            if (a.equals(containsOne)) // If the letter is contained at the position it can be eliminated, and it sets false
                 wordle.setContainedLettersOne(false);
-            else if (a.isEmpty() || wordle.getTestString().contains(containsOne))
+            else if (a.isEmpty() || wordle.getTestString().contains(containsOne)) // If it contains the letter NOT in the inputted position returns true
                 wordle.setContainedLettersOne(true);
 
             a = Character.toString(wordle.getTestString().charAt(1));
@@ -283,6 +286,7 @@ public class Wordle extends Application {
                 wordle.setContainedLettersFive(true);
         }
 
+        // Returns a Wordle object's contained letter to true if it is an applicable word.
         for (Wordle wordle : wordList) {
             if (wordle.getContainedLettersOne()
                     && wordle.getContainedLettersTwo()
@@ -291,10 +295,8 @@ public class Wordle extends Application {
                     && wordle.getContainedLettersFive())
                 wordle.setContainedLetters(true);
         }
-
         return wordList;
     }
-
 
     /**
      *
@@ -313,6 +315,7 @@ public class Wordle extends Application {
         // The filtering of positional letters.
         for (Wordle wordle : wordList) {
             String a = Character.toString(wordle.getTestString().charAt(0));
+            // Returns true if the letter is correct empty
             wordle.setPositionalLettersOne(a.equals(positionOne) || positionOne.isEmpty());
 
             a = Character.toString(wordle.getTestString().charAt(1));
@@ -329,6 +332,7 @@ public class Wordle extends Application {
 
         }
 
+        // Returns a Wordle object's positional letter to true if it is an applicable word.
         for (Wordle wordle : wordList) {
             if (wordle.getPositionalLettersOne()
                     && wordle.getPositionalLettersTwo()
@@ -376,10 +380,9 @@ public class Wordle extends Application {
     /**
      *
      * @param stage Creates Stage parameter
-     * @throws Exception
      */
     @Override
-    public void start(Stage stage) throws Exception { // Start - start
+    public void start(Stage stage) { // Start - start
         VBox rootBox = new VBox();
 
         // Refer to accompanying Java classes for details on the constructor dimensions passed
@@ -464,8 +467,8 @@ public class Wordle extends Application {
     {
         // Various String objects to hold the text passed into the JavaFX TextField objects
         public String excludedCharacters;
-        public String containedCharacters;
 
+        public String containedCharacters;
         public String containedOne;
         public String containedTwo;
         public String containedThree;
@@ -503,9 +506,9 @@ public class Wordle extends Application {
             positionFive = positionFiveField.getText().toLowerCase();
 
             // Once the input is read the wordList can then be filtered
-            wordList = excludeLetters(wordList, excludedCharacters);
-            wordList = containsLetters(wordList, containedOne, containedTwo, containedThree, containedFour, containedFive);
-            wordList = positionalLetters(wordList, positionOne, positionTwo, positionThree, positionFour, positionFive);
+            excludeLetters(wordList, excludedCharacters);
+            containsLetters(wordList, containedOne, containedTwo, containedThree, containedFour, containedFive);
+            positionalLetters(wordList, positionOne, positionTwo, positionThree, positionFour, positionFive);
 
             // Print to the terminal all applicable words
             for (Wordle wordle : wordList) {
@@ -513,10 +516,10 @@ public class Wordle extends Application {
                         && wordle.getPositionalLetter())
                     System.out.println(wordle.getTestString());
             }
+            System.out.println();
             // Resets all the boolean attributes so that they can be set again properly.
-            wordList = resetValues(wordList);
+            resetValues(wordList);
 
         } // End - handle(ActionEvent)
     } // End - Button Handler(Class)
-} //end class Wordle
-
+} // End - Class Wordle

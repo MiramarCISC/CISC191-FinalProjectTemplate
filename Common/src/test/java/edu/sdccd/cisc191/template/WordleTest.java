@@ -1,20 +1,11 @@
 package edu.sdccd.cisc191.template;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
-
 import static edu.sdccd.cisc191.template.Wordle.initialize;
 import static org.junit.jupiter.api.Assertions.*;
 
 class WordleTest {
-
-
-    @BeforeEach
-    void setUp() {
-
-    }
 
     @Test
     void excludeLetters() {
@@ -32,7 +23,6 @@ class WordleTest {
                         && wordle.getTestString().contains(s))
                     fail();
             }
-
     }
 
     @Test
@@ -45,16 +35,16 @@ class WordleTest {
         String positionFive = "";
         Wordle.containsLetters(wordList, positionOne, positionTwo, positionThree, positionFour, positionFive);
 
-        assertEquals(wordList.get(0).getContainedLetters(), false);
-        assertEquals(wordList.get(1).getContainedLetters(), true);
-        assertEquals(wordList.get(2).getContainedLetters(), false);
-        assertEquals(wordList.get(3).getContainedLetters(), false);
-        assertEquals(wordList.get(4).getContainedLetters(), false);
-        assertEquals(wordList.get(5).getContainedLetters(), false);
-        assertEquals(wordList.get(6).getContainedLetters(), false);
-        assertEquals(wordList.get(7).getContainedLetters(), false);
-        assertEquals(wordList.get(8).getContainedLetters(), false);
-        assertEquals(wordList.get(9).getContainedLetters(), true);
+        assertFalse(wordList.get(0).getContainedLetters());
+        assertTrue(wordList.get(1).getContainedLetters());
+        assertFalse(wordList.get(2).getContainedLetters());
+        assertFalse(wordList.get(3).getContainedLetters());
+        assertFalse(wordList.get(4).getContainedLetters());
+        assertFalse(wordList.get(5).getContainedLetters());
+        assertFalse(wordList.get(6).getContainedLetters());
+        assertFalse(wordList.get(7).getContainedLetters());
+        assertFalse(wordList.get(8).getContainedLetters());
+        assertTrue(wordList.get(9).getContainedLetters());
     }
 
     @Test
@@ -121,8 +111,8 @@ class WordleTest {
             wordList.get(i).setPositionalLettersFour(true);
             wordList.get(i).setPositionalLettersFive(true);
             wordList.get(i).setPositionalLetters(true);
-
         }
+
         Wordle.resetValues(wordList);
         for (int i = 0; i < wordList.size(); i++) {
             if (wordList.get(i).getExcludedLetters() ||
