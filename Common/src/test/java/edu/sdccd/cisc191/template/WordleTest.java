@@ -38,9 +38,23 @@ class WordleTest {
     @Test
     void containsLetters() {
         ArrayList<Wordle> wordList = initialize();
+        String positionOne = "e";
+        String positionTwo = "r";
+        String positionThree = "";
+        String positionFour = "";
+        String positionFive = "";
+        Wordle.containsLetters(wordList, positionOne, positionTwo, positionThree, positionFour, positionFive);
 
-
-
+        assertEquals(wordList.get(0).getContainedLetters(), false);
+        assertEquals(wordList.get(1).getContainedLetters(), true);
+        assertEquals(wordList.get(2).getContainedLetters(), false);
+        assertEquals(wordList.get(3).getContainedLetters(), false);
+        assertEquals(wordList.get(4).getContainedLetters(), false);
+        assertEquals(wordList.get(5).getContainedLetters(), false);
+        assertEquals(wordList.get(6).getContainedLetters(), false);
+        assertEquals(wordList.get(7).getContainedLetters(), false);
+        assertEquals(wordList.get(8).getContainedLetters(), false);
+        assertEquals(wordList.get(9).getContainedLetters(), true);
     }
 
     @Test
