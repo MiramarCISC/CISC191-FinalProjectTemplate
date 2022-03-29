@@ -55,7 +55,6 @@ public class Wordle extends Application {
     private boolean containedLettersFour = false;
     private boolean containedLettersFive = false;
 
-
     private boolean positionalLetters = false;
     private boolean positionalLettersOne = false;
     private boolean positionalLettersTwo = false;
@@ -173,7 +172,6 @@ public class Wordle extends Application {
     public String getTestString() {
         return testString;
     }
-
 
     public Wordle() {
         // No arg constructor
