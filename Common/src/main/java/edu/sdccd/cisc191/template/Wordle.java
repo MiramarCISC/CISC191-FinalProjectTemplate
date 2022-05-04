@@ -193,6 +193,40 @@ public class Wordle extends Application {
 
     }
 
+    public static void mergeSort(ArrayList<Wordle> wordList) {
+
+
+        if (wordList.size() > 2) {
+            ArrayList<Wordle> left = new ArrayList<>();
+            for (int i = 0; i < wordList.size() / 2; i++) {
+                left.add(wordList.get(i));
+            }
+            ArrayList<Wordle> right = new ArrayList<>();
+            for (int i = wordList.size() / 2; i < wordList.size(); i++) {
+                right.add(wordList.get(i));
+            }
+
+            mergeSort(left);
+            mergeSort(right);
+            merge(wordList, left, right);
+        }
+    }
+
+    public static void merge(ArrayList<Wordle> wordList, ArrayList<Wordle> left, ArrayList<Wordle> right) {
+        int i1 = 0;
+        int i2 = 0;
+        for (int i = 0; i < wordList.size(); i++) {
+            if (i2 >= right.size() || (i1 < left.size() &&
+                    left.get(i1).getTestString().compareToIgnoreCase(right.get(i2).getTestString()) < 0 )) {
+                wordList.set(i, left.get(i1));
+                i1++;
+            } else {
+                wordList.set(i, right.get(i2));
+                i2++;
+            }
+        }
+    }
+
     /**
      * @return Creates an ArrayList of Wordle objects to be extracted later by the filtering and
      * ActionEvent methods.
@@ -201,6 +235,7 @@ public class Wordle extends Application {
         InputStream is = Wordle.class.getClassLoader().getResourceAsStream("unlimited_words.txt");
 
         try {
+            assert is != null;
             Scanner sc = new Scanner(is);
             // Create the array list of type Wordle
             ArrayList<Wordle> wordList = new ArrayList<>();
@@ -224,9 +259,8 @@ public class Wordle extends Application {
      *
      * @param wordList The unfiltered ArrayList of Wordle objects.
      * @param exclude The input from the excluded  text field.
-     * @return Returns wordList with the excluded letters.
      */
-    public static ArrayList<Wordle> excludeLetters(ArrayList<Wordle> wordList, String exclude)
+    public static void excludeLetters(ArrayList<Wordle> wordList, String exclude)
     // Very simply see if words are contain any part of the passed in String then its value is set
     // to true and not printed later.
     {
@@ -236,7 +270,6 @@ public class Wordle extends Application {
                     wordle.setExcludedLetters(true);
             } // Nested
         } // Original
-        return wordList;
     }
 
     /**
@@ -248,9 +281,8 @@ public class Wordle extends Application {
      * @param containsThree The user input of letter at contained at position three.
      * @param containsFour The user input of letter at contained at position four.
      * @param containsFive The user input of letter at contained at position five.
-     * @return Returns wordList filtered for contained letters.
      */
-    public static ArrayList<Wordle> containsLetters(ArrayList<Wordle> wordList, String containsOne,
+    public static void containsLetters(ArrayList<Wordle> wordList, String containsOne,
     String containsTwo, String containsThree, String containsFour, String containsFive) {
 
         // Parses every word from the Wordle list
@@ -295,7 +327,7 @@ public class Wordle extends Application {
                     && wordle.getContainedLettersFive())
                 wordle.setContainedLetters(true);
         }
-        return wordList;
+
     }
 
     /**
@@ -307,9 +339,8 @@ public class Wordle extends Application {
      * @param positionThree The string of user input for the letter at position three.
      * @param positionFour The string of user input for the letter at position four.
      * @param positionFive The string of user input for the letter at position five.
-     * @return Returns the completed filtered ArrayList of Wordle objects.
      */
-    public static ArrayList<Wordle> positionalLetters(ArrayList<Wordle> wordList, String positionOne,
+    public static void positionalLetters(ArrayList<Wordle> wordList, String positionOne,
                                                       String positionTwo, String positionThree,
                                                       String positionFour, String positionFive) {
         // The filtering of positional letters.
@@ -341,15 +372,14 @@ public class Wordle extends Application {
                     && wordle.getPositionalLettersFive())
                 wordle.setPositionalLetters(true);
         }
-        return wordList;
+
     }
 
     /**
      *
      * @param wordList Inputs the word list to be reset and all attributes returned to false.
-     * @return Returns the list to be used again.
      */
-    public static ArrayList<Wordle> resetValues(ArrayList<Wordle> wordList) {
+    static void resetValues(ArrayList<Wordle> wordList) {
         // Steps through every Wordle object to set the values to false.
         for (Wordle wordle : wordList) {
             wordle.setExcludedLetters(false);
@@ -366,7 +396,6 @@ public class Wordle extends Application {
             wordle.setPositionalLettersFive(false);
             wordle.setPositionalLetters(false);
         }
-        return wordList;
     }
 
     /**
@@ -506,6 +535,7 @@ public class Wordle extends Application {
             positionFive = positionFiveField.getText().toLowerCase();
 
             // Once the input is read the wordList can then be filtered
+            mergeSort(wordList);
             excludeLetters(wordList, excludedCharacters);
             containsLetters(wordList, containedOne, containedTwo, containedThree, containedFour, containedFive);
             positionalLetters(wordList, positionOne, positionTwo, positionThree, positionFour, positionFive);
@@ -516,6 +546,7 @@ public class Wordle extends Application {
                         && wordle.getPositionalLetter())
                     System.out.println(wordle.getTestString());
             }
+            //
             System.out.println();
             // Resets all the boolean attributes so that they can be set again properly.
             resetValues(wordList);
