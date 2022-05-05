@@ -3,6 +3,7 @@ package edu.sdccd.cisc191.template;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import static edu.sdccd.cisc191.template.Wordle.initialize;
+import static edu.sdccd.cisc191.template.Wordle.mergeSort;
 import static org.junit.jupiter.api.Assertions.*;
 
 class WordleTest {
@@ -16,6 +17,7 @@ class WordleTest {
             array[i] = Character.toString(test.charAt(i));
         }
         System.out.println(array[1]);
+        assert wordList != null;
         Wordle.excludeLetters(wordList, test);
         for (String s : array)
             for (Wordle wordle : wordList) {
@@ -33,6 +35,7 @@ class WordleTest {
         String positionThree = "";
         String positionFour = "";
         String positionFive = "";
+        assert wordList != null;
         Wordle.containsLetters(wordList, positionOne, positionTwo, positionThree, positionFour, positionFive);
 
         assertFalse(wordList.get(0).getContainedLetters());
@@ -57,27 +60,28 @@ class WordleTest {
         String positionFive = "k";
         String a;
 
+        assert wordList != null;
         Wordle.containsLetters(wordList, positionOne, positionTwo, positionThree, positionFour, positionFive);
 
-        for (int i = 0; i < wordList.size(); i++) {
-            a = Character.toString(wordList.get(i).getTestString().charAt(0));
-            if(a.equals(positionOne) && wordList.get(i).getContainedLettersOne())
+        for (Wordle wordle : wordList) {
+            a = Character.toString(wordle.getTestString().charAt(0));
+            if (a.equals(positionOne) && wordle.getContainedLettersOne())
                 fail();
 
-            a = Character.toString(wordList.get(i).getTestString().charAt(1));
-            if(a.equals(positionTwo) && wordList.get(i).getContainedLettersTwo())
+            a = Character.toString(wordle.getTestString().charAt(1));
+            if (a.equals(positionTwo) && wordle.getContainedLettersTwo())
                 fail();
 
-            a = Character.toString(wordList.get(i).getTestString().charAt(2));
-            if(a.equals(positionThree) && wordList.get(i).getContainedLettersThree())
+            a = Character.toString(wordle.getTestString().charAt(2));
+            if (a.equals(positionThree) && wordle.getContainedLettersThree())
                 fail();
 
-            a = Character.toString(wordList.get(i).getTestString().charAt(3));
-            if(a.equals(positionFour) && wordList.get(i).getContainedLettersFour())
+            a = Character.toString(wordle.getTestString().charAt(3));
+            if (a.equals(positionFour) && wordle.getContainedLettersFour())
                 fail();
 
-            a = Character.toString(wordList.get(i).getTestString().charAt(4));
-            if(a.equals(positionFive) && wordList.get(i).getContainedLettersFive())
+            a = Character.toString(wordle.getTestString().charAt(4));
+            if (a.equals(positionFive) && wordle.getContainedLettersFive())
                 fail();
         }
     }
@@ -85,10 +89,11 @@ class WordleTest {
     @Test
     void positionalLetters() {
         ArrayList<Wordle> wordList = initialize();
+        assert wordList != null;
         Wordle.positionalLetters(wordList, "t", "r", "e", "a", "t");
         int counter = 0;
-        for (int i = 0; i < wordList.size(); i++) {
-            if (wordList.get(i).getPositionalLetter())
+        for (Wordle wordle : wordList) {
+            if (wordle.getPositionalLetter())
                 counter += 1;
         }
         assertEquals(1, counter);
@@ -97,41 +102,57 @@ class WordleTest {
     @Test
     void resetValues() {
         ArrayList<Wordle> wordList = initialize();
-        for (int i = 0; i < wordList.size(); i++) {
-            wordList.get(i).setExcludedLetters(true);
-            wordList.get(i).setContainedLetters(true);
-            wordList.get(i).setContainedLettersOne(true);
-            wordList.get(i).setContainedLettersTwo(true);
-            wordList.get(i).setContainedLettersThree(true);
-            wordList.get(i).setContainedLettersFour(true);
-            wordList.get(i).setContainedLettersFive(true);
-            wordList.get(i).setPositionalLettersOne(true);
-            wordList.get(i).setPositionalLettersTwo(true);
-            wordList.get(i).setPositionalLettersThree(true);
-            wordList.get(i).setPositionalLettersFour(true);
-            wordList.get(i).setPositionalLettersFive(true);
-            wordList.get(i).setPositionalLetters(true);
+        assert wordList != null;
+        for (Wordle value : wordList) {
+            value.setExcludedLetters(true);
+            value.setContainedLetters(true);
+            value.setContainedLettersOne(true);
+            value.setContainedLettersTwo(true);
+            value.setContainedLettersThree(true);
+            value.setContainedLettersFour(true);
+            value.setContainedLettersFive(true);
+            value.setPositionalLettersOne(true);
+            value.setPositionalLettersTwo(true);
+            value.setPositionalLettersThree(true);
+            value.setPositionalLettersFour(true);
+            value.setPositionalLettersFive(true);
+            value.setPositionalLetters(true);
         }
 
         Wordle.resetValues(wordList);
-        for (int i = 0; i < wordList.size(); i++) {
-            if (wordList.get(i).getExcludedLetters() ||
-            wordList.get(i).getContainedLettersOne() ||
-            wordList.get(i).getContainedLettersTwo() ||
-            wordList.get(i).getContainedLettersThree() ||
-            wordList.get(i).getContainedLettersFour() ||
-            wordList.get(i).getContainedLettersFive() ||
-            wordList.get(i).getContainedLetters() ||
-            wordList.get(i).getPositionalLettersOne() ||
-            wordList.get(i).getPositionalLettersTwo() ||
-            wordList.get(i).getPositionalLettersThree() ||
-            wordList.get(i).getPositionalLettersFour() ||
-            wordList.get(i).getPositionalLettersFive() ||
-            wordList.get(i).getPositionalLetter()
+        for (Wordle wordle : wordList) {
+            if (wordle.getExcludedLetters() ||
+                    wordle.getContainedLettersOne() ||
+                    wordle.getContainedLettersTwo() ||
+                    wordle.getContainedLettersThree() ||
+                    wordle.getContainedLettersFour() ||
+                    wordle.getContainedLettersFive() ||
+                    wordle.getContainedLetters() ||
+                    wordle.getPositionalLettersOne() ||
+                    wordle.getPositionalLettersTwo() ||
+                    wordle.getPositionalLettersThree() ||
+                    wordle.getPositionalLettersFour() ||
+                    wordle.getPositionalLettersFive() ||
+                    wordle.getPositionalLetter()
             )
                 fail();
         }
 
-
+    }
+    @Test
+    void alphabeticalOrder() {
+        ArrayList<Wordle> wordList = initialize();
+        assert wordList != null;
+        mergeSort(wordList);
+        assertEquals("aalii", wordList.get(0).getTestString());
+        assertEquals("aargh", wordList.get(1).getTestString());
+        assertEquals("aarti", wordList.get(2).getTestString());
+        assertEquals("abaca", wordList.get(3).getTestString());
+        assertEquals("abaci", wordList.get(4).getTestString());
+        assertEquals("aback", wordList.get(5).getTestString());
+        assertEquals("abacs", wordList.get(6).getTestString());
+        assertEquals("abaft", wordList.get(7).getTestString());
+        assertEquals("abaka", wordList.get(8).getTestString());
+        assertEquals("abamp", wordList.get(9).getTestString());
     }
 }
