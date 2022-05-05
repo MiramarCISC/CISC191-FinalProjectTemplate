@@ -1,14 +1,14 @@
 package edu.sdccd.cisc191.template;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.geometry.Insets;
 import javafx.event.ActionEvent;
 import java.io.*;
@@ -38,11 +38,16 @@ public class Wordle extends Application {
     public static TextField positionFourField;
     public static TextField positionFiveField;
 
+    public static ListView<String> resultsBox;
+    public static ObservableList<String> results;
+
+
     /**
      * Each word in the .txt file will be instantiated with these fields. A string to hold the
      * 5-letter word and 7 booleans to be altered to filter excluded and included words
      */
     private String testString;
+
     private boolean excludedLetters = false;
 
     private boolean containedLetters = false;
@@ -193,6 +198,11 @@ public class Wordle extends Application {
 
     }
 
+    /**
+     *
+     * @param wordList Enter the ArrayList of Wordle objects to filter by alphabetical order using
+     *                 recursion
+     */
     public static void mergeSort(ArrayList<Wordle> wordList) {
 
 
@@ -212,6 +222,12 @@ public class Wordle extends Application {
         }
     }
 
+    /**
+     *
+     * @param wordList The complete wordList
+     * @param left The now filtered left ArrayList
+     * @param right The now filtered right ArrayList
+     */
     public static void merge(ArrayList<Wordle> wordList, ArrayList<Wordle> left, ArrayList<Wordle> right) {
         int i1 = 0;
         int i2 = 0;
@@ -465,8 +481,15 @@ public class Wordle extends Application {
         // Add the button to the root
         rootBox.getChildren().add(buttonBox);
 
+        // Create a results list and add it to root box to display results
+        resultsBox = new ListView<>();
+        results = FXCollections.observableArrayList();
+        resultsBox.setItems(results);
+        resultsBox.setPrefSize(150, 500);
+        rootBox.getChildren().add(resultsBox);
+
         // Set the scene and begin
-        Scene root = new Scene(rootBox, 600, 250);
+        Scene root = new Scene(rootBox, 600, 750);
         stage.setScene(root);
         stage.setTitle("Wordle Solver");
         stage.show();
@@ -486,11 +509,11 @@ public class Wordle extends Application {
             positionThreeField.clear();
             positionFourField.clear();
             positionFiveField.clear();
+            results.clear();
             clearScreen();
         }
 
     }
-
 
     static class GoButtonHandler implements EventHandler<ActionEvent>
     {
@@ -512,11 +535,11 @@ public class Wordle extends Application {
         // Extract the ArrayList so it can be seen by the ActionEvent class and manipulated.
         public ArrayList<Wordle> wordList = initialize();
 
-
         @Override
         public void handle(ActionEvent event)
         {
             clearScreen();
+            results.clear();
             // Extracting all the text input from the TextFields and setting them to lower case
             // so no mismatches occur based on capitalization.
             excludedCharacters = excludedLettersField.getText().toLowerCase();
@@ -543,8 +566,12 @@ public class Wordle extends Application {
             // Print to the terminal all applicable words
             for (Wordle wordle : wordList) {
                 if (!wordle.getExcludedLetters() && wordle.getContainedLetters()
-                        && wordle.getPositionalLetter())
+                        && wordle.getPositionalLetter()) {
                     System.out.println(wordle.getTestString());
+                    results.add(wordle.getTestString());
+
+
+                }
             }
             //
             System.out.println();
