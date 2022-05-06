@@ -38,6 +38,7 @@ public class Wordle extends Application {
     public static TextField positionFourField;
     public static TextField positionFiveField;
 
+    public static WordleLabel wordCount;
     public static ListView<String> resultsBox;
     public static ObservableList<String> results;
 
@@ -187,15 +188,6 @@ public class Wordle extends Application {
      */
     public Wordle(String s) {
         this.testString = s;
-    }
-
-    /* TODO: Currently doesn't function as intended. It needs to clear the text on the console so applicable
-    words input to input are more easily readable.
-     */
-    public static void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-
     }
 
     /**
@@ -476,7 +468,9 @@ public class Wordle extends Application {
         Button resetButton = new WordleButton("Reset");
         resetButton.setOnAction(new ResetButtonHandler());
 
-        HBox buttonBox = new HBox(startButton, resetButton);
+        wordCount = new WordleLabel("Wordcount: ");
+
+        HBox buttonBox = new HBox(startButton, resetButton, wordCount);
         buttonBox.setPadding(BOX_PADDING);
         // Add the button to the root
         rootBox.getChildren().add(buttonBox);
@@ -510,7 +504,7 @@ public class Wordle extends Application {
             positionFourField.clear();
             positionFiveField.clear();
             results.clear();
-            clearScreen();
+            wordCount.setText("Wordcount: ");
         }
 
     }
@@ -538,8 +532,8 @@ public class Wordle extends Application {
         @Override
         public void handle(ActionEvent event)
         {
-            clearScreen();
             results.clear();
+            wordCount.setText("Wordcount: ");
             // Extracting all the text input from the TextFields and setting them to lower case
             // so no mismatches occur based on capitalization.
             excludedCharacters = excludedLettersField.getText().toLowerCase();
@@ -563,17 +557,16 @@ public class Wordle extends Application {
             containsLetters(wordList, containedOne, containedTwo, containedThree, containedFour, containedFive);
             positionalLetters(wordList, positionOne, positionTwo, positionThree, positionFour, positionFive);
 
+            int count = 0;
             // Print to the terminal all applicable words
             for (Wordle wordle : wordList) {
                 if (!wordle.getExcludedLetters() && wordle.getContainedLetters()
                         && wordle.getPositionalLetter()) {
-                    System.out.println(wordle.getTestString());
                     results.add(wordle.getTestString());
-
-
+                    count++;
                 }
             }
-            //
+            wordCount.setText("Wordcount: " + count);
             System.out.println();
             // Resets all the boolean attributes so that they can be set again properly.
             resetValues(wordList);
