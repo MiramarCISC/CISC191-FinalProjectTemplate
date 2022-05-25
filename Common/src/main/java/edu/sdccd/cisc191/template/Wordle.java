@@ -12,8 +12,8 @@ import javafx.geometry.Pos;
 import javafx.geometry.Insets;
 import javafx.event.ActionEvent;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * This program is a JavaFX based Wordle solver. It works by pulling a word bank of over 5000 words
@@ -39,6 +39,7 @@ public class Wordle extends Application {
     public static TextField positionFiveField;
 
     public static WordleLabel wordCount;
+    public static WordleLabel timer;
     public static ListView<String> resultsBox;
     public static ObservableList<String> results;
 
@@ -190,50 +191,7 @@ public class Wordle extends Application {
         this.testString = s;
     }
 
-    /**
-     *
-     * @param wordList Enter the ArrayList of Wordle objects to filter by alphabetical order using
-     *                 recursion
-     */
-    public static void mergeSort(ArrayList<Wordle> wordList) {
 
-
-        if (wordList.size() > 2) {
-            ArrayList<Wordle> left = new ArrayList<>();
-            for (int i = 0; i < wordList.size() / 2; i++) {
-                left.add(wordList.get(i));
-            }
-            ArrayList<Wordle> right = new ArrayList<>();
-            for (int i = wordList.size() / 2; i < wordList.size(); i++) {
-                right.add(wordList.get(i));
-            }
-
-            mergeSort(left);
-            mergeSort(right);
-            merge(wordList, left, right);
-        }
-    }
-
-    /**
-     *
-     * @param wordList The complete wordList
-     * @param left The now filtered left ArrayList
-     * @param right The now filtered right ArrayList
-     */
-    public static void merge(ArrayList<Wordle> wordList, ArrayList<Wordle> left, ArrayList<Wordle> right) {
-        int i1 = 0;
-        int i2 = 0;
-        for (int i = 0; i < wordList.size(); i++) {
-            if (i2 >= right.size() || (i1 < left.size() &&
-                    left.get(i1).getTestString().compareToIgnoreCase(right.get(i2).getTestString()) < 0 )) {
-                wordList.set(i, left.get(i1));
-                i1++;
-            } else {
-                wordList.set(i, right.get(i2));
-                i2++;
-            }
-        }
-    }
 
     /**
      * @return Creates an ArrayList of Wordle objects to be extracted later by the filtering and
@@ -464,13 +422,13 @@ public class Wordle extends Application {
         // Links the button press to the ActionEvent class below
         startButton.setOnAction(new GoButtonHandler());
 
-        // Reset buttons Action event currently not incorporated yet.
         Button resetButton = new WordleButton("Reset");
         resetButton.setOnAction(new ResetButtonHandler());
 
+        timer = new WordleLabel("Timer: 00:00");
         wordCount = new WordleLabel("Wordcount: ");
 
-        HBox buttonBox = new HBox(startButton, resetButton, wordCount);
+        HBox buttonBox = new HBox(startButton, resetButton, wordCount, timer);
         buttonBox.setPadding(BOX_PADDING);
         // Add the button to the root
         rootBox.getChildren().add(buttonBox);
@@ -551,24 +509,19 @@ public class Wordle extends Application {
             positionFour = positionFourField.getText().toLowerCase();
             positionFive = positionFiveField.getText().toLowerCase();
 
-            // Once the input is read the wordList can then be filtered
-            mergeSort(wordList);
+            // Once the input is read the wordList can then be filtered using Java 8 streams and lambdas
+            AtomicInteger count = new AtomicInteger();
             excludeLetters(wordList, excludedCharacters);
             containsLetters(wordList, containedOne, containedTwo, containedThree, containedFour, containedFive);
             positionalLetters(wordList, positionOne, positionTwo, positionThree, positionFour, positionFive);
 
-            int count = 0;
-            // Print to the terminal all applicable words
-            for (Wordle wordle : wordList) {
-                if (!wordle.getExcludedLetters() && wordle.getContainedLetters()
-                        && wordle.getPositionalLetter()) {
-                    results.add(wordle.getTestString());
-                    count++;
-                }
-            }
-            wordCount.setText("Wordcount: " + count);
-            System.out.println();
-            // Resets all the boolean attributes so that they can be set again properly.
+            wordList.stream()
+                    .sorted(Comparator.comparing(Wordle::getTestString))
+                    .filter(wordList -> !wordList.getExcludedLetters() && wordList.getContainedLetters() && wordList.getPositionalLetter())
+                    .forEach(wordle -> {results.add(wordle.getTestString());
+                        count.getAndIncrement();
+                    });
+            wordCount.setText("Word Count: " + count);
             resetValues(wordList);
 
         } // End - handle(ActionEvent)

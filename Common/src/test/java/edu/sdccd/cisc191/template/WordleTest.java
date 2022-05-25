@@ -2,8 +2,11 @@ package edu.sdccd.cisc191.template;
 
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.stream.Collectors;
+import java.util.List;
+
 import static edu.sdccd.cisc191.template.Wordle.initialize;
-import static edu.sdccd.cisc191.template.Wordle.mergeSort;
 import static org.junit.jupiter.api.Assertions.*;
 
 class WordleTest {
@@ -143,16 +146,17 @@ class WordleTest {
     void alphabeticalOrder() {
         ArrayList<Wordle> wordList = initialize();
         assert wordList != null;
-        mergeSort(wordList);
-        assertEquals("aalii", wordList.get(0).getTestString());
-        assertEquals("aargh", wordList.get(1).getTestString());
-        assertEquals("aarti", wordList.get(2).getTestString());
-        assertEquals("abaca", wordList.get(3).getTestString());
-        assertEquals("abaci", wordList.get(4).getTestString());
-        assertEquals("aback", wordList.get(5).getTestString());
-        assertEquals("abacs", wordList.get(6).getTestString());
-        assertEquals("abaft", wordList.get(7).getTestString());
-        assertEquals("abaka", wordList.get(8).getTestString());
-        assertEquals("abamp", wordList.get(9).getTestString());
+        List<Wordle> list = wordList.stream().sorted(Comparator.comparing(Wordle::getTestString)).collect(Collectors.toList());
+
+        assertEquals("aalii", list.get(0).getTestString());
+        assertEquals("aargh", list.get(1).getTestString());
+        assertEquals("aarti", list.get(2).getTestString());
+        assertEquals("abaca", list.get(3).getTestString());
+        assertEquals("abaci", list.get(4).getTestString());
+        assertEquals("aback", list.get(5).getTestString());
+        assertEquals("abacs", list.get(6).getTestString());
+        assertEquals("abaft", list.get(7).getTestString());
+        assertEquals("abaka", list.get(8).getTestString());
+        assertEquals("abamp", list.get(9).getTestString());
     }
 }
