@@ -1,6 +1,8 @@
 package edu.sdccd.cisc191.template;
 
 import javafx.application.Application;
+
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -20,7 +22,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * and filtering their exclusions and inclusions based off of user input in 7 different TextField objects
  *
  */
-public class Wordle extends Application {
+public class Wordle extends Application{
     /**
      * Our respective 7 TextFields declared publicly so that their input can be read by the
      * action button class later in the program.
@@ -44,11 +46,13 @@ public class Wordle extends Application {
     public static ObservableList<String> results;
 
 
+
     /**
      * Each word in the .txt file will be instantiated with these fields. A string to hold the
      * 5-letter word and 7 booleans to be altered to filter excluded and included words
      */
     private String testString;
+    private String text;
 
     private boolean excludedLetters = false;
 
@@ -65,6 +69,8 @@ public class Wordle extends Application {
     private boolean positionalLettersThree = false;
     private boolean positionalLettersFour = false;
     private boolean positionalLettersFive = false;
+
+    private int counter = 0;
 
     /**
      Setters and getters for each fields.
@@ -364,6 +370,8 @@ public class Wordle extends Application {
         }
     }
 
+
+
     /**
      *
      * @param args Launches the JavaFX application.
@@ -425,8 +433,36 @@ public class Wordle extends Application {
         Button resetButton = new WordleButton("Reset");
         resetButton.setOnAction(new ResetButtonHandler());
 
-        timer = new WordleLabel("Timer: 00:00");
+        timer = new WordleLabel("Timer: ");
         wordCount = new WordleLabel("Wordcount: ");
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    while(true)
+                    {
+                        if(timer.getText().trim().length() == 0) {
+                            text = "Timer: " + counter;
+                            counter++;
+                        }
+                        else
+                            text = "";
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                timer.setText(text);
+                            }
+                        });
+                        Thread.sleep(1000);
+
+                    }
+                }
+                catch (InterruptedException ex) {
+                }
+            }
+
+        }).start();
 
         HBox buttonBox = new HBox(startButton, resetButton, wordCount, timer);
         buttonBox.setPadding(BOX_PADDING);
