@@ -113,29 +113,42 @@ public class SingleArrayModule1
         System.out.println("Input student's index number: ");
         int studentIndexNumber;
 
-        // TODO: Create an if statement for when the user enters an invalid studentIndexNumber
-
         studentIndexNumber = scanner.nextInt();
-
-        System.out.println("Is this student here? (Y/N)");
-        char yesOrNo;
-        yesOrNo = scanner.next().charAt(0);
-
-        if (Character.toLowerCase(yesOrNo) == 'y')
+        // try catch block for when user inputs invalid studentIndexNumber
+        try
         {
-            studentAttendance[studentIndexNumber] = true;
-            System.out.println("Student[" + studentIndexNumber + "] " +
-                    "marked as present.");
-        } else if (Character.toLowerCase(yesOrNo) == 'n')
+            System.out.println("Is this student[" + studentIndexNumber +
+                    "] here? (Y/N)");
+            char yesOrNo;
+            yesOrNo = scanner.next().charAt(0);
+
+            if (Character.toLowerCase(yesOrNo) == 'y') {
+                studentAttendance[studentIndexNumber] = true;
+                System.out.println("Student[" + studentIndexNumber + "] " +
+                        "marked as present.");
+            } else if (Character.toLowerCase(yesOrNo) == 'n') {
+                studentAttendance[studentIndexNumber] = false;
+                System.out.println("Student[" + studentIndexNumber + "] " +
+                        "marked as absent.");
+            } else {
+                System.out.println("Invalid input. Please enter 'Y' or 'N'");
+            }
+        } catch (ArrayIndexOutOfBoundsException e)
         {
-            studentAttendance[studentIndexNumber] = false;
-            System.out.println("Student[" + studentIndexNumber + "] " +
-                    "marked as absent.");
-        } else {
-            System.out.println("Invalid input. Please enter 'Y' or 'N'");
+            System.out.println("Student[" + studentIndexNumber + "] not found.\n" +
+                    "Please enter a valid student index number.");
         }
     }
+
+    /* option3 prints out the attendance of every student as
+     * true or false. True being "here". False being "absent".
+     * "Null" means attendance for that student has not been taken.
+     */
     private static void option3(Boolean[] studentAttendance) {
+        System.out.println("'true' means student is present.\n" +
+                        "'false' means student is absent.\n" +
+                        "'null' means attendance has not been taken " +
+                        "for that student.");
         for (int i = 0; i < studentAttendance.length; i++) {
             System.out.println("Student[" + i + "] attendance = " +
                     studentAttendance[i]);
