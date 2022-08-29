@@ -1,19 +1,27 @@
 import java.util.Scanner;
 
-public class SingleArrayModule1 {
-    public static void printMenu(String[] options) {
-        for (String option : options) {
+public class SingleArrayModule1
+{
+    /**
+     * Creates an interactive console menu for selecting options
+     * by typing in a number
+     */
+    public static void printMenu(String[] options)
+    {
+        for (String option : options)
+        {
             System.out.println(option);
         }
         System.out.print("Choose an option: ");
     }
 
-    public static void main(String args[]) {
+    public static void main(String args[])
+    {
 
+        // Program starts by asking user for the number of students
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter the number of students: ");
         int numOfStudents = scanner.nextInt();
-
 
         // Boolean array for studentAttendance
         // true means student is here, false means student is absent
@@ -24,12 +32,17 @@ public class SingleArrayModule1 {
                 "3- view student attendance",
                 "4- Exit"
         };
+
+        // User selects one of the 4 options
         int option = 1;
-        while (option != 4) {
+        while (option != 4)
+        {
             printMenu(options);
-            try {
+            try
+            {
                 option = scanner.nextInt();
-                switch (option) {
+                switch (option)
+                {
                     case 1:
                         option1(studentAttendance);
                         break;
@@ -42,7 +55,9 @@ public class SingleArrayModule1 {
                     case 4:
                         System.exit(0);
                 }
-            } catch (Exception ex){
+            } catch (Exception ex)
+            {
+                // For when the user tries to input a number that is not between 1 and 4
                 System.out.println("Please enter an integer value between 1 and " +
                                 options.length);
                     scanner.next();
@@ -52,42 +67,72 @@ public class SingleArrayModule1 {
     }
 
     // Options
-    private static void option1(Boolean[] studentAttendance) {
+
+    /* option1 goes down the student list in numerical order
+     * to take attendance
+     */
+    private static void option1(Boolean[] studentAttendance)
+    {
         Scanner scanner = new Scanner(System.in);
-        for (int i = 0; i < studentAttendance.length; i++) {
+        for (int i = 0; i < studentAttendance.length; i++)
+        {
             System.out.println("Is student[" + i + "] here? (Y/N)");
                 char yesOrNo;
                 yesOrNo = scanner.next().charAt(0);
-                Character.toLowerCase(yesOrNo);
-                if (yesOrNo == 'y') {
+
+                /* toLowerCase method is used so the case is ignored
+                 * whether the user inputs 'y' or 'Y'
+                 */
+                if (Character.toLowerCase(yesOrNo) == 'y')
+                {
                     studentAttendance[i] = true;
-                } else if (yesOrNo == 'n') {
+                } else if (Character.toLowerCase(yesOrNo) == 'n')
+                {
                     studentAttendance[i] = false;
-                } else {
+                } else
+                {
                     System.out.println("Invalid value for Student[" + i + "]");
+                    /* index variable i is subtracted by 1 when the user doesn't input
+                     * y or n, so they can retake attendance for the same student
+                     * because the for loop increments by 1. (Took me a while to
+                     * figure this out lol)
+                     */
+                    i -= 1;
                 }
-                }
-            }
+        }
+    }
 
-
-
-    private static void option2(Boolean[] studentAttendance) {
+    /* option2 allows the user to edit a specific student's
+     * attendance if it was marked incorrectly. For example,
+     * if a student was marked absent when they were here,
+     * the user could fix this and mark them as "here".
+     */
+    private static void option2(Boolean[] studentAttendance)
+    {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Input student's index number: ");
         int studentIndexNumber;
+
+        // TODO: Create an if statement for when the user enters an invalid studentIndexNumber
+
         studentIndexNumber = scanner.nextInt();
+
         System.out.println("Is this student here? (Y/N)");
         char yesOrNo;
         yesOrNo = scanner.next().charAt(0);
-        Character.toLowerCase(yesOrNo);
-        if (yesOrNo == 'y') {
+
+        if (Character.toLowerCase(yesOrNo) == 'y')
+        {
             studentAttendance[studentIndexNumber] = true;
             System.out.println("Student[" + studentIndexNumber + "] " +
                     "marked as present.");
-        } else if (yesOrNo == 'n') {
+        } else if (Character.toLowerCase(yesOrNo) == 'n')
+        {
             studentAttendance[studentIndexNumber] = false;
             System.out.println("Student[" + studentIndexNumber + "] " +
                     "marked as absent.");
+        } else {
+            System.out.println("Invalid input. Please enter 'Y' or 'N'");
         }
     }
     private static void option3(Boolean[] studentAttendance) {
