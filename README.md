@@ -1,9 +1,9 @@
-# CISC191-SPRING2020-A
-Intermediate Java Programming Group A
+# CISC191
+Intermediate Java Programming Final Project Template
 ## Prerequisites
 1. Maven
 2. Git
-3. JDK14
+3. JDK 1.8
 ## Building
 mvn clean install
 ## Running
