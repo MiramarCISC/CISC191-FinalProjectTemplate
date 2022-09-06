@@ -32,10 +32,12 @@ public class TwoDimensionalAttendanceArray
             student's names in the leftmost column
          */
         final int firstColumn = 0;
+        // nextLine() method is needed so it won't skip the first element
+        scanner.nextLine();
         for (int row = 0; row < studentAttendance.length; row++)
         {
             System.out.print("Enter name for student [" + row + "]: ");
-            studentAttendance[row][firstColumn] = scanner.next() + scanner.nextLine();
+            studentAttendance[row][firstColumn] = scanner.nextLine();
         }
 
         // Options menus
@@ -57,7 +59,7 @@ public class TwoDimensionalAttendanceArray
                 switch (option)
                 {
                     case 1:
-                        option1(/*studentAttendance*/);
+                        option1(studentAttendance);
                         break;
                     case 2:
                         option2(/*studentAttendance*/);
@@ -79,8 +81,11 @@ public class TwoDimensionalAttendanceArray
 
     }
     // Options
-    private static void option1() {
-        System.out.println("Thanks for choosing option 1");
+    private static void option1(String[][] studentAttendance) {
+        for (int row = 0; row < studentAttendance.length; row++)
+        {
+
+        }
     }
     private static void option2() {
         System.out.println("Thanks for choosing option 2");
