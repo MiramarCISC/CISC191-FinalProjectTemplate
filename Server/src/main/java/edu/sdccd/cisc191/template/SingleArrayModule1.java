@@ -1,3 +1,4 @@
+package edu.sdccd.cisc191.template;
 import java.util.Scanner;
 
 public class SingleArrayModule1
