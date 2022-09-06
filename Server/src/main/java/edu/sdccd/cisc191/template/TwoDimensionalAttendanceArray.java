@@ -25,15 +25,17 @@ public class TwoDimensionalAttendanceArray
          */
         String[][] studentAttendance = new String[numOfStudents][2];
 
-        /* Asks each student's name
+        /* Ask each student's name
             and assigns it as a String value in
-            column 0
+            column 0.
+            firstColumn must always be 0, so it will have all the
+            student's names in the leftmost column
          */
         final int firstColumn = 0;
         for (int row = 0; row < studentAttendance.length; row++)
         {
-            System.out.println("Enter name for student " + row + ": ");
-            studentAttendance[row][firstColumn] = scanner.next();
+            System.out.print("Enter name for student [" + row + "]: ");
+            studentAttendance[row][firstColumn] = scanner.next() + scanner.nextLine();
         }
 
         // Options menus
@@ -83,8 +85,13 @@ public class TwoDimensionalAttendanceArray
     private static void option2() {
         System.out.println("Thanks for choosing option 2");
     }
+
+    /* option3 prints out the names of the students
+        and if they were here, absent, or late
+     */
     private static void option3(String[][] studentAttendance)
     {
+        System.out.println("Student Attendance List: ");
         for (int row = 0; row < studentAttendance.length; row++) {
             for (int column = 0; column < studentAttendance[row].length; column++) {
                 System.out.print(studentAttendance[row][column] + " ");
