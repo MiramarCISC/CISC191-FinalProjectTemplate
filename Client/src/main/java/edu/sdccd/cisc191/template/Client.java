@@ -90,7 +90,7 @@ public class Client extends Application implements IntegralsOfTrigFunctions, Der
             makes it clear which Buttons and TextFields are which.
          */
 
-        // Integral Buttons and TextFields
+        // Integral Buttons and TextFields.
 
         // Integral of sin(x) Button and TextField
         textFields[0] = new TextField();
