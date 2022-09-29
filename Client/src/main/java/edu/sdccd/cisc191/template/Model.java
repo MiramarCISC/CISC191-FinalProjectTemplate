@@ -8,7 +8,7 @@ public class Model {
 
     /**
      * Displays the Buttons in a column inside on the left
-     * inside a GridPane
+     * inside a GridPane.
      * @param gridPane the GridPane object
      * @param buttons the array of Buttons to be added to
      *                the GridPane
