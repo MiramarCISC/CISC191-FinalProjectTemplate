@@ -86,7 +86,7 @@ public class Client extends Application implements IntegralsOfTrigFunctions, Der
 
         /*
             The code is a bit repetitive here. I could've stored the
-            promptText and Button text inside of arrays too and use some
+            promptText and Button text inside of arrays too and used some
             for loops. However, I chose to do it this way because it
             makes it clear which Buttons and TextFields are which.
          */
