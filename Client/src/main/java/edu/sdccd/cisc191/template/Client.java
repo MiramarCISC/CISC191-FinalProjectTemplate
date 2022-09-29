@@ -81,7 +81,7 @@ public class Client extends Application implements IntegralsOfTrigFunctions, Der
         controller = new Controller();
 
         // Title at the top of the window
-        primaryStage.setTitle("Integrals of Trig Functions");
+        primaryStage.setTitle("Integrals and Derivatives of Trig Functions");
 
         /*
             The code is a bit repetitive here. I could've stored the
