@@ -4,6 +4,7 @@ import java.net.*;
 import java.io.*;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -37,6 +38,7 @@ public class Client extends Application implements IntegralsOfTrigFunctions, Der
     private BufferedReader in;
 
     private Button[] buttons = new Button[8];
+    private Button submit, reset;
 
     private TextField[] textFields = new TextField[8];
 
@@ -81,12 +83,14 @@ public class Client extends Application implements IntegralsOfTrigFunctions, Der
         // Title at the top of the window
         primaryStage.setTitle("Integrals of Trig Functions");
 
-        /* The code is a bit repetitive here. Maybe we can store the
-            promptText and Button text inside of arrays and use some
-            for loops
+        /*
+            The code is a bit repetitive here. I could've stored the
+            promptText and Button text inside of arrays too and use some
+            for loops. However, I like doing it this way because it
+            makes it clear which Buttons and TextFields are which.
          */
 
-        //TODO store promptText and Button text inside arrays and use a for loop
+        // Integral Buttons and TextFields
 
         // Integral of sin(x) Button and TextField
         textFields[0] = new TextField();
@@ -106,7 +110,6 @@ public class Client extends Application implements IntegralsOfTrigFunctions, Der
         controller.setTextFieldAndButton(textFields[2], "∫tan(x) dx = ",
                 buttons[2], INTEGRAL_OF_TANX);
 
-
         // Integral of sec(x) Button and TextField
         textFields[3] = new TextField();
         buttons[3] = new Button("Integral of sec(x)");
@@ -118,6 +121,8 @@ public class Client extends Application implements IntegralsOfTrigFunctions, Der
         buttons[4] = new Button("Derivative of sin(x)");
         controller.setTextFieldAndButton(textFields[4], "(d/dx)(sin(x)) = ",
                 buttons[4], DERIVATIVE_OF_SINX);
+
+        // Derivative Buttons and TextFields
 
         // Derivative of cos(x) Button and TextField
         textFields[5] = new TextField();
@@ -138,13 +143,15 @@ public class Client extends Application implements IntegralsOfTrigFunctions, Der
                 buttons[7], DERIVATIVE_OF_SECX);
 
 
-        // creating new GridPane that the layout is based on
+        // creating new GridPane that the layout is based on.
         // GridPanes are based on a 2D array
         GridPane root = new GridPane();
+        root.setVgap(15);
 
         // Displays the label at the top with instructions
         Label integralsOfTrigFunctionsLabel = new Label("Click button to compare answers" +
-                "\n Trig Integrals and Derivatives Flash Cards: ");
+                "\nTrig Integrals and Derivatives Flash Cards: ");
+        integralsOfTrigFunctionsLabel.setPadding(new Insets(10));
         root.add(integralsOfTrigFunctionsLabel, 0, 0);
 
        /* Creation of new Model object to use model's methods
@@ -154,10 +161,22 @@ public class Client extends Application implements IntegralsOfTrigFunctions, Der
         model.displayButtons(root, buttons);
         model.displayTextFields(root, textFields);
 
+        // Submit and reset buttons
+        submit = new Button("Submit");
+        reset = new Button("Reset");
+
+        // adds reset button to root
+        controller.resetButton(reset, buttons, textFields);
+        root.add(reset, 0, 9);
+
+        // adds submit Button to root
+        controller.countCorrectAnswers(submit);
+        root.add(submit, 1, 9);
+
 
 
         // Setting the Scene and showing the Stage
-        Scene scene = new Scene(root, 525, 400);
+        Scene scene = new Scene(root, 525, 500);
         primaryStage.setScene(scene);
         primaryStage.show();
 
