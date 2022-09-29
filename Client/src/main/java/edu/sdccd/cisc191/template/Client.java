@@ -77,16 +77,17 @@ public class Client extends Application implements IntegralsOfTrigFunctions, Der
     }
 
     public void start(Stage primaryStage) throws Exception {
-        // Controller object creation, so we can use its methods
-        controller = new Controller();
 
         // Title at the top of the window
         primaryStage.setTitle("Integrals and Derivatives of Trig Functions");
 
+        // Controller object creation, so we can use its methods
+        controller = new Controller();
+
         /*
             The code is a bit repetitive here. I could've stored the
             promptText and Button text inside of arrays too and use some
-            for loops. However, I like doing it this way because it
+            for loops. However, I chose to do it this way because it
             makes it clear which Buttons and TextFields are which.
          */
 
@@ -161,7 +162,7 @@ public class Client extends Application implements IntegralsOfTrigFunctions, Der
         model.displayButtons(root, buttons);
         model.displayTextFields(root, textFields);
 
-        // Submit and reset buttons
+        // Submit and reset Button creation
         submit = new Button("Submit");
         reset = new Button("Reset");
 

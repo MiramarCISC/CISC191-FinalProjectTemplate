@@ -32,6 +32,8 @@ public class Model {
     public void displayTextFields(GridPane gridPane, TextField[] textFields) {
 
         for (int i = 0; i < textFields.length; i++) {
+            // columnIndex 1 so the TextFields will be right next
+            // to the Buttons
             gridPane.add(textFields[i], 1, i + 1);
         }
     }
