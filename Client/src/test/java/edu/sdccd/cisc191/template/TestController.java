@@ -11,10 +11,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestController {
     @Test
-    void testSet() {
+    void testSetTextFieldAndButton() {
         JFXPanel panel = new JFXPanel();
         // tricks JUNIT
-        Button button = new Button();
+        AnswerButton button = new AnswerButton("question", "answer");
         TextField textfield = new TextField();
 
         Controller controller = new Controller();
