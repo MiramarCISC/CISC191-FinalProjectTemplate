@@ -43,7 +43,7 @@ public class Client extends Application implements IntegralsOfTrigFunctions, Der
     private TextField[] textFields = new TextField[8];
 
     private Controller controller;
-    private Model model;
+    private View view;
 
 
     public void startConnection(String ip, int port) throws IOException {
@@ -155,12 +155,12 @@ public class Client extends Application implements IntegralsOfTrigFunctions, Der
         integralsOfTrigFunctionsLabel.setPadding(new Insets(10));
         root.add(integralsOfTrigFunctionsLabel, 0, 0);
 
-       /* Creation of new Model object to use model's methods
+       /* Creation of new View object to use view's methods
           displayButtons and displayTextFields to show
           the Buttons and TextFields in each column */
-        model = new Model();
-        model.displayButtons(root, buttons);
-        model.displayTextFields(root, textFields);
+        view = new View();
+        view.displayButtons(root, buttons);
+        view.displayTextFields(root, textFields);
 
         // Submit and reset Button creation
         submit = new Button("Submit");

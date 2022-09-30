@@ -4,7 +4,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
-public class Model {
+public class View {
 
     /**
      * Displays the Buttons in a column inside on the left
@@ -17,7 +17,7 @@ public class Model {
 
         for (int i = 0; i < buttons.length; i++)
         {
-        gridPane.add(buttons[i], 0, i + 1 );
+        gridPane.add(buttons[i], 0, i + 1);
         // i + 1 n rowIndex to leave room for the Label at the top
         }
     }
