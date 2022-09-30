@@ -1,11 +1,7 @@
 package edu.sdccd.cisc191.template;
-import com.sun.javafx.robot.FXRobot;
 import javafx.embed.swing.JFXPanel;
-import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import javafx.scene.control.Button;
@@ -13,31 +9,19 @@ import org.junit.jupiter.api.TestInstance;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.testfx.api.FxAssert;
-import org.testfx.framework.junit.ApplicationTest;
-import org.testfx.matcher.control.LabeledMatchers;
-
-
-public class TestController extends ApplicationTest {
-
-private Button button;
-private TextField textField;
-
+public class TestController {
     @Test
-    void testSetTextFieldAndButton() {
+    void testSet() {
         JFXPanel panel = new JFXPanel();
-        // tricks JUNIT .
-        AnswerButton button = new AnswerButton("question text", "answer text");
+        // tricks JUNIT
+        Button button = new Button();
         TextField textfield = new TextField();
 
         Controller controller = new Controller();
 
-        controller.setTextFieldAndButton(textfield, "prompt text", button, "answer text");
+        controller.setTextFieldAndButton(textfield, "test", button, "test");
 
-        assertEquals("prompt text", textfield.getPromptText());
-        assertEquals("question text", button.getQuestion());
-
-
+        assertEquals("test", textfield.getPromptText());
     }
 
     // Make interfaces classes with testable methods
@@ -61,16 +45,6 @@ private TextField textField;
 
         // Test Per topic you're demonstrating
 
+
     }
-
-    @Test
-    void getCorrectAnswerCount() {
-        Controller controller = new Controller();
-        assertEquals(0, controller.getCorrectAnswerCount());
-
-        int test = controller.getCorrectAnswerCount() + 1;
-
-        assertEquals(1, test);
-    }
-
 }
