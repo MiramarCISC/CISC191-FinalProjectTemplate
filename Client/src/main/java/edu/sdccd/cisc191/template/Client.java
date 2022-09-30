@@ -45,6 +45,8 @@ public class Client extends Application implements IntegralsAndDerivativesOfTrig
     private Controller controller;
     private View view;
 
+    private AnswerButton[] answerButtons = new AnswerButton[8];
+
 
 
     public void startConnection(String ip, int port) throws IOException {
@@ -96,6 +98,8 @@ public class Client extends Application implements IntegralsAndDerivativesOfTrig
             controller.setTextFieldAndButton(textFields[i], QUESTIONS[i],
                     buttons[i], ANSWERS[i]);
         }
+
+        answerButtons[0] = new AnswerButton(buttons[0], "question", "answer");
 
         // creating new GridPane that the layout is based on.
         // GridPanes are based on a 2D array

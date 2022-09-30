@@ -18,9 +18,6 @@ public class AnswerButton extends Button {
 
     }
 
-    public String getQuestion() {
-        return question;
-    }
 
     public String getAnswer() {
         return answer;
