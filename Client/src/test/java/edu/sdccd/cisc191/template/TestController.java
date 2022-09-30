@@ -26,7 +26,7 @@ private TextField textField;
     @Test
     void testSetTextFieldAndButton() {
         JFXPanel panel = new JFXPanel();
-        // tricks JUNIT
+        // tricks JUNIT .
         AnswerButton button = new AnswerButton("question text", "answer text");
         TextField textfield = new TextField();
 
