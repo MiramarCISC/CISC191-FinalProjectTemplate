@@ -22,19 +22,12 @@ public class TestController extends ApplicationTest {
 
 private Button button;
 private TextField textField;
-    @Override
-    public void start(Stage stage) {
-        button = new Button();
-        textField = new TextField();
 
-        stage.setScene(new Scene(new StackPane(button), 100, 100));
-        stage.show();
-    }
     @Test
     void testSetTextFieldAndButton() {
         JFXPanel panel = new JFXPanel();
         // tricks JUNIT
-        Button button = new Button();
+        AnswerButton button = new AnswerButton("question text", "answer text");
         TextField textfield = new TextField();
 
         Controller controller = new Controller();
@@ -42,6 +35,7 @@ private TextField textField;
         controller.setTextFieldAndButton(textfield, "prompt text", button, "answer text");
 
         assertEquals("prompt text", textfield.getPromptText());
+        assertEquals("question text", button.getQuestion());
 
 
     }

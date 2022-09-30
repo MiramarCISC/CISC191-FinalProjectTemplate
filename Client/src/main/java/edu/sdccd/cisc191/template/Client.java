@@ -37,8 +37,8 @@ public class Client extends Application implements IntegralsAndDerivativesOfTrig
     private PrintWriter out;
     private BufferedReader in;
 
-    private Button[] buttons = new Button[8];
     private Button submit, reset;
+    private Button[] buttons = new Button[8];
 
     private TextField[] textFields = new TextField[8];
 
@@ -92,14 +92,13 @@ public class Client extends Application implements IntegralsAndDerivativesOfTrig
             8 questions and answers
          */
 
-        for (int i = 0; i < buttons.length; i++) {
+        for (int i = 0; i < answerButtons.length; i++) {
             textFields[i] = new TextField();
-            buttons[i] = new Button(QUESTIONS[i]);
-            controller.setTextFieldAndButton(textFields[i], QUESTIONS[i],
-                    buttons[i], ANSWERS[i]);
+            answerButtons[i] = new AnswerButton(QUESTIONS[i], ANSWERS[i]);
+            controller.setTextFieldAndButton(textFields[i], answerButtons[i].getQuestion(),
+                    answerButtons[i], answerButtons[i].getAnswer());
         }
 
-        answerButtons[0] = new AnswerButton(buttons[0], "question", "answer");
 
         // creating new GridPane that the layout is based on.
         // GridPanes are based on a 2D array
@@ -116,7 +115,7 @@ public class Client extends Application implements IntegralsAndDerivativesOfTrig
           displayButtons and displayTextFields to show
           the Buttons and TextFields in each column */
         view = new View();
-        view.displayButtons(root, buttons);
+        view.displayButtons(root, answerButtons);
         view.displayTextFields(root, textFields);
 
         // Submit and reset Button creation
@@ -124,7 +123,7 @@ public class Client extends Application implements IntegralsAndDerivativesOfTrig
         reset = new Button("Reset");
 
         // adds reset button to root
-        controller.resetButton(reset, buttons, textFields);
+        controller.resetButton(reset, answerButtons, textFields);
         root.add(reset, 0, 9);
 
         // adds submit Button to root

@@ -38,7 +38,7 @@ public class Controller {
      *               IntegralsOfTrigFunctions
      */
     public void setTextFieldAndButton(TextField textField, String promptText,
-                                      Button button, String answer) {
+                                      AnswerButton button, String answer) {
         textField.setPromptText(promptText);
         button.setOnAction(event -> {
 
