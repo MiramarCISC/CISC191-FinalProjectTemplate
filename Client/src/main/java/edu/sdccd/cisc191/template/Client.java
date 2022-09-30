@@ -99,6 +99,10 @@ public class Client extends Application implements IntegralsOfTrigFunctions, Der
         controller.setTextFieldAndButton(textFields[0], "∫sin(x) dx = ",
                 buttons[0], INTEGRAL_OF_SINX);
 
+        // method that creates button and sets controller method
+        // test button creation
+        // Have method return button
+
         // Integral of cos(x) Button and TextField
         textFields[1] = new TextField();
         buttons[1] = new Button("Integral of cos(x)");

@@ -35,5 +35,5 @@ public class TestView {
     }
 
 
-
+    // Add testFx to maven dependencies during test scope
 }
