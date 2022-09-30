@@ -32,7 +32,7 @@ import javafx.scene.control.TextField;
  * date and time on the computer where the server is running.
  */
 
-public class Client extends Application implements IntegralsOfTrigFunctions, DerivativesOfTrigFunctions {
+public class Client extends Application implements IntegralsAndDerivativesOfTrigFunctions {
     private Socket clientSocket;
     private PrintWriter out;
     private BufferedReader in;
