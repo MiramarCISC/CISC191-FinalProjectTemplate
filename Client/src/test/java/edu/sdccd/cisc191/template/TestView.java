@@ -1,39 +1,32 @@
 package edu.sdccd.cisc191.template;
 
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import org.junit.jupiter.api.TestInstance;
-
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class TestView {
-    private Button[] buttons;
-    private TextField[] textFields;
-    View view;
-
-    @BeforeAll public void setUp() {
-        buttons = new Button[2];
-        buttons[0] = new Button();
-        buttons[1] = new Button();
-
-        textFields = new TextField[2];
-        textFields[0] = new TextField();
-        textFields[1] = new TextField();
-
-        view = new View();
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+import org.testfx.api.FxAssert;
+import org.testfx.framework.junit.ApplicationTest;
+import org.testfx.matcher.control.LabeledMatchers;
+import org.junit.jupiter.api.Test;
 
 
-    }
+public class TestView extends ApplicationTest {
 
-    @Test
+    private Button[] buttons = new Button[1];
+    private GridPane gridpane = new GridPane();
+
+   @Override
+    public void start(Stage primaryStage) {
+       buttons[0] = new Button();
+       gridpane = new GridPane();
+   }
+
+   @Test
     void testDisplayButtons() {
-        GridPane gridpane = new GridPane();
+        View view = new View();
+
         view.displayButtons(gridpane, buttons);
-
     }
-
-
-    // Add testFx to maven dependencies during test scope
 }

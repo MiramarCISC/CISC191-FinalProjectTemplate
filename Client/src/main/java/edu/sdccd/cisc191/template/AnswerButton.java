@@ -7,7 +7,6 @@ public class AnswerButton extends Button {
     private String question;
     private String answer;
 
-    private String[] questionArray = new String[8];
 
 
     public AnswerButton(Button button, String question, String answer) {

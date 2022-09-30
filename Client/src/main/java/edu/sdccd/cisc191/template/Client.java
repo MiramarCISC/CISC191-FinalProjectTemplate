@@ -46,6 +46,7 @@ public class Client extends Application implements IntegralsAndDerivativesOfTrig
     private View view;
 
 
+
     public void startConnection(String ip, int port) throws IOException {
         clientSocket = new Socket(ip, port);
         out = new PrintWriter(clientSocket.getOutputStream(), true);
@@ -85,68 +86,16 @@ public class Client extends Application implements IntegralsAndDerivativesOfTrig
         controller = new Controller();
 
         /*
-            The code is a bit repetitive here. I could've stored the
-            promptText and Button text inside of arrays too and used some
-            for loops. However, I chose to do it this way because it
-            makes it clear which Buttons and TextFields are which.
+            for loop here to match all
+            8 questions and answers
          */
 
-        // Integral Buttons and TextFields.
-
-        // Integral of sin(x) Button and TextField
-        textFields[0] = new TextField();
-        buttons[0] = new Button("Integral of sin(x)");
-        controller.setTextFieldAndButton(textFields[0], "∫sin(x) dx = ",
-                buttons[0], INTEGRAL_OF_SINX);
-
-        // method that creates button and sets controller method
-        // test button creation
-        // Have method return button
-
-        // Integral of cos(x) Button and TextField
-        textFields[1] = new TextField();
-        buttons[1] = new Button("Integral of cos(x)");
-        controller.setTextFieldAndButton(textFields[1], "∫cos(x) dx = ",
-                buttons[1], INTEGRAL_OF_COSX);
-
-        // Integral of tan(x) Button and TextField
-        textFields[2] = new TextField();
-        buttons[2] = new Button("Integral of tan(x)");
-        controller.setTextFieldAndButton(textFields[2], "∫tan(x) dx = ",
-                buttons[2], INTEGRAL_OF_TANX);
-
-        // Integral of sec(x) Button and TextField
-        textFields[3] = new TextField();
-        buttons[3] = new Button("Integral of sec(x)");
-        controller.setTextFieldAndButton(textFields[3], "∫sec(x) dx = ",
-                buttons[3], INTEGRAL_OF_SECX);
-
-        // Derivative of sin(x) Button and TextField
-        textFields[4] = new TextField();
-        buttons[4] = new Button("Derivative of sin(x)");
-        controller.setTextFieldAndButton(textFields[4], "(d/dx)(sin(x)) = ",
-                buttons[4], DERIVATIVE_OF_SINX);
-
-        // Derivative Buttons and TextFields
-
-        // Derivative of cos(x) Button and TextField
-        textFields[5] = new TextField();
-        buttons[5] = new Button("Derivative of cos(x)");
-        controller.setTextFieldAndButton(textFields[5], "(d/dx)(cos(x)) = ",
-                buttons[5], DERIVATIVE_OF_COSX);
-
-        // Derivative of tan(x) Button and TextField
-        textFields[6] = new TextField();
-        buttons[6] = new Button("Derivative of tan(x)");
-        controller.setTextFieldAndButton(textFields[6], "(d/dx)(tan(x)) = ",
-                buttons[6], DERIVATIVE_OF_TANX);
-
-        // Derivative of sec(x) Button and TextField
-        textFields[7] = new TextField();
-        buttons[7] = new Button("Derivative of sec(x)");
-        controller.setTextFieldAndButton(textFields[7], "(d/dx)(sec(x)) = ",
-                buttons[7], DERIVATIVE_OF_SECX);
-
+        for (int i = 0; i < buttons.length; i++) {
+            textFields[i] = new TextField();
+            buttons[i] = new Button(QUESTIONS[i]);
+            controller.setTextFieldAndButton(textFields[i], QUESTIONS[i],
+                    buttons[i], ANSWERS[i]);
+        }
 
         // creating new GridPane that the layout is based on.
         // GridPanes are based on a 2D array
@@ -177,8 +126,6 @@ public class Client extends Application implements IntegralsAndDerivativesOfTrig
         // adds submit Button to root
         controller.countCorrectAnswers(submit);
         root.add(submit, 1, 9);
-
-
 
         // Setting the Scene and showing the Stage
         Scene scene = new Scene(root, 525, 500);

@@ -64,7 +64,7 @@ public class Controller {
         submit.setOnAction(event -> {
             /* Only prints out in the console so the user can
             pretend they're taking a real quiz as they study */
-            System.out.println("Final score: " + correctAnswerCount + "/8");
+            System.out.println("Final score: " + getCorrectAnswerCount() + "/8");
         });
     }
 
@@ -95,6 +95,12 @@ public class Controller {
         }
         });
     }
+
+    public int getCorrectAnswerCount() {
+        return correctAnswerCount;
+    }
+
+
 
 
 }

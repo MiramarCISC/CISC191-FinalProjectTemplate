@@ -1,7 +1,11 @@
 package edu.sdccd.cisc191.template;
+import com.sun.javafx.robot.FXRobot;
 import javafx.embed.swing.JFXPanel;
+import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import javafx.scene.control.Button;
@@ -9,9 +13,25 @@ import org.junit.jupiter.api.TestInstance;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TestController {
+import org.testfx.api.FxAssert;
+import org.testfx.framework.junit.ApplicationTest;
+import org.testfx.matcher.control.LabeledMatchers;
+
+
+public class TestController extends ApplicationTest {
+
+private Button button;
+private TextField textField;
+    @Override
+    public void start(Stage stage) {
+        button = new Button();
+        textField = new TextField();
+
+        stage.setScene(new Scene(new StackPane(button), 100, 100));
+        stage.show();
+    }
     @Test
-    void testSet() {
+    void testSetTextFieldAndButton() {
         JFXPanel panel = new JFXPanel();
         // tricks JUNIT
         Button button = new Button();
@@ -19,9 +39,11 @@ public class TestController {
 
         Controller controller = new Controller();
 
-        controller.setTextFieldAndButton(textfield, "test", button, "test");
+        controller.setTextFieldAndButton(textfield, "prompt text", button, "answer text");
 
-        assertEquals("test", textfield.getPromptText());
+        assertEquals("prompt text", textfield.getPromptText());
+
+
     }
 
     // Make interfaces classes with testable methods
@@ -45,6 +67,16 @@ public class TestController {
 
         // Test Per topic you're demonstrating
 
-
     }
+
+    @Test
+    void getCorrectAnswerCount() {
+        Controller controller = new Controller();
+        assertEquals(0, controller.getCorrectAnswerCount());
+
+        int test = controller.getCorrectAnswerCount() + 1;
+
+        assertEquals(1, test);
+    }
+
 }
