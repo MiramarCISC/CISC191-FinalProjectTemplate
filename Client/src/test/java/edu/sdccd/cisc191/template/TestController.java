@@ -24,7 +24,7 @@ public class TestController {
 
     // Make interfaces classes with testable methods
     // instatiate question, get answer, assertEqual question and answer
-    // for loop
+    // for loop.
     // Hash Map questions to answers
     // Build upon in September
 
