@@ -91,7 +91,6 @@ public class TileBoard {
                 else {
                     solutionBoard[row][column] = "e";
                 }
-                System.out.print(solutionBoard[row][column]);
             }
         }
 
