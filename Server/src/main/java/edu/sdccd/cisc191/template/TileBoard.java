@@ -11,10 +11,10 @@ import java.util.Objects;
 
 public class TileBoard {
 
-    private StackPane pane;
-    private InfoCenter infoCenter;
-    private Tile[][] playerBoard = new Tile[5][5];
-    private String[][] solutionBoard = new String[5][5];
+    private final StackPane pane;
+    private final InfoCenter infoCenter;
+    private final Tile[][] playerBoard = new Tile[5][5];
+    private final String[][] solutionBoard = new String[5][5];
 
 
     private boolean isEndOfGame = false;
@@ -56,7 +56,6 @@ public class TileBoard {
                 else {
                     solutionBoard[row][column] = "e";
                 }
-                System.out.print(solutionBoard[row][column]);
             }
         }
     }
@@ -135,7 +134,6 @@ public class TileBoard {
                 }
             }
         }
-        System.out.println("total = " + totalTreasure + " - found = " + foundTreasure);
         if (totalTreasure == foundTreasure) {
             endGame();
         }
@@ -151,8 +149,8 @@ public class TileBoard {
 
     //constructor class to give every tile a label which will display if the guess was correct.
     private class Tile {
-        private StackPane pane;
-        private Label label;
+        private final StackPane pane;
+        private final Label label;
 
         public Tile() {
             pane = new StackPane();

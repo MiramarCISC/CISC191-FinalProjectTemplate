@@ -67,7 +67,6 @@ public class Server extends Application{
             @Override
             public void handle(ActionEvent event) {
                 infoCenter.hideStartButton();
-                //add help button that explains basics of game hiding at the same time as the start button
                 infoCenter.updateTitle("Find the treasure!");
                 tileBoard.startNewGame();
             }
