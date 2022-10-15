@@ -17,35 +17,158 @@ import java.io.*;
  */
 
 public class Client {
-    private Socket clientSocket;
-    private PrintWriter out;
-    private BufferedReader in;
 
-    public void startConnection(String ip, int port) throws IOException {
-        clientSocket = new Socket(ip, port);
-        out = new PrintWriter(clientSocket.getOutputStream(), true);
-        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+public class LinkedList <T>
+{
+    Node<T> head;
+    Node<T> tail;
+    int size = 0;
+    class Node<T> {
+        T element;
+        Node<T> next;
+
+        public Node(T o) {
+            element = o;
+        }
+ }
+
+
+
+    public LinkedList() {
+        Node<T> head = null;
+        Node<T> tail = null;
     }
 
-    public CustomerResponse sendRequest() throws Exception {
-        out.println(CustomerRequest.toJSON(new CustomerRequest(1)));
-        return CustomerResponse.fromJSON(in.readLine());
+    public int size()
+    {
+        return size;
     }
 
-    public void stopConnection() throws IOException {
-        in.close();
-        out.close();
-        clientSocket.close();
+    public void addFirst(T e) {
+        Node<T> newNode = new Node<>(e);
+        newNode.next = head;
+        head = newNode;
+        size++;
+        if (tail == null)
+            tail = head;
     }
-    public static void main(String[] args) {
-        Client client = new Client();
-        try {
-            client.startConnection("127.0.0.1", 4444);
-            System.out.println(client.sendRequest().toString());
-            client.stopConnection();
-        } catch(Exception e) {
-            e.printStackTrace();
+
+    public void addLast(T e) {
+        if (tail == null) {
+            head = tail = new Node<>(e);
+        }
+        else {
+            tail.next = new Node<>(e);
+            tail = tail.next;
+        }
+        size++;
+    }
+
+    public void add(int index, T e) {
+        if (index == 0) addFirst(e);
+        else if (index >= size) addLast(e);
+        else {
+            Node<T> current = head;
+            for (int i = 1; i < index; i++)
+                current = current.next;
+            Node<T> temp = current.next;
+            current.next = new Node<>(e);
+            (current.next).next = temp;
+            size++;
         }
     }
+
+    public String traverse()
+    {
+        String s ="";
+        Node current;
+        current = head;
+        while ( current != null ) {
+            s += (current.element +"\n");
+            current = current.next;
+        }
+        return s;
+    }
+}
+
+public class RegularCustomer extends Customer implements CustomerType // 5.0 Inheritance, Polymorphism, Abstract Classes
+{
+    static ArrayList <RegularCustomer> customers = new ArrayList<>();
+    static int customerCount = 0;
+    int [][] stocks = new int[3][1000]; // 2.0
+
+
+    RegularCustomer(String name, String age, String occupation) //4.0 Object Oriented Programming
+    {
+        this.name = name;
+        this.age = age;
+        this.occupation = occupation;
+
+        customerCount++;
+    }
+
+    static public RegularCustomer getCustomer(int i)
+    {
+        return customers.get(i);
+    }
+
+    static public int getCustomerCount()
+    {
+        return customerCount;
+    }
+
+    public static void addCustomer(RegularCustomer p)
+    {
+        customers.add(p);
+    }
+
+
+    public String getName(){
+        return this.name;
+    }
+
+    @Override // 2.0 Multidimensional Arrays and Best Practices
+    public String toString()
+    {
+        return  "\nname:" + name +
+                "\nage:" + age +
+                "\noccupation:" + occupation + "\n";
+    }
+}
+
+public class Stock
+{
+    String symbol;
+    int price;
+
+    public Stock(){}
+
+    public Stock(String symbol, int boughtPrice)
+    {
+        this.symbol = symbol;
+        this.price = boughtPrice;
+    }
+    public String getSymbol()
+    {
+        return this.symbol;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+}
+
+public interface CustomerType
+{
+    String getName();
+}
+
+public class Customer
+{
+    String name;
+    String age;
+    String occupation;
+}
+
 } //end class Client
 
