@@ -1,10 +1,31 @@
 package edu.sdccd.cisc191.template;
-
+import java.util.*;
 public class Board {
     private int[][] board;
+    private Player player1;
+    private Player player2;
 
-    public Board(){
+    public Player playerMove;
+
+    public Board(Player player1, Player player2){
         board = new int[][]{{0,0,0},{0,0,0},{0,0,0}};
+        this.player1 = player1;
+        this.player2 = player2;
+        if((int)(Math.random() * 2 + 1) == 1){
+            playerMove = player1;
+        }
+        else{
+            playerMove = player2;
+        }
+    }
+
+    public void nextPlayer(){
+        if(playerMove == player1){
+            playerMove = player2;
+        }
+        else {
+            playerMove = player1;
+        }
     }
 
     //passes in the player making the move, the row, and the column
@@ -32,7 +53,6 @@ public class Board {
 
     //Checks if the player passed in is a winner
     //checks all possible win conditions.
-
     public boolean winner(Player player){
         //top row
         if(board[0][0] == player.id && board[0][1] == player.id && board[0][2] == player.id){

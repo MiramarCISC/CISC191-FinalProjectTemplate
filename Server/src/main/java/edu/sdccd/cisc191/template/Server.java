@@ -42,6 +42,11 @@ public class Server {
 
     public static void main(String[] args) {
         Server server = new Server();
+        Player player1 = new Player("Player1", 1);
+        Player player2 = new Player("Player2", 2);
+        Board board = new Board(player1, player2);
+        UI ui = new UI();
+
         try {
             server.start(4444);
             server.stop();
