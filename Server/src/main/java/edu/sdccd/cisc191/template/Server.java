@@ -45,7 +45,8 @@ public class Server {
         Player player1 = new Player("Player1", 1);
         Player player2 = new Player("Player2", 2);
         Board board = new Board(player1, player2);
-        UI ui = new UI();
+        //HomePage home = new HomePage(board);
+        UI ui = new UI(board);
 
         try {
             server.start(4444);
