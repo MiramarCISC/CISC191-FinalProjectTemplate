@@ -19,6 +19,14 @@ public class Board {
         }
     }
 
+    public Player getPlayer1(){
+        return player1;
+    }
+
+    public Player getPlayer2(){
+        return player2;
+    }
+
     public void nextPlayer(){
         if(playerMove == player1){
             playerMove = player2;
@@ -29,26 +37,32 @@ public class Board {
     }
 
     //passes in the player making the move, the row, and the column
-    //if the column is empty, then the player id will be put
-    //where the row, column is specified. If it is not available,
-    //it will print invalid move
+    //then the player id will be put where the row, column is specified.
     public void move(Player player, int row, int column){
-        if(checkMove(row, column)){
-            board[row][column] = player.id;
-            return;
-        }
-        System.out.println("Invalid Move");
+        board[row][column] = player.id;
     }
 
     //checks if there is a free spot to move
     //if it is not an empty spot to move, it will
     //return false. If it is empty, it will return true
     //used in the move method
+
+    //deprecated method, no need to check if move is valid since buttons grey out
+    //when they are clicked
     private boolean checkMove(int row, int column){
         if(board[row][column] != 0){
             return false;
         }
         return true;
+    }
+
+    //resets the 3x3 array to 0
+    public void resetBoard(){
+        for(int i = 0; i < board.length; i++){
+            for(int j = 0; j < board[i].length; j++){
+                board[i][j] = 0;
+            }
+        }
     }
 
     //Checks if the player passed in is a winner

@@ -1,9 +1,9 @@
 package edu.sdccd.cisc191.template;
 
-public class Player {
+public class Player implements Person{
     private int score;
     public int id;
-    public String username;
+    private String username;
 
     //id should be one or two. If player 1, set id to 1
     //if player 2, set id to 2
@@ -13,11 +13,20 @@ public class Player {
         score = 0;
     }
 
-    private void increaseScore(){
+    public void increaseScore(){
         score++;
     }
 
-    private int getScore(){
+    public int getScore(){
         return score;
+    }
+
+    public String getUsername(){
+        return username;
+    }
+
+    @Override
+    public String toString(){
+        return username;
     }
 }
