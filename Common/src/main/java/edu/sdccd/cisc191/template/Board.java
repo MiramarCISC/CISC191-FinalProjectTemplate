@@ -1,5 +1,5 @@
 package edu.sdccd.cisc191.template;
-import java.util.*;
+
 public class Board {
     private int[][] board;
     private Player player1;

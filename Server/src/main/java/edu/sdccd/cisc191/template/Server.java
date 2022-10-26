@@ -1,5 +1,4 @@
 package edu.sdccd.cisc191.template;
-
 import java.net.*;
 import java.io.*;
 
@@ -24,13 +23,6 @@ public class Server {
         clientSocket = serverSocket.accept();
         out = new PrintWriter(clientSocket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-
-        String inputLine;
-        while ((inputLine = in.readLine()) != null) {
-            CustomerRequest request = CustomerRequest.fromJSON(inputLine);
-            CustomerResponse response = new CustomerResponse(request.getId(), "Jane", "Doe");
-            out.println(CustomerResponse.toJSON(response));
-        }
     }
 
     public void stop() throws IOException {
@@ -41,13 +33,7 @@ public class Server {
     }
 
     public static void main(String[] args) {
-        System.out.println("Hello world");
         Server server = new Server();
-        Player player1 = new Player("Player1", 1);
-        Player player2 = new Player("Player2", 2);
-        Board board = new Board(player1, player2);
-        //HomePage home = new HomePage(board);
-        UI ui = new UI(board);
 
         try {
             server.start(4444);
