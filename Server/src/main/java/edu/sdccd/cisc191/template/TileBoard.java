@@ -22,6 +22,18 @@ public class TileBoard implements TreasureHuntConstants{
     private int turnsUsed = 0;
     private boolean isEndOfGame = false;
     private String currentUser;
+=======
+import java.util.Objects;
+
+public class TileBoard {
+
+    private final StackPane pane;
+    private final InfoCenter infoCenter;
+    private final Tile[][] playerBoard = new Tile[5][5];
+    private final String[][] solutionBoard = new String[5][5];
+
+
+    private boolean isEndOfGame = false;
 
     //constructor of the game board portion
     public TileBoard(InfoCenter infoCenter) {
@@ -32,19 +44,18 @@ public class TileBoard implements TreasureHuntConstants{
         pane.setTranslateY((UIDimensions.TILE_BOARD_HEIGHT / 2) + UIDimensions.INFO_CENTER_HEIGHT);
 
 
+
         //addAllTiles();
     }
         //class to receive a profile name from the user and find the profile associated with it
 
-
-
-
     //initialize the playerBoard and the solutionBoard 2-d arrays
-    public void addAllTiles() {
+    private void addAllTiles() {
 
         //fill the playerBoard with tiles
-        for (int row = 0; row < BOARD_H; row++) {
-            for (int column = 0; column < BOARD_W; column++) {
+        for (int row = 0; row < 5; row++) {
+            for (int column = 0; column < 5; column++) {
+
                 Tile tile = new Tile();
                 tile.getStackPane().setTranslateX((column * 100) - 200);
                 tile.getStackPane().setTranslateY((row * 100));
@@ -54,6 +65,7 @@ public class TileBoard implements TreasureHuntConstants{
         }
 
         //fill the solution board with 5 treasure spots
+
         for (int i = 0; i < TOTAL_TREASURE; i++) {
             solutionBoard[(int) (Math.random() * BOARD_W)][(int) (Math.random() * BOARD_H)] = "t";
         }
@@ -70,6 +82,7 @@ public class TileBoard implements TreasureHuntConstants{
     }
 
     //method to reset both the board to their original states to be ready for a new game
+
     public void restartGame() {
         isEndOfGame = false;
         gameScore = 0;
@@ -99,6 +112,7 @@ public class TileBoard implements TreasureHuntConstants{
         //fill the solution board with the rest as empty
         for (int row = 0; row < BOARD_W; row++) {
             for (int column = 0; column < BOARD_H; column++) {
+
                 if (Objects.equals(solutionBoard[row][column], "t")) return;
                 else {
                     solutionBoard[row][column] = "e";
@@ -107,9 +121,11 @@ public class TileBoard implements TreasureHuntConstants{
         }
 
     }
+
     public void setUserName(String nameToAdd){
         currentUser = nameToAdd;
     }
+
 
     //getter method
     public StackPane getStackPane() {
@@ -128,6 +144,7 @@ public class TileBoard implements TreasureHuntConstants{
     //method to check to see if the player has found all the treasure
     //if all the treasure is found, call endGame() to display game won
     public void checkForWinner() throws IOException {
+
         //find total treasure amount
         int totalTreasure = 0;
 
@@ -144,7 +161,6 @@ public class TileBoard implements TreasureHuntConstants{
             for (int column = 0; column < 5; column++) {
                 if (Objects.equals(playerBoard[row][column].getValue(), "T")) {
                     foundTreasure++;
-
                 }
             }
         }
@@ -156,6 +172,7 @@ public class TileBoard implements TreasureHuntConstants{
 
     //method to end the game and display the victory message
     //shows the start new game button to give the player the option to start a new game
+
     private void endGame() throws IOException {
         isEndOfGame = true;
         leaderboard.writeNewGame(currentUser, gameScore);
@@ -164,11 +181,11 @@ public class TileBoard implements TreasureHuntConstants{
     }
 
 
+
     private void updateScore() {
         turnsUsed++;
         gameScore = 100 - (turnsUsed*4);
     }
-
 
     //constructor class to give every tile a label which will display if the guess was correct.
     private class Tile {
@@ -204,6 +221,7 @@ public class TileBoard implements TreasureHuntConstants{
                         throw new RuntimeException(e);
                     }
                     updateScore();
+
                 }
             });
         }

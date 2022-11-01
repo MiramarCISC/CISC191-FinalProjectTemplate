@@ -26,6 +26,8 @@ public class InfoCenter
     private Button startGameButton;
     private Button leaderboardButton;
     private GridPane profileGrid;
+    private Button startGameButton;
+
 
     //constructor method for the portion of the GUI that has the status message as well as the start new game button
     public InfoCenter()
@@ -41,7 +43,7 @@ public class InfoCenter
         title.setAlignment(Pos.CENTER);
         title.setTranslateY(-20);
         pane.getChildren().add(title);
-
+        
         GridPane profileGrid = new GridPane();
         profileGrid.setAlignment(Pos.CENTER);
         profileGrid.setTranslateY(60);
@@ -69,7 +71,6 @@ public class InfoCenter
         startGameButton.setTranslateY(60);
         pane.getChildren().add(startGameButton);
         hideStartButton();
-
     }
 
     //getter method for StackPane
@@ -84,16 +85,21 @@ public class InfoCenter
         this.title.setText(title);
     }
 
+
     //methods to show or hide the buttons
+
     public void showStartButton()
     {
         startGameButton.setVisible(true);
     }
 
+
+    //method to hide the start button while the game is in progress
     public void hideStartButton()
     {
         startGameButton.setVisible(false);
     }
+
 
     public void hideLeaderboardButton()
     {
@@ -140,3 +146,12 @@ public class InfoCenter
     //end of class InfoCenter
 }
 
+=======
+    //method to start the game on mouse click
+    public void setStartButtonOnAction(EventHandler<ActionEvent> onAction)
+    {
+        startGameButton.setOnAction(onAction);
+    }
+
+    //end of class InfoCenter
+}

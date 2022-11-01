@@ -7,9 +7,11 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+
 
 
 /**Connor Bue
@@ -28,7 +30,9 @@ public class Server extends Application{
 
     private InfoCenter infoCenter;
     private TileBoard tileBoard;
+
     private Leaderboard leaderboard;
+
 
     @Override
     public void start(Stage primaryStage)
@@ -39,7 +43,6 @@ public class Server extends Application{
             initLayout(root);
             primaryStage.setScene(scene);
             primaryStage.show();
-        }
         catch(Exception e)
         {
             e.printStackTrace();
@@ -93,6 +96,7 @@ public class Server extends Application{
         };
     }
 
+    //opens the leaderboard window when the button is clicked
     private EventHandler<ActionEvent> openLeaderboard() {
         return new EventHandler<ActionEvent>() {
             @Override
@@ -119,10 +123,36 @@ public class Server extends Application{
             public void handle(ActionEvent event) {
                 tileBoard.restartGame();
 
+    //initializes both portions of the gui
+    private void initLayout(BorderPane root)
+    {
+        initInfoCenter(root);
+        initTileBoard(root);
+
+    }
+
+    //initialize info center portion of panel
+    private void initInfoCenter(BorderPane root)
+    {
+        infoCenter = new InfoCenter();
+        infoCenter.setStartButtonOnAction(startNewGame());
+        root.getChildren().add(infoCenter.getStackPane());
+    }
+
+
+    //first time the game starts, changes status message and hides start button
+    private EventHandler<ActionEvent> startNewGame()
+    {
+        return new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                infoCenter.hideStartButton();
+                infoCenter.updateTitle("Find the treasure!");
+                tileBoard.startNewGame();
+
             }
         };
     }
-
 
     //initialize the game board portion of the gui
     private void initTileBoard(BorderPane root)
