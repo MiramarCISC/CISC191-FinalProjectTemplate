@@ -13,18 +13,22 @@ public class Player implements Person{
         score = 0;
     }
 
+    //increases score by 1
     public void increaseScore(){
         score++;
     }
 
+    //returns score
     public int getScore(){
         return score;
     }
 
+    //returns username
     public String getUsername(){
         return username;
     }
 
+    //overrides toString method in the Object class and returns the username
     @Override
     public String toString(){
         return username;

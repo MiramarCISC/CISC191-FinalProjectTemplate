@@ -7,6 +7,10 @@ public class Board {
 
     public Player playerMove;
 
+    //board constructor, sets a 2d, 3x3 array to contain all 0's
+    //player 1 and player 2 are assigned to the players that are passed in
+    //randomly chooses which player will go first.
+
     public Board(Player player1, Player player2){
         board = new int[][]{{0,0,0},{0,0,0},{0,0,0}};
         this.player1 = player1;
@@ -19,14 +23,17 @@ public class Board {
         }
     }
 
+    //returns player1
     public Player getPlayer1(){
         return player1;
     }
 
+    //returns player2
     public Player getPlayer2(){
         return player2;
     }
 
+    //after a turn, assigns playerMove to the other player
     public void nextPlayer(){
         if(playerMove == player1){
             playerMove = player2;
@@ -103,5 +110,3 @@ public class Board {
         return false;
     }
 }
-
-

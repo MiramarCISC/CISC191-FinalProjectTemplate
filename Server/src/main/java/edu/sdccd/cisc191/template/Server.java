@@ -18,6 +18,7 @@ public class Server {
     private PrintWriter out;
     private BufferedReader in;
 
+    //starts the server and defines the port
     public void start(int port) throws Exception {
         serverSocket = new ServerSocket(port);
         clientSocket = serverSocket.accept();
@@ -25,6 +26,8 @@ public class Server {
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
     }
 
+
+    //stops the server and closes the io streams
     public void stop() throws IOException {
         in.close();
         out.close();
@@ -32,9 +35,9 @@ public class Server {
         serverSocket.close();
     }
 
+    //main method that actually starts the server and waits for a connection from the client
     public static void main(String[] args) {
         Server server = new Server();
-
         try {
             server.start(4444);
             server.stop();

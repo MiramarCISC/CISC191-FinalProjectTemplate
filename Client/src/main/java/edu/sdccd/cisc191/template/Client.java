@@ -21,17 +21,21 @@ public class Client {
     private PrintWriter out;
     private BufferedReader in;
 
+    //connects to the server at the IP and port
     public void startConnection(String ip, int port) throws IOException {
         clientSocket = new Socket(ip, port);
         out = new PrintWriter(clientSocket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
     }
 
+    //stops the connections and closes the io streams
     public void stopConnection() throws IOException {
         in.close();
         out.close();
         clientSocket.close();
     }
+
+    //starts the connection to the server
     public static void main(String[] args) {
         Client client = new Client();
         try {
