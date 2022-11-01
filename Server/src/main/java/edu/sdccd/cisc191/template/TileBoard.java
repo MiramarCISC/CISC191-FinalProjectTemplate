@@ -161,7 +161,6 @@ public class TileBoard implements TreasureHuntConstants{
         leaderboard.writeNewGame(currentUser, gameScore);
         infoCenter.updateTitle("You have found all the treasure!");
         infoCenter.showStartButton();
-        infoCenter.showLeaderboardButton();
     }
 
 
