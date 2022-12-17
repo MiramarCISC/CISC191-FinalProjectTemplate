@@ -442,12 +442,10 @@ public class Wordle extends Application{
                 try{
                     while(true)
                     {
-                        if(timer.getText().trim().length() == 0) {
+                        if(true) {
                             text = "Timer: " + counter;
                             counter++;
                         }
-                        else
-                            text = "";
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
