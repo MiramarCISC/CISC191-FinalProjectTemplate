@@ -24,13 +24,6 @@ public class Server {
         clientSocket = serverSocket.accept();
         out = new PrintWriter(clientSocket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-
-        String inputLine;
-        while ((inputLine = in.readLine()) != null) {
-            CustomerRequest request = CustomerRequest.fromJSON(inputLine);
-            CustomerResponse response = new CustomerResponse(request.getId(), "Jane", "Doe");
-            out.println(CustomerResponse.toJSON(response));
-        }
     }
 
     public void stop() throws IOException {
