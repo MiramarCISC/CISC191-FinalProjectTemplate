@@ -41,9 +41,13 @@ public class Server {
     }
 
     public static void main(String[] args) {
+        JavaFX javaFX = new JavaFX();
+        javaFX.main(args);
+
         Server server = new Server();
         try {
             server.start(4444);
+            System.out.println("hi there");
             server.stop();
         } catch(Exception e) {
             e.printStackTrace();
