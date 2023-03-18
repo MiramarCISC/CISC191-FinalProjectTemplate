@@ -121,7 +121,7 @@ public class JavaFX extends Application {
         comboBox.getItems().addAll("Expenses", "Incomes", "Both"); //using addAll() to clean your code
        // comboBox.getItems().add("Incomes");
        // comboBox.getItems().add("Both");
-      //  comboBox.setValue("Both");
+        comboBox.setValue("Both");
 //        ComboBox sortComboBox = new ComboBox();
 //        sortComboBox.getItems().add("Brand");
 //        sortComboBox.getItems().add("Model");
