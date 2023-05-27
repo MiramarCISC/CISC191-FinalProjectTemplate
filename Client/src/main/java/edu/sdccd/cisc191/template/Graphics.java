@@ -25,7 +25,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
 import java.util.Collections;
-
+import java.util.stream.IntStream;
 
 
 public class Graphics extends GridPane implements EventHandler<ActionEvent>, ScoreTracker {
@@ -43,7 +43,6 @@ public class Graphics extends GridPane implements EventHandler<ActionEvent>, Sco
     // sets default player scores
     int player1Score;
     int player2Score;
-    // Added linked list for player scores module 10
     LinkedList<Integer> player1Scores;
     LinkedList<Integer> player2Scores;
     static final String scoreFile = "player_scores.ser";
@@ -77,7 +76,7 @@ public class Graphics extends GridPane implements EventHandler<ActionEvent>, Sco
         colorPreferences = new LinkedList<>(Arrays.asList("BLACK", "BLUE", "CYAN", "DARKGRAY", "GREEN", "MAGENTA", "ORANGE", "PINK", "RED", "YELLOW"));
         sortColorPreferences();
 
-        // Initialize the ComboBoxes for selecting color preferences
+        // Initialize the ComboBoxes for selecting color preferences module 11
         ObservableList<String> colorOptions = FXCollections.observableArrayList(colorPreferences);
         colorPreferenceX = new ComboBox<>(colorOptions);
         colorPreferenceX.setValue("DARKGRAY");
@@ -134,28 +133,32 @@ public class Graphics extends GridPane implements EventHandler<ActionEvent>, Sco
     }
 
     // marks X & O
+    @Override
     public void handle(ActionEvent e) {
-        for (int i = 0; i < 9; i++) {
-            if (e.getSource() == tiles[i]) {
-                if (tiles[i].getText().isEmpty()) {
-                    if (FirstPlayerActive) {
-                        tiles[i].setTextFill(Color.valueOf(colorPreferenceX.getValue()));
-                        tiles[i].setText(markX);
-                        FirstPlayerActive = false;
-                        gameBoard.editBoard(i, 1);
-                    } else {
-                        tiles[i].setTextFill(Color.valueOf(colorPreferenceO.getValue()));
-                        tiles[i].setText(markO);
-                        FirstPlayerActive = true;
-                        gameBoard.editBoard(i, 2);
-                    }
+        // IntStream.range creates a stream of integers within the specified range (0 to 8 inclusive in this case)
+        IntStream.range(0, 9)
+                // filter is a method in the Stream API that allows elements to be conditionally included in the Stream
+                .filter(i -> e.getSource() == tiles[i])
+                .findFirst()
+                .ifPresent(i -> {
+                    if (tiles[i].getText().isEmpty()) {
+                        if (FirstPlayerActive) {
+                            tiles[i].setTextFill(Color.valueOf(colorPreferenceX.getValue()));
+                            tiles[i].setText(markX);
+                            gameBoard.editBoard(i, 1);
+                        } else {
+                            tiles[i].setTextFill(Color.valueOf(colorPreferenceO.getValue()));
+                            tiles[i].setText(markO);
+                            gameBoard.editBoard(i, 2);
+                        }
 
-                    checkState();
-                    updateScoreLabels();
-                }
-            }
-        }
+                        FirstPlayerActive = !FirstPlayerActive;
+                        checkState();
+                        updateScoreLabels();
+                    }
+                });
     }
+
 
     // checks to see which players has lined up 3 marks in a row. Declares winner
     protected void checkState() {
@@ -174,6 +177,7 @@ public class Graphics extends GridPane implements EventHandler<ActionEvent>, Sco
         }
     }
 
+    //module 9 collections
     private void sortColorPreferences() {
         Collections.sort(colorPreferences);
     }
