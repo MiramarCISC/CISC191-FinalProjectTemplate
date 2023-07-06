@@ -40,7 +40,7 @@ public class Client {
     public static void main(String[] args) {
         Client client = new Client();
         try {
-            client.startConnection("127.0.0.1", 4444);
+            client.startConnection("localhost", 4444);
             System.out.println(client.sendRequest().toString());
             client.stopConnection();
         } catch(Exception e) {
