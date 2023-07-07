@@ -157,8 +157,25 @@ public class Server extends Application
 
     private void expandArray() { // TODO CASE 6 }
     }
-
-    private void shrinkArray() { // TODO CASE 7 }
+    private void shrinkArray()
+    {
+        if (twoDimArray.length > 1 && twoDimArray[0].length > 1)
+        {
+            int[][] newArray = new int[twoDimArray.length - 1][twoDimArray[0].length - 1];
+            for (int row = 0; row < newArray.length; row++)
+            {
+                for (int col = 0; col < newArray[row].length; col++)
+                {
+                    newArray[row][col] = twoDimArray[row][col];
+                }
+            }
+            twoDimArray = newArray;
+            System.out.println("ARRAY SHRUNK");
+        }
+        else
+        {
+            System.out.println("ARRAY CANNOT BE FURTHER SHRUNK");
+        }
     }
 
     // Check if given row and column indices are valid.
