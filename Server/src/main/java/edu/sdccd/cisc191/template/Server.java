@@ -1,4 +1,4 @@
-package edu.sdccd.cisc191.template;
+package edu.sdccd.cisc191;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
