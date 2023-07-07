@@ -105,7 +105,21 @@ public class Server extends Application
     private void printAllValues() { // TODO CASE 4 }
     }
 
-    private void deleteValueAtIndex() { // TODO CASE 5 }
+    private void deleteValueAtIndex() 
+    {
+        System.out.print("ENTER ROW INDEX: ");
+        int row = scanner.nextInt();
+        System.out.print("ENTER COLUMN INDEX: ");
+        int col = scanner.nextInt();
+        if (isValidIndex(row, col)) 
+        {
+            twoDimArray[row][col] = 0;
+            System.out.println("VALUE DELETED AT INDEX (" + row + ", " + col + ").");
+        } 
+        else 
+        {
+            System.out.println("INVALID INPUT. PLEASE TRY AGAIN.");
+        }
     }
 
     private void expandArray() { // TODO CASE 6 }
