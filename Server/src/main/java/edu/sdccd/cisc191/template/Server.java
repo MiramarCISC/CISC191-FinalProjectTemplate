@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 import javafx.geometry.Pos;
 import java.io.*;
 import java.net.ServerSocket; // ServerSocket, Socket
-import java.net.Server
+import java.net.Server;
 import java.util.ArrayList; //ArrayList, HashMap, Scanner
 import java.util.HashMap;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package edu.sdccd.cisc191.template;//
+package edu.sdccd.cisc191.template;
 /**
  * Java Reflection and Invoking Methods
  * https://www.oracle.com/technical-resources/articles/java/javareflection.html
