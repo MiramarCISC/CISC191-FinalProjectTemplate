@@ -12,8 +12,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>edu.sdccd.cisc191.template</groupId>
-            <version>${project.version}</version>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>5.7.1</version>
