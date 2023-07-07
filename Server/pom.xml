@@ -13,7 +13,6 @@
     <dependencies>
         <dependency>
             <groupId>edu.sdccd.cisc191.template</groupId>
-            <artifactId>Common</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
