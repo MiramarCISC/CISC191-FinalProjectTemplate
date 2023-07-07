@@ -122,10 +122,39 @@ public class Server extends Application
         }
     }
 
-    private void expandArray() { // TODO CASE 6 }
+    private void expandArray() 
+    {
+        int[][] newArray = new int[twoDimArray.length + 1][twoDimArray[0].length + 1];
+        for (int row = 0; row < twoDimArray.length; row++) 
+        {
+            for (int col = 0; col < twoDimArray[row].length; col++) 
+            {
+                newArray[row][col] = twoDimArray[row][col];
+            }
+        }
+        twoDimArray = newArray;
+        System.out.println("ARRAY EXPANDED");
     }
 
-    private void shrinkArray() { // TODO CASE 7 }
+    private void shrinkArray() 
+    {
+        if (twoDimArray.length > 1 && twoDimArray[0].length > 1) 
+        {
+            int[][] newArray = new int[twoDimArray.length - 1][twoDimArray[0].length - 1];
+            for (int row = 0; row < newArray.length; row++) 
+            {
+                for (int col = 0; col < newArray[row].length; col++) 
+                {
+                    newArray[row][col] = twoDimArray[row][col];
+                }
+            }
+            twoDimArray = newArray;
+            System.out.println("ARRAY SHRUNK");
+        } 
+        else 
+        {
+            System.out.println("ARRAY CANNOT BE FURTHER SHRUNK");
+        }
     }
 
     // Check if given row and column indices are valid.
@@ -240,16 +269,82 @@ public class Server extends Application
     private void findIndexOfValueGUI() { // TODO .findIndexBtn }
     }
 
-    private void printAllValuesGUI() { // TODO .printAllBtn }
+    private void printAllValuesGUI() 
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append("ARRAY VALUES \n");
+        for (int row = 0; row < twoDimArray.length; row++) 
+        {
+            for (int col = 0; col < twoDimArray[row].length; col++) 
+            {
+                sb.append(twoDimArray[row][col]).append(" ");
+            }
+            sb.append("\n");
+        }
+        showAlert(sb.toString());
     }
 
-    private void deleteValueAtIndexGUI() { // TODO .deleteValueBtn }
+    private void deleteValueAtIndexGUI() 
+    {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("DELETE VALUE");
+        dialog.setHeaderText("ENTER INDEX");
+        dialog.setContentText("ROW: ");
+        Optional<String> rowResult = dialog.showAndWait();
+        if (rowResult.isPresent()) 
+        {
+            dialog.setContentText("COLUMN: ");
+            Optional<String> colResult = dialog.showAndWait();
+            if (colResult.isPresent()) 
+            {
+                int row = Integer.parseInt(rowResult.get());
+                int col = Integer.parseInt(colResult.get());
+                if (isValidIndex(row, col)) 
+                {
+                    twoDimArray[row][col] = 0;
+                    showAlert("VALUE DELETED AT INDEX (" + row + ", " + col + ").");
+                } 
+                else 
+                {
+                    showAlert("INVALID INPUT. TRY AGAIN.");
+                }
+            }
+        }
     }
 
-    private void expandArrayGUI() { // TODO .expandArrayBtn }
+    private void expandArrayGUI() 
+    {
+        int[][] newArray = new int[twoDimArray.length + 1][twoDimArray[0].length + 1];
+        for (int row = 0; row < twoDimArray.length; row++) 
+        {
+            for (int col = 0; col < twoDimArray[row].length; col++) 
+            {
+                newArray[row][col] = twoDimArray[row][col];
+            }
+        }
+        twoDimArray = newArray;
+        showAlert("ARRAY EXPANDED");
     }
 
-    private void shrinkArrayGUI() { // TODO .shrinkArrayBtn }
+    private void shrinkArrayGUI() 
+    {
+        if (twoDimArray.length > 1 && twoDimArray[0].length > 1) 
+        {
+            int[][] newArray = new int[twoDimArray.length - 1][twoDimArray[0].length - 1];
+            for (int row = 0; row < newArray.length; row++) 
+            {
+                for (int col = 0; col < newArray[row].length; col++) 
+                {
+                    newArray[row][col] = twoDimArray[row][col];
+                }
+            }
+            twoDimArray = newArray;
+            showAlert("ARRAY SHRUNK");
+        } 
+        else 
+        {
+            showAlert("ARRAY CANNOT BE FURTHER SHRUNK");
+        }
     }
 
     // Method to show alert or warning with given message.
