@@ -10,11 +10,13 @@ import java.lang.reflect.Method; // Interactive Console & GUI
 import javafx.application.Platform; // GUI
 import javafx.embed.swing.JFXPanel; // GUI
 import javafx.scene.control.Alert; // GUI
-import org.junit.Before; // GUI
+//import org.junit.Before; // GUI
 import javafx.stage.Stage; // GUI
 import java.io.*; // ByteArrayInputStream, inputStream
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import java.util.HashMap; // OOP
@@ -37,7 +39,7 @@ public class ServerTest {
         // Assert expected result.
         assertEquals("VALUE AT INDEX (0, 0): 5", "EXPECTED_RESULT");
     }
-    @Before // JavaFX GUI of Interactive Console Module
+    @BeforeAll // JavaFX GUI of Interactive Console Module
     public void setup() {
         // Initialize JavaFX toolkit.
         JFXPanel panel = new JFXPanel();
