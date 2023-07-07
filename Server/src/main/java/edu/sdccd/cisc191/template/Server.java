@@ -260,10 +260,32 @@ public class Server extends Application
         }
     }
 
-    private void setValueAtIndexGUI() { // TODO .setValueBtn }
+    private void setValueAtIndexGUI() {
+        System.out.print("ENTER ROW INDEX ");
+        int row = scanner.nextInt();
+        System.out.print("ENTER COLUMN INDEX: ");
+        int col = scanner.nextInt();
+        System.out.print("ENTER VALUE: ");
+        int value = scanner.nextInt();
+        if (isValidIndex(row, col)) {
+            twoDimArray[row][col] = value;
+            System.out.println("VALUE AT SET INDEX (" + row + ", " + col + ").");
+        } else {
+            System.out.println("INVALID INPUT. PLEASE TRY AGAIN.");
+        }
     }
 
-    private void findIndexOfValueGUI() { // TODO .findIndexBtn }
+    private void findIndexOfValueGUI() {
+        System.out.print("ENTER VALUE IN SEARCH OF ");
+        int value = scanner.nextInt();
+        boolean found = false;
+        for (int row = 0; row < twoDimArray.length; row++) {
+            for (int col = 0; col < twoDimArray[row].length; col++) {
+                if (twoDimArray[row][col] == value) {
+                    System.out.println("VALUE " + value + " FOUND AT INDEX (" + row + ", " + col + ").");
+                    found = true;
+                }
+            }
     }
 
     private void printAllValuesGUI() { // TODO .printAllBtn }
