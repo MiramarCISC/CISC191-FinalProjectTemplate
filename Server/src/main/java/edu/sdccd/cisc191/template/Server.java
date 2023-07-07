@@ -13,7 +13,8 @@ import javafx.geometry.Pos;
 import java.io.*;
 import java.net.ServerSocket; // ServerSocket, Socket
 import java.net.Server
-import java.util.ArrayList*; // ArrayList, HashMap, Scanner
+
+import java.util.ArrayList*; //ArrayList, HashMap, Scanner
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.Scanner;
@@ -24,6 +25,7 @@ public class Server extends Application
     private ArrayList<User> userList;
     private int[][] twoDimArray;
     private Scanner scanner;
+
     // Constructor and initialization of variables.
     public Server() 
     {
@@ -32,6 +34,7 @@ public class Server extends Application
         twoDimArray = new int[10][10];
         scanner = new Scanner(System.in);
     }
+
     // Print console menu options. Module 1.
     public void printConsoleMenu() 
     {
@@ -45,6 +48,7 @@ public class Server extends Application
         System.out.println("7. SHRINK ARRAY");
         System.out.println("0. EXIT");
     }
+
     // Handle user input for console menu options.
     public void handleConsoleInput(int choice) 
     {
@@ -78,7 +82,7 @@ public class Server extends Application
                 break;
         }
     }
-    // Case 1. Get value at specified index in 2D array.
+
     private void getValueAtIndex() {
         System.out.print("Enter Row Index: ");
         int row = scanner.nextInt();
@@ -88,28 +92,19 @@ public class Server extends Application
             int value = twoDimArray[row][col];
             System.out.println("Value At Index (" + row + ", " + col + "): " + value);
         } else {
-            System.out.println("Invalid Input. Please Try Again."); }
+            System.out.println("Invalid Input. Please Try Again.");
     }
-    // Case 2. Set value at speficied index in 2D array.
+    }
+
     private void setValueAtIndex() { // TODO CASE 2 }
     }
-    // Case 3. Find index of specified value in 2D array.
+
     private void findIndexOfValue() { // TODO CASE 3 }
     }
-    // Case 4. Prints all values in 2D array.
-    private void printAllValues()
-    {
-        System.out.println("ARRAY VALUES");
-        for (int row = 0; row < twoDimArray.length; row++)
-        {
-            for (int col = 0; col < twoDimArray[row].length; col++)
-            {
-                System.out.print(twoDimArray[row][col] + " ");
-            }
-            System.out.println();
-        }
+
+    private void printAllValues() { // TODO CASE 4 }
     }
-    // Case 5. Deletes value at speified index in 2D array.
+
     private void deleteValueAtIndex() 
     {
         System.out.print("ENTER ROW INDEX: ");
@@ -126,7 +121,7 @@ public class Server extends Application
             System.out.println("INVALID INPUT. PLEASE TRY AGAIN.");
         }
     }
-    // Case 6. Expands size of 2D array.
+
     private void expandArray() 
     {
         int[][] newArray = new int[twoDimArray.length + 1][twoDimArray[0].length + 1];
@@ -140,7 +135,7 @@ public class Server extends Application
         twoDimArray = newArray;
         System.out.println("ARRAY EXPANDED");
     }
-    // Case 7. Shrinks size of 2D array.
+
     private void shrinkArray() 
     {
         if (twoDimArray.length > 1 && twoDimArray[0].length > 1) 
@@ -161,11 +156,13 @@ public class Server extends Application
             System.out.println("ARRAY CANNOT BE FURTHER SHRUNK");
         }
     }
+
     // Check if given row and column indices are valid.
     private boolean isValidIndex(int row, int col) 
     {
         return row >= 0 && row < twoDimArray.length && col >= 0 && col < twoDimArray[row].length;
     }
+
     public static void main(String[] args) 
     {
         /*
@@ -181,7 +178,7 @@ public class Server extends Application
          */
         launch(args);
     }
-    // Java FX GUI implementation. Module 2.
+
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Index & Array Console Menu");
@@ -243,7 +240,7 @@ public class Server extends Application
         primaryStage.show();
     
     }
-    // JavaFx method to get value at specified index.
+
     private void getValueAtIndexGUI() {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Get Value");
@@ -265,38 +262,10 @@ public class Server extends Application
             }
         }
     }
-    // JavaFX method to set value at specified index.
+
     private void setValueAtIndexGUI() { // TODO .setValueBtn }
     }
-    // JavaFX method to find index of specified value.
-    private void findIndexOfValueGUI()
-    {
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("FIND INDEX");
-        dialog.setHeaderText("ENTER VALUE TO FIND");
-        dialog.setContentText("VALUE: ");
-        Optional<String> valueResult = dialog.showAndWait();
-        if (valueResult.isPresent()) {
-            int value = Integer.parseInt(valueResult.get());
-            boolean found = false;
-            for (int row = 0; row < twoDimArray.length; row++)
-            {
-                for (int col = 0; col < twoDimArray[row].length; col++)
-                {
-                    if (twoDimArray[row][col] == value)
-                    {
-                        showAlert("VALUE " + value + " FOUND AT INDEX (" + row + ", " + col + ").");
-                        found = true;
-                    }
-                }
-            }
-            if (!found)
-            {
-                showAlert("VALUE NOT FOUND");
-            }
-        }
-    }
-    // JavaFX method to print all values in 2D array.
+
     private void findIndexOfValueGUI() { // TODO .findIndexBtn }
     }
 
@@ -314,7 +283,7 @@ public class Server extends Application
         }
         showAlert(sb.toString());
     }
-    // JavaFX method to delete value at specified index.
+
     private void deleteValueAtIndexGUI() 
     {
         TextInputDialog dialog = new TextInputDialog();
@@ -342,7 +311,7 @@ public class Server extends Application
             }
         }
     }
-    // JavaFX method to expand size of 2D array.
+
     private void expandArrayGUI() 
     {
         int[][] newArray = new int[twoDimArray.length + 1][twoDimArray[0].length + 1];
@@ -356,7 +325,7 @@ public class Server extends Application
         twoDimArray = newArray;
         showAlert("ARRAY EXPANDED");
     }
-    // JavaFX method to shrink size of 2D array.
+
     private void shrinkArrayGUI() 
     {
         if (twoDimArray.length > 1 && twoDimArray[0].length > 1) 
@@ -377,6 +346,7 @@ public class Server extends Application
             showAlert("ARRAY CANNOT BE FURTHER SHRUNK");
         }
     }
+
     // Method to show alert or warning with given message.
     private void showAlert(String message) 
     {
