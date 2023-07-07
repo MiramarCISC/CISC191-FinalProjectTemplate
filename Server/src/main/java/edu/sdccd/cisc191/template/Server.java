@@ -3,12 +3,19 @@ package edu.sdccd.cisc191.template;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.geometry.Pos;
 import java.io.*;
-import java.net.*; // ServerSocket, Socket
-import java.util.*; //ArrayList, HashMap, Scanner
+import java.net.ServerSocket; // ServerSocket, Socket
+import java.net.Server
+import java.util.ArrayList*; //ArrayList, HashMap, Scanner
+import java.util.HashMap;
+import java.util.Scanner;
 
 public class Server extends Application 
 {
@@ -74,7 +81,17 @@ public class Server extends Application
         }
     }
 
-    private void getValueAtIndex() { // TODO CASE 1 }
+    private void getValueAtIndex() {
+        System.out.print("Enter Row Index: ");
+        int row = scanner.nextInt();
+        System.out.print("Enter Column Index: ");
+        int col = scanner.nextInt();
+        if (isValidIndex(row, col)) {
+            int value = twoDimArray[row][col];
+            System.out.println("Value At Index (" + row + ", " + col + "): " + value);
+        } else {
+            System.out.println("Invalid Input. Please Try Again.");
+    }
     }
 
     private void setValueAtIndex() { // TODO CASE 2 }
@@ -118,12 +135,87 @@ public class Server extends Application
     }
 
     @Override
-    public void start(Stage primaryStage) 
-    {
-        // TODO - SET UP GUI W/ ACTION EVENT E & VBOX
+    public void start(Stage primaryStage) {
+        primaryStage.setTitle("Index & Array Console Menu");
+        VBox vbox = new VBox();
+        vbox.setSpacing(10);
+        vbox.setPadding(new Insets(30));
+        vbox.setAlignment(Pos.CENTER);
+        vbox.setStyle("-fx-background-color: #D3BDA2");
+
+        Label titleLabel = new Label("CONSOLE MENU");
+        titleLabel.setStyle("-fx-font: 100px Impact; -fx-font-size: 100px; -fx-font-weight: bold;");
+        vbox.getChildren().add(titleLabel);
+        vbox.setAlignment(Pos.TOP_CENTER);
+
+        Button getValueBtn = new Button("Get Value At Index");
+        getValueBtn.setOnAction(e -> getValueAtIndexGUI());
+        vbox.getChildren().add(getValueBtn);
+        getValueBtn.setStyle("-fx-padding: 10px; -fx-border-color: black; -fx-border-width: 2px; " +
+                        "-fx-background-color: #7EA3AC; -fx-text-fill: black;-fx-font: 30px Impact;" );
+
+        Button setValueBtn = new Button("Set Value At Index");
+        setValueBtn.setOnAction(e -> setValueAtIndexGUI());
+        vbox.getChildren().add(setValueBtn);
+        setValueBtn.setStyle("-fx-padding: 10px; -fx-border-color: black; -fx-border-width: 2px; " +
+                "-fx-background-color: #7EA3AC; -fx-text-fill: black;-fx-font: 30px Impact;" );
+
+        Button findIndexBtn = new Button("Find Value At Index");
+        findIndexBtn.setOnAction(e -> findIndexOfValueGUI());
+        vbox.getChildren().add(findIndexBtn);
+        findIndexBtn.setStyle("-fx-padding: 10px; -fx-border-color: black; -fx-border-width: 2px; " +
+                "-fx-background-color: #7EA3AC; -fx-text-fill: black;-fx-font: 30px Impact;" );
+
+        Button printAllBtn = new Button("Print All Values");
+        printAllBtn.setOnAction(e -> printAllValuesGUI());
+        vbox.getChildren().add(printAllBtn);
+        printAllBtn.setStyle("-fx-padding: 10px; -fx-border-color: black; -fx-border-width: 2px; " +
+                "-fx-background-color: #7EA3AC; -fx-text-fill: black;-fx-font: 30px Impact;" );
+
+        Button deleteValueBtn = new Button("Delete Value At Index");
+        deleteValueBtn.setOnAction(e -> deleteValueAtIndexGUI());
+        vbox.getChildren().add(deleteValueBtn);
+        deleteValueBtn.setStyle("-fx-padding: 10px; -fx-border-color: black; -fx-border-width: 2px; " +
+                "-fx-background-color: #7EA3AC; -fx-text-fill: black;-fx-font: 30px Impact;" );
+
+        Button expandArrayBtn = new Button("Expand Array");
+        expandArrayBtn.setOnAction(e -> expandArrayGUI());
+        vbox.getChildren().add(expandArrayBtn);
+        expandArrayBtn.setStyle("-fx-padding: 10px; -fx-border-color: black; -fx-border-width: 2px; " +
+                "-fx-background-color: #7EA3AC; -fx-text-fill: black;-fx-font: 30px Impact;" );
+
+        Button shrinkArrayBtn = new Button("Shrink Array");
+        shrinkArrayBtn.setOnAction(e -> shrinkArrayGUI());
+        vbox.getChildren().add(shrinkArrayBtn);
+        shrinkArrayBtn.setStyle("-fx-padding: 10px; -fx-border-color: black; -fx-border-width: 2px; " +
+                "-fx-background-color: #7EA3AC; -fx-text-fill: black;-fx-font: 30px Impact;" );
+
+        Scene scene = new Scene(vbox, 1600, 900);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    
     }
 
-    private void getValueAtIndexGUI() { // TODO .getValueBtn }
+    private void getValueAtIndexGUI() {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Get Value");
+        dialog.setHeaderText("Enter Indexes");
+        dialog.setContentText("Row: ");
+        Optional<String> rowResult = dialog.showAndWait();
+        if (rowResult.isPresent()) {
+            dialog.setContentText("Column: ");
+            Optional<String> colResult = dialog.showAndWait();
+            if (colResult.isPresent()) {
+                int row = Integer.parseInt(rowResult.get());
+                int col = Integer.parseInt(colResult.get());
+                if (isValidIndex(row, col)) {
+                    int value = twoDimArray[row][col];
+                    showAlert("Value At Index (" + row + ", " + col + "): " + value);
+                } else {
+                    showAlert("Invalid Input. Try Again.");
+                }
+            }
+        }
     }
 
     private void setValueAtIndexGUI() { // TODO .setValueBtn }
