@@ -1,21 +1,34 @@
-package edu.sdccd.cisc191.template;
+package edu.sdccd.cisc191;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.geometry.Pos;
 import java.io.*;
-import java.net.*; // ServerSocket, Socket
-import java.util.*; //ArrayList, HashMap, Scanner
-public class Server extends Application {
-    private HashMap<String, User> userMap;
+import java.net.ServerSocket; // ServerSocket, Socket
+import java.net.Server
+
+import java.util.ArrayList*; //ArrayList, HashMap, Scanner
+import java.util.HashMap;
+import java.util.Optional;
+import java.util.Scanner;
+
+public class Server extends Application 
+{
+    private HashMap<String,User> userMap;
     private ArrayList<User> userList;
     private int[][] twoDimArray;
     private Scanner scanner;
 
     // Constructor and initialization of variables.
-    public Server() {
+    public Server() 
+    {
         userMap = new HashMap<>();
         userList = new ArrayList<>();
         twoDimArray = new int[10][10];
@@ -23,7 +36,8 @@ public class Server extends Application {
     }
 
     // Print console menu options. Module 1.
-    public void printConsoleMenu() {
+    public void printConsoleMenu() 
+    {
         System.out.println("CONSOLE MENU");
         System.out.println("1. GET VALUE AT INDEX");
         System.out.println("2. SET VALUE AT INDEX");
@@ -36,7 +50,8 @@ public class Server extends Application {
     }
 
     // Handle user input for console menu options.
-    public void handleConsoleInput(int choice) {
+    public void handleConsoleInput(int choice) 
+    {
         switch (choice) {
             case 1:
                 getValueAtIndex();
@@ -68,8 +83,7 @@ public class Server extends Application {
         }
     }
 
-    private void getValueAtIndex()
-    {
+    private void getValueAtIndex() {
         System.out.print("Enter Row Index: ");
         int row = scanner.nextInt();
         System.out.print("Enter Column Index: ");
@@ -79,6 +93,7 @@ public class Server extends Application {
             System.out.println("Value At Index (" + row + ", " + col + "): " + value);
         } else {
             System.out.println("Invalid Input. Please Try Again.");
+    }
     }
 
     private void setValueAtIndex() { // TODO CASE 2 }
@@ -100,11 +115,13 @@ public class Server extends Application {
     }
 
     // Check if given row and column indices are valid.
-    private boolean isValidIndex(int row, int col) {
+    private boolean isValidIndex(int row, int col) 
+    {
         return row >= 0 && row < twoDimArray.length && col >= 0 && col < twoDimArray[row].length;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) 
+    {
         /*
          * Without GUI nor networking implementations.
          * Server server = new Server();
@@ -137,7 +154,7 @@ public class Server extends Application {
         getValueBtn.setOnAction(e -> getValueAtIndexGUI());
         vbox.getChildren().add(getValueBtn);
         getValueBtn.setStyle("-fx-padding: 10px; -fx-border-color: black; -fx-border-width: 2px; " +
-                "-fx-background-color: #7EA3AC; -fx-text-fill: black;-fx-font: 30px Impact;" );
+                        "-fx-background-color: #7EA3AC; -fx-text-fill: black;-fx-font: 30px Impact;" );
 
         Button setValueBtn = new Button("Set Value At Index");
         setValueBtn.setOnAction(e -> setValueAtIndexGUI());
@@ -178,6 +195,7 @@ public class Server extends Application {
         Scene scene = new Scene(vbox, 1600, 900);
         primaryStage.setScene(scene);
         primaryStage.show();
+    
     }
 
     private void getValueAtIndexGUI() {
@@ -196,7 +214,10 @@ public class Server extends Application {
                     int value = twoDimArray[row][col];
                     showAlert("Value At Index (" + row + ", " + col + "): " + value);
                 } else {
-                    showAlert("Invalid Input. Try Again."); } }
+                    showAlert("Invalid Input. Try Again.");
+                }
+            }
+        }
     }
 
     private void setValueAtIndexGUI() { // TODO .setValueBtn }
@@ -218,7 +239,8 @@ public class Server extends Application {
     }
 
     // Method to show alert or warning with given message.
-    private void showAlert(String message) {
+    private void showAlert(String message) 
+    {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("ALERT");
         alert.setHeaderText(null);
