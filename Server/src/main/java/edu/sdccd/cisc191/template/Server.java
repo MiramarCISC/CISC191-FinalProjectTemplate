@@ -128,7 +128,14 @@ public class Server extends Application
         }
     }
 
-    private void printAllValues() { // TODO CASE 4 }
+    private void printAllValues() {
+        System.out.println("ARRAY VALUES");
+        for (int row = 0; row < twoDimArray.length; row++) {
+            for (int col = 0; col < twoDimArray[row].length; col++) {
+                System.out.print(twoDimArray[row][col] + " ");
+            }
+            System.out.println();
+        }
     }
 
     private void deleteValueAtIndex()
