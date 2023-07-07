@@ -13,7 +13,6 @@ import javafx.geometry.Pos;
 import java.io.*;
 import java.net.ServerSocket; // ServerSocket, Socket
 import java.net.Server
-
 import java.util.ArrayList*; //ArrayList, HashMap, Scanner
 import java.util.HashMap;
 import java.util.Optional;
@@ -25,7 +24,6 @@ public class Server extends Application
     private ArrayList<User> userList;
     private int[][] twoDimArray;
     private Scanner scanner;
-
     // Constructor and initialization of variables.
     public Server() 
     {
@@ -34,7 +32,6 @@ public class Server extends Application
         twoDimArray = new int[10][10];
         scanner = new Scanner(System.in);
     }
-
     // Print console menu options. Module 1.
     public void printConsoleMenu() 
     {
@@ -48,7 +45,6 @@ public class Server extends Application
         System.out.println("7. SHRINK ARRAY");
         System.out.println("0. EXIT");
     }
-
     // Handle user input for console menu options.
     public void handleConsoleInput(int choice) 
     {
@@ -82,7 +78,6 @@ public class Server extends Application
                 break;
         }
     }
-
     private void getValueAtIndex() {
         System.out.print("Enter Row Index: ");
         int row = scanner.nextInt();
@@ -95,7 +90,6 @@ public class Server extends Application
             System.out.println("Invalid Input. Please Try Again.");
     }
     }
-
     private void setValueAtIndex() { // TODO CASE 2 }
     }
 
@@ -121,7 +115,6 @@ public class Server extends Application
             System.out.println("INVALID INPUT. PLEASE TRY AGAIN.");
         }
     }
-
     private void expandArray() 
     {
         int[][] newArray = new int[twoDimArray.length + 1][twoDimArray[0].length + 1];
@@ -135,7 +128,6 @@ public class Server extends Application
         twoDimArray = newArray;
         System.out.println("ARRAY EXPANDED");
     }
-
     private void shrinkArray() 
     {
         if (twoDimArray.length > 1 && twoDimArray[0].length > 1) 
@@ -156,7 +148,6 @@ public class Server extends Application
             System.out.println("ARRAY CANNOT BE FURTHER SHRUNK");
         }
     }
-
     // Check if given row and column indices are valid.
     private boolean isValidIndex(int row, int col) 
     {
@@ -178,7 +169,6 @@ public class Server extends Application
          */
         launch(args);
     }
-
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Index & Array Console Menu");
@@ -240,7 +230,6 @@ public class Server extends Application
         primaryStage.show();
     
     }
-
     private void getValueAtIndexGUI() {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Get Value");
@@ -262,7 +251,6 @@ public class Server extends Application
             }
         }
     }
-
     private void setValueAtIndexGUI() { // TODO .setValueBtn }
     }
 
