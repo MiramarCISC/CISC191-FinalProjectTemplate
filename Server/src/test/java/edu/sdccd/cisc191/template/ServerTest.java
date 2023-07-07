@@ -37,8 +37,6 @@ public class ServerTest {
         // Assert expected result.
         assertEquals("VALUE AT INDEX (0, 0): 5", "EXPECTED_RESULT");
     }
-
-    @Test
     @Before // JavaFX GUI of Interactive Console Module
     public void setup() {
         // Initialize JavaFX toolkit.
