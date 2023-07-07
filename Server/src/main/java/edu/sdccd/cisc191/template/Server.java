@@ -1,4 +1,4 @@
-package edu.sdccd.cisc191;
+package edu.sdccd.cisc191.template;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -223,7 +223,7 @@ public class Server extends Application
     private void setValueAtIndexGUI() { // TODO .setValueBtn }
     }
 
-    private void findIndexOfValueGUi() { // TODO .findIndexBtn }
+    private void findIndexOfValueGUI() { // TODO .findIndexBtn }
     }
 
     private void printAllValuesGUI() { // TODO .printAllBtn }
