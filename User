@@ -3,7 +3,7 @@ package edu.sdccd.cisc191;
 
 import java.io.*;
 
-/*
+/**
  * includes the implementation of a JavaFX GUI menu using buttons and dialog boxes for user input and displaying messages.
  * methods getValueAtIndexGUI(), setValueAtIndexGUI(), findIndexOfValueGUI(), printAllValuesGUI(), deleteValueAtIndexGUI(), expandArrayGUI(), and shrinkArrayGUI()
  * used to handle the corresponding actions in the GUI interface.
