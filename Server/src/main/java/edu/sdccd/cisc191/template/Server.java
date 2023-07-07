@@ -295,17 +295,66 @@ public class Server extends Application
             }
     }
 
-    private void printAllValuesGUI() { // TODO .printAllBtn }
+    private void printAllValuesGUI() { // TODO
+            private void printAllValues() {
+                System.out.println("ARRAY VALUES");
+                for (int row = 0; row < twoDimArray.length; row++) {
+                    for (int col = 0; col < twoDimArray[row].length; col++) {
+                        System.out.print(twoDimArray[row][col] + " ");
+                    }
+                    System.out.println();
+                }
+            }
     }
 
-    private void deleteValueAtIndexGUI() { // TODO .deleteValueBtn }
-    }
+    private void deleteValueAtIndexGUI() {
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Delete Value");
+            dialog.setHeaderText("Enter Index");
+            dialog.setContentText("Row: ");
+            Optional<String> rowResult = dialog.showAndWait();
+            if (rowResult.isPresent()) {
+                dialog.setContentText("Column: ");
+                Optional<String> colResult = dialog.showAndWait();
+                if (colResult.isPresent()) {
+                    int row = Integer.parseInt(rowResult.get());
+                    int col = Integer.parseInt(colResult.get());
+                    if (isValidIndex(row, col)) {
+                        twoDimArray[row][col] = 0;
+                        showAlert("Value Deleted At Index (" + row + ", " + col + ").");
+                    } else {
+                        showAlert("Invalid Input. Try Again.");
+                    }
+                }
+            }
+        }
 
-    private void expandArrayGUI() { // TODO .expandArrayBtn }
-    }
 
-    private void shrinkArrayGUI() { // TODO .shrinkArrayBtn }
-    }
+        private void expandArrayGUI() {
+            int[][] newArray = new int[twoDimArray.length + 1][twoDimArray[0].length + 1];
+            for (int row = 0; row < twoDimArray.length; row++) {
+                for (int col = 0; col < twoDimArray[row].length; col++) {
+                    newArray[row][col] = twoDimArray[row][col];
+                }
+            }
+            twoDimArray = newArray;
+            showAlert("Array Expanded");
+        }
+
+    private void shrinkArrayGUI() {
+            if (twoDimArray.length > 1 && twoDimArray[0].length > 1) {
+                int[][] newArray = new int[twoDimArray.length - 1][twoDimArray[0].length - 1];
+                for (int row = 0; row < newArray.length; row++) {
+                    for (int col = 0; col < newArray[row].length; col++) {
+                        newArray[row][col] = twoDimArray[row][col];
+                    }
+                }
+                twoDimArray = newArray;
+                showAlert("Array Shrunk");
+            } else {
+                showAlert("Array Cannot Be Further Shrunk");
+            }
+        }
 
     // Method to show alert or warning with given message.
     private void showAlert(String message) 
