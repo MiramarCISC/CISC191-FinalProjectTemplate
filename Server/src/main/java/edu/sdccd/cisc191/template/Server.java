@@ -3,21 +3,13 @@ package edu.sdccd.cisc191.template;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.*; // Alert, Button, Label, TextInputDialog
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.geometry.Pos;
 import java.io.*;
-import java.net.ServerSocket; // ServerSocket, Socket
-import java.net.Server
-import java.util.ArrayList; //ArrayList, HashMap, Scanner
-import java.util.HashMap;
-import java.util.Optional;
-import java.util.Scanner;
-//Testing Branch????
+import java.net.*; // ServerSocket, Socket
+import java.util.*; //ArrayList, HashMap, Scanner, Optional
 
 public class Server extends Application 
 {
@@ -91,7 +83,7 @@ public class Server extends Application
         } else {
             System.out.println("Invalid Input. Please Try Again."); }
     }
-    // Case 2. Set value at speficied index in 2D array.
+    // Case 2. Set value at specified index in 2D array.
     private void setValueAtIndex()
     {
         System.out.print("ENTER ROW INDEX ");
@@ -334,29 +326,26 @@ public class Server extends Application
         }
     // JavaFX method to find index of specified value.
     private void findIndexOfValueGUI()
-    {
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("FIND INDEX");
-        dialog.setHeaderText("ENTER VALUE TO FIND");
-        dialog.setContentText("VALUE: ");
-        Optional<String> valueResult = dialog.showAndWait();
-        if (valueResult.isPresent()) {
-            int value = Integer.parseInt(valueResult.get());
-            boolean found = false;
-            for (int row = 0; row < twoDimArray.length; row++)
-            {
-                for (int col = 0; col < twoDimArray[row].length; col++)
-                {
-                    if (twoDimArray[row][col] == value)
-                    {
-                        showAlert("VALUE " + value + " FOUND AT INDEX (" + row + ", " + col + ").");
-                        found = true;
+        {
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("FIND INDEX");
+            dialog.setHeaderText("ENTER VALUE TO FIND");
+            dialog.setContentText("VALUE: ");
+            Optional<String> valueResult = dialog.showAndWait();
+            if (valueResult.isPresent()) {
+                int value = Integer.parseInt(valueResult.get());
+                boolean found = false;
+                for (int row = 0; row < twoDimArray.length; row++) {
+                    for (int col = 0; col < twoDimArray[row].length; col++) {
+                        if (twoDimArray[row][col] == value) {
+                            showAlert("VALUE " + value + " FOUND AT INDEX (" + row + ", " + col + ").");
+                            found = true;
+                        }
                     }
                 }
-            }
-            if (!found)
-            {
-                showAlert("VALUE NOT FOUND");
+                if (!found) {
+                    showAlert("VALUE NOT FOUND");
+                }
             }
         }
     // JavaFX method to print all values in 2D array.
@@ -438,14 +427,14 @@ public class Server extends Application
         }
     }
     // Method to show alert or warning with given message.
-    private void showAlert(String message) 
-    {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("ALERT");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
+        private void showAlert(String message)
+        {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("ALERT");
+            alert.setHeaderText(null);
+            alert.setContentText(message);
+            alert.showAndWait();
+        }
 }
 /*
  * Includes the implementation of a JavaFX GUI menu using buttons and dialog boxes for user input and displaying messages.
