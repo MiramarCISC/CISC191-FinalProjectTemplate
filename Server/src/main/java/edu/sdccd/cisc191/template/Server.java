@@ -19,8 +19,8 @@ import java.util.Scanner;
 
 public class Server extends Application 
 {
-    private HashMap<String, edu.sdccd.cisc191.User> userMap;
-    private ArrayList<edu.sdccd.cisc191.User> userList;
+    private HashMap<String,User> userMap;
+    private ArrayList<User> userList;
     private int[][] twoDimArray;
     private Scanner scanner;
 
