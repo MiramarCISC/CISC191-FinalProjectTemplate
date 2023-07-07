@@ -91,13 +91,56 @@ public class Server extends Application
             System.out.println("Invalid Input. Please Try Again."); }
     }
     // Case 2. Set value at speficied index in 2D array.
-    private void setValueAtIndex() { // TODO CASE 2 }
+    private void setValueAtIndex()
+    {
+        System.out.print("ENTER ROW INDEX ");
+        int row = scanner.nextInt();
+        System.out.print("ENTER COLUMN INDEX: ");
+        int col = scanner.nextInt();
+        System.out.print("ENTER VALUE: ");
+        int value = scanner.nextInt();
+        if (isValidIndex(row, col))
+        {
+            twoDimArray[row][col] = value;
+            System.out.println("VALUE AT SET INDEX (" + row + ", " + col + ").");
+        }
+        else {
+            System.out.println("INVALID INPUT. PLEASE TRY AGAIN.");
+        }
     }
     // Case 3. Find index of specified value in 2D array.
-    private void findIndexOfValue() { // TODO CASE 3 }
+    private void findIndexOfValue()
+    {
+        System.out.print("ENTER VALUE IN SEARCH OF ");
+        int value = scanner.nextInt();
+        boolean found = false;
+        for (int row = 0; row < twoDimArray.length; row++)
+        {
+            for (int col = 0; col < twoDimArray[row].length; col++)
+            {
+                if (twoDimArray[row][col] == value)
+                {
+                    System.out.println("VALUE " + value + " FOUND AT INDEX (" + row + ", " + col + ").");
+                    found = true;
+                }
+            }
+        }
+        if (!found) {
+            System.out.println("VALUE NOT FOUND");
+        }
     }
     // Case 4. Prints all values in 2D array.
-    private void printAllValues() { // TODO CASE 4 }
+    private void printAllValues()
+    {
+        System.out.println("ARRAY VALUES");
+        for (int row = 0; row < twoDimArray.length; row++)
+        {
+            for (int col = 0; col < twoDimArray[row].length; col++)
+            {
+                System.out.print(twoDimArray[row][col] + " ");
+            }
+            System.out.println();
+        }
     }
     // Case 5. Deletes value at speified index in 2D array.
     private void deleteValueAtIndex() 
@@ -256,11 +299,65 @@ public class Server extends Application
         }
     }
     // JavaFX method to set value at specified index.
-    private void setValueAtIndexGUI() { // TODO .setValueBtn }
-    }
+    private void setValueAtIndexGUI()
+    {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("SET VALUE");
+        dialog.setHeaderText("ENTER INDEX");
+        dialog.setContentText("ROW: ");
+        Optional<String> rowResult = dialog.showAndWait();
+        if (rowResult.isPresent())
+        {
+            dialog.setContentText("COLUMN: ");
+            Optional<String> colResult = dialog.showAndWait();
+            if (colResult.isPresent())
+            {
+                dialog.setContentText("Enter value:");
+                Optional<String> valueResult = dialog.showAndWait();
+                if (valueResult.isPresent())
+                {
+                    int row = Integer.parseInt(rowResult.get());
+                    int col = Integer.parseInt(colResult.get());
+                    int value = Integer.parseInt(valueResult.get());
+                    if (isValidIndex(row, col))
+                    {
+                        twoDimArray[row][col] = value;
+                        showAlert("VALUE SET AT INDEX (" + row + ", " + col + ").");
+                    }
+                    else
+                    {
+                        showAlert("INVALID INPUT. TRY AGAIN.");
+                    }
+                }
+            }
+        }
     // JavaFX method to find index of specified value.
-    private void findIndexOfValueGUI() { // TODO .findIndexBtn }
-    }
+    private void findIndexOfValueGUI()
+    {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("FIND INDEX");
+        dialog.setHeaderText("ENTER VALUE TO FIND");
+        dialog.setContentText("VALUE: ");
+        Optional<String> valueResult = dialog.showAndWait();
+        if (valueResult.isPresent()) {
+            int value = Integer.parseInt(valueResult.get());
+            boolean found = false;
+            for (int row = 0; row < twoDimArray.length; row++)
+            {
+                for (int col = 0; col < twoDimArray[row].length; col++)
+                {
+                    if (twoDimArray[row][col] == value)
+                    {
+                        showAlert("VALUE " + value + " FOUND AT INDEX (" + row + ", " + col + ").");
+                        found = true;
+                    }
+                }
+            }
+            if (!found)
+            {
+                showAlert("VALUE NOT FOUND");
+            }
+        }
     // JavaFX method to print all values in 2D array.
     private void printAllValuesGUI() 
     {
