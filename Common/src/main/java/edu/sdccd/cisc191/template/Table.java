@@ -1,5 +1,6 @@
 package edu.sdccd.cisc191.template;
 
+import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,6 +13,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -311,7 +313,10 @@ public class Table extends Application {
         final Button showLocation = new Button("Get Random Location");
         showLocation.setOnAction(e -> {
             generateLocation();
-            primaryStage.close();
+
+            PauseTransition delay = new PauseTransition(Duration.seconds(5));
+            delay.setOnFinished( event -> primaryStage.close() );
+            delay.play();
         });
 
 
