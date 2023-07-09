@@ -3,49 +3,63 @@ package edu.sdccd.cisc191.template;
 import java.net.*;
 import java.io.*;
 
-/**
- * This program opens a connection to a computer specified
- * as the first command-line argument.  If no command-line
- * argument is given, it prompts the user for a computer
- * to connect to.  The connection is made to
- * the port specified by LISTENING_PORT.  The program reads one
- * line of text from the connection and then closes the
- * connection.  It displays the text that it read on
- * standard output.  This program is meant to be used with
- * the server program, DateServer, which sends the current
- * date and time on the computer where the server is running.
+/*
+Connects to server and expects an object of city and state values from Table before converting to string, formatting,
+and printing out to console
  */
-
 public class Client {
-    private Socket clientSocket;
-    private PrintWriter out;
-    private BufferedReader in;
+    private static Socket clientSocket;
 
-    public void startConnection(String ip, int port) throws IOException {
+    // Start client socket and connection to server
+    public static void startConnection(String ip, int port, String[] args) throws IOException {
         clientSocket = new Socket(ip, port);
-        out = new PrintWriter(clientSocket.getOutputStream(), true);
-        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        // call start application and print location received from application
+        try {
+            startApplication(args);
+            System.out.println(objectToString());
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public CustomerResponse sendRequest() throws Exception {
-        out.println(CustomerRequest.toJSON(new CustomerRequest(1)));
-        return CustomerResponse.fromJSON(in.readLine());
+    // Start application
+    public static void startApplication(String[] args) throws NullPointerException {
+        Table.main(args);
     }
 
+    // Convert object to string and format
+    public static String objectToString() {
+        // get object and convert to string
+        String location = Table.getLocation().toString();
+
+        // split take surrounding {} off
+        location = location.substring(1, location.length() -1);
+        // split string by comma into city and state variables
+        String city = location.substring(0, location.indexOf(","));
+        String state = location.substring(location.indexOf(",") + 2);
+        // add line break between city and state
+        location = city + "\n" + state;
+        // locate all = char and replace with :
+        while (location.contains("=")) {
+            location = location.substring(0, location.indexOf("=")) + ": " + location.substring(location.indexOf("=") + 1);
+        }
+        return location;
+    }
+
+    // Close client socket
     public void stopConnection() throws IOException {
-        in.close();
-        out.close();
         clientSocket.close();
     }
+
+
     public static void main(String[] args) {
         Client client = new Client();
         try {
-            client.startConnection("127.0.0.1", 4444);
-            System.out.println(client.sendRequest().toString());
+            startConnection("127.0.0.1", 4444, args);
             client.stopConnection();
         } catch(Exception e) {
             e.printStackTrace();
         }
     }
-} //end class Client
+}
 
