@@ -292,7 +292,7 @@ public class Table extends Application {
 
         Map<String, Object> item60 = new HashMap<>();
         item59.put("city", "Seatlle");
-        item59.put("state" , "Washington");;
+        item59.put("state" , "Washington");
 
         items.addAll(item1, item2, item3, item4, item5, item6, item7, item8, item9, item10, item11, item12, item13,
                 item14, item15, item16, item17, item18, item19, item20, item21, item22, item23, item24, item25,
@@ -305,9 +305,7 @@ public class Table extends Application {
 
         // delete button that removes selected row of data
         final Button deleteButton = new Button("Delete");
-        deleteButton.setOnAction(e -> {
-            tableView.getItems().remove(tableView.getSelectionModel().getSelectedItem());
-        });
+        deleteButton.setOnAction(e -> tableView.getItems().remove(tableView.getSelectionModel().getSelectedItem()));
 
         // button that generates a random location from list and then closes application
         final Button showLocation = new Button("Get Random Location");
