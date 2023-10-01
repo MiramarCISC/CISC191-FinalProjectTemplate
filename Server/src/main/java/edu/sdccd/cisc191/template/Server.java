@@ -116,6 +116,12 @@ public class Server extends Application{
         HBox headerHbox = new HBox(10,  message);
         borderPane.setTop(headerHbox);
 
+        // Create FlowPane
+        FlowPane flowPane = new FlowPane();
+        flowPane.setPadding(new Insets(10, 10, 10, 10));
+        flowPane.setHgap(10);
+        flowPane.setVgap(10);
+        flowPane.setAlignment(Pos.CENTER);
         //menu
         //Create menu
         Menu SurfSpotMenu = new Menu("Location");
