@@ -1,0 +1,39 @@
+package org.example;
+
+public class SurfTest {
+
+    public static void main(String[] args) {
+        // Create some test data for surf locations and reports
+        SurfLocation[][] surfLocations = new SurfLocation[2][2];
+        SurfReport[][] surfReports = new SurfReport[2][2];
+
+        // Populate surf locations and surf reports (for testing purposes)
+        populateTestSurfLocations(surfLocations);
+        populateTestSurfReports(surfReports);
+
+        // Create a test instance of your Server class
+        Server testServer = new Server();
+
+        // Test displaying surf reports for a specific surf location
+        SurfLocation testLocation = surfLocations[0][0]; // Example: Huntington Beach
+        testServer.displaySurfLocations(testLocation);
+
+        // You can add more test cases as needed to ensure different parts of your code work correctly.
+    }
+
+    private static void populateTestSurfLocations(SurfLocation[][] surfLocations) {
+        // Populate surf locations with test data (for testing purposes)
+        surfLocations[0][0] = new SurfLocation("Huntington Beach", false, "sandy beach");
+        surfLocations[0][1] = new SurfLocation("Malibu", false, "point break");
+        surfLocations[1][0] = new SurfLocation("Trestles", true, "sandy beach");
+        surfLocations[1][1] = new SurfLocation("Rincon", false, "point break");
+    }
+
+    private static void populateTestSurfReports(SurfReport[][] surfReports) {
+        // Populate surf reports with test data (for testing purposes)
+        surfReports[0][0] = new SurfReport(null, "Test report for Huntington Beach", 5.0, 10, 1);
+        surfReports[0][1] = new SurfReport(null, "Test report for Malibu", 6.0, 12, 2);
+        surfReports[1][0] = new SurfReport(null, "Test report for Trestles", 4.0, 8, 3);
+        surfReports[1][1] = new SurfReport(null, "Test report for Rincon", 7.0, 14, 2);
+    }
+}
