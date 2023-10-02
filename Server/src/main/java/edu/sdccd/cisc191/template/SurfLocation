@@ -1,11 +1,21 @@
-package edu.sdccd.cisc191.template;
+package org.example;
 
 public class SurfLocation {
     private String beachName;
     private boolean suitableForBeginners; // true or false
     private String surfEnvironment; // three types: beach breaks, point breaks, reef breaks
 
-    @Override //overrides the base class, which is Object
+    private SurfReport surfReports;
+
+    public void setSurfReports(SurfReport surfReport) {
+        this.surfReports = surfReport;
+    }
+
+    public  String getBeachName() {
+        return beachName;
+    }
+
+        @Override //overrides the base class, which is Object
     public String toString() {
         return "SurfLocation{" +
                 "beachName='" + beachName + '\'' +
@@ -33,4 +43,8 @@ public class SurfLocation {
         this.surfEnvironment = surfEnvironment;
     }
 
+
+    public SurfReport getSurfReports() {
+        return surfReports;
+    }
 }
