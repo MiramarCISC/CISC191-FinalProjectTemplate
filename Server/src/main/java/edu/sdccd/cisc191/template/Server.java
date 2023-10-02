@@ -122,9 +122,7 @@ public class Server extends Application {
         homeworkPopup.getContent().addAll(homeworkAdding);
 
         
-         * creates a new homework entry
-         * @pa
-         */
+
         homeworkButton.setOnAction(e -> {
             if (!homeworkPopup.isShowing()) {
                 homeworkPopup.show(stage);
