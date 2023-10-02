@@ -1,24 +1,59 @@
-package edu.sdccd.cisc191.template;
+package org.example;
 
 import java.util.Date;
 
 public class SurfReport {//begin class SurfReport
     private Date date; // uses the data type Date
     private String report;
+    private double waveHeight; // Add wave height parameter
+    private double windSpeed; // Add wind speed parameter
+    private double tideHeight; // Add tide height parameter
 
-    public SurfReport(Date date, String report) {//class constructor for class SurfReport
+    public SurfReport(Date date, String report, double waveHeight, double windSpeed, double tideHeight) {//class constructor for class SurfReport
         this.date = date;
         this.report = report;
+        this.tideHeight = tideHeight;
+        this.waveHeight = waveHeight;
+        this.windSpeed = windSpeed;
     }
+
+    public void setTideHeight(double tideHeight) {
+        this.tideHeight = tideHeight;
+    }
+
+    public double getTideHeight() {
+        return tideHeight;
+    }
+
+    public double getWaveHeight() {
+        return waveHeight;
+    }
+
+    public void setWaveHeight(double waveHeight) {
+        this.waveHeight = waveHeight;
+    }
+
+    public double getWindSpeed() {
+        return windSpeed;
+    }
+
+    public void setWindSpeed(double windSpeed) {
+        this.windSpeed = windSpeed;
+    }
+
     public void Testdate (){
         System.out.print(date);
     }
 
     public void setDate(Date date){
-
+      this.date= date;
     } //sets the date
 
-    public String getReport() {//returns the report
+    public Date getDate(){
+        return date;
+    }
+
+    public String getSurfReports() {//returns the report
         return report;
     }
 
