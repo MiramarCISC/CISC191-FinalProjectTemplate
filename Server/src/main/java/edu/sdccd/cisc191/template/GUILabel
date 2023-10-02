@@ -1,4 +1,4 @@
-package edu.sdccd.cisc191.template;
+package org.example;
 
 
 import javafx.geometry.Insets;
@@ -15,6 +15,7 @@ public class GUILabel extends Label{
 
         setText("Southern California Surf Spots");
         setFont(Font.font("Ariel", FontPosture.ITALIC, 24));
+
     }
 
 }
