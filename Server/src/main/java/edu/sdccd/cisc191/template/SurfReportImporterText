@@ -1,4 +1,4 @@
-package edu.sdccd.cisc191.template;
+package org.example;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -6,8 +6,8 @@ import java.util.Date;
 public class SurfReportImporterText implements SurfReportImporter{
     @Override //@Override is not necessary but is a good programming habit
     public SurfReport[] importSurfReport() {// this method signature is in the interface
-        SurfReport[] surfReports = new SurfReport[10];
-        surfReports[0] = new SurfReport(new Date(), "chest-high to a couple feet overhead");
+        SurfReport[] surfReports = new SurfReport[2];
+        surfReports[0] = new SurfReport(new Date(), "chest-high to a couple feet overhead",3.0, 15.0, 1.5);
         return surfReports;
     }
 }
