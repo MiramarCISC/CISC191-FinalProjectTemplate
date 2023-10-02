@@ -1,27 +1,21 @@
-package edu.sdccd.cisc191.template;
+package org.example;
+
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import jdk.internal.org.objectweb.asm.Handle;
-
-import java.awt.*;
-import java.util.Collection;
 
 //for menu
-import javafx.scene.control.Control;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-
 
 
 public class Server extends Application{
@@ -30,56 +24,36 @@ public class Server extends Application{
     private static GUILabel message; // to hold the title of this GUI
 
 
-    public static SurfLocation[][] surfLocations = new SurfLocation[5][5]; //creates an array of locations
-    public static SurfReport[][] surfReports = new SurfReport[5][5]; //creates an array of surf reports
+    public static SurfLocation[][] surfLocations = new SurfLocation[2][2]; //creates an array of locations
+    public static SurfReport[][] surfReports = new SurfReport[2][2]; //creates an array of surf reports
+    private static java.util.Date Date;
+
     public static void main(String[] args) {
 
-         //getAtIndex, setAtIndex, findIndexOf, printAll, deleteAtIndex, expand, shrink
+        //getAtIndex, setAtIndex, findIndexOf, printAll, deleteAtIndex, expand, shrink
 
-        loadSurfLocations();
+
         populateSurfLocations();
         printSurfLocations(surfLocations);
-        loadSurfReports();
+        populateSurfReports();
         launch();//must extend Application
         System.out.println(message);
 
-        //for (int i = 0; i < surfReports.length; i++) {
-           // System.out.println(surfReports[i]);
-        //}
+        for (int i = 0; i < surfReports.length; i++) {
+         System.out.println(surfReports[i]);
+        }
 
     }
-    public static void loadSurfLocations(){ //preloading with example
-        surfLocations[0][0] = new SurfLocation("La Jolla Shores", false, "rocky cliffs");
+    //public static void loadSurfLocations(){ //preloading with example
+        //surfLocations[0][0] = new SurfLocation("La Jolla Shores", false, "rocky cliffs");
 
-    }
-    public static void populateSurfLocations(){
-
-        surfLocations[0][1]= new SurfLocation("Huntington Beach", false, "sandy beach");
-        surfLocations[0][2] = new SurfLocation("Malibu", false, "point break");
-        surfLocations[0][3]= new SurfLocation("Trestles", true, "sandy beach");
-        surfLocations[0] [4]= new SurfLocation("Rincon", false, "point break");
-        surfLocations[1] [0]= new SurfLocation("Zuma Beach", false, "sandy beach");
-        surfLocations[1] [1]= new SurfLocation("Venice Beach", false, "urban setting");
-        surfLocations[1][2] = new SurfLocation("Salt Creek", true, "point break");
-        surfLocations[1] [3]= new SurfLocation("Manhattan Beach", false, "sandy beach");
-        surfLocations[1] [4]= new SurfLocation("Newport Beach", false, "pier");
-        surfLocations[2] [0]= new SurfLocation("Tourmaline", true, "coastal cliff");
-        surfLocations[2][1] = new SurfLocation("Pacific Beach", true, "sand bottom break");
-        surfLocations[2] [2]= new SurfLocation("Windansea", false, "waves break far from beach");
-        surfLocations[2] [3]= new SurfLocation("Sunset Cliffs", false, "undeveloped coastline");
-        surfLocations[2] [4]= new SurfLocation("Ocean Beach", true, "shallow waters");
-        surfLocations[3] [0]= new SurfLocation("Mission Beach", true, "sand bottom break");
-        surfLocations[3][1] = new SurfLocation("Scripps Beach", true, "pier");
-        surfLocations[3] [2]= new SurfLocation("Torrey Pines Beach", false, "sandy beach");
-        surfLocations[3] [3]= new SurfLocation("Coronado", true, "small waves");
-        surfLocations[3] [4]= new SurfLocation("Black’s Beach", false, "underwater canyon");
-        surfLocations[4] [0]= new SurfLocation("Imperial Beach", true, "beach break");
-        surfLocations[4][1] = new SurfLocation("Torrey Pines", true, "beach break");
-        surfLocations[4] [2]= new SurfLocation("Oceanside", true, "pier");
-        surfLocations[4] [3]= new SurfLocation("Solana Beach", true, "pier");
-        surfLocations[4] [4]= new SurfLocation("Del Mar", false, "rock bottom reef");
-
-    }
+   // }
+   public static void populateSurfLocations() {
+       surfLocations[0][0] = new SurfLocation("Huntington Beach", false, "sandy beach");
+       surfLocations[0][1] = new SurfLocation("Malibu", false, "point break");
+       surfLocations[1][0] = new SurfLocation("Trestles", true, "sandy beach");
+       surfLocations[1][1] = new SurfLocation("Rincon", false, "point break");
+   }
     public static void  printSurfLocations(SurfLocation surfLocationsArray[][]) {
 
         // Loop through all rows in succession
@@ -90,21 +64,58 @@ public class Server extends Application{
                 System.out.println(surfLocationsArray[i][j] + " ");
 
     }
-    private static void loadSurfReports() {
-        SurfReportImporter surfReportImporter = new SurfReportImporterText();
+
+
+
+public static void populateSurfReports(){
+
+        surfReports[0][0] = new SurfReport(Date,"Wave height is around 7ft, onshore winds blowing 6mph, tide height is mid to high",3.5,15,2);
+        surfReports[0][1] = new SurfReport(Date, "Wave height is around 8ft, onshore winds blowing 5mph, tide height is high",3.5,15,2);
+        surfReports[1][0] = new SurfReport(Date, "Wave height is around 1.5ft, offshore winds blows 4mph, tide height is low",3.5,15,2);
+        surfReports[1][1] = new SurfReport(Date,"Wave height is around 6ft, onshore winds blowing 3mph, tide height is mid to high",3.5,15,2);
+
+    }
+    public SurfReport[][] getSurfReports() {
+        return surfReports;
+    }
+    public static void displaySurfLocations(SurfLocation location) {
+        // Check if a surf report exists for the selected location
+        //SurfReport new surfReports  = getSurfReports();
+
+        SurfReport surfReports = location.getSurfReports();
+
+        if (surfReports != null) {
+
+            // Assuming you have a canvas to display the surf report, you can update it like this:
+            message.setText("Surf Report for " + location.getBeachName() +  "\n" + "Date: " + surfReports.getDate() + "\n" + "Wave Height: " + surfReports.getWaveHeight() + " ft\n" + "Wind Speed: " + surfReports.getWindSpeed() + " mph\n" + "Tide Height: " + surfReports.getTideHeight() + " ft\n" );
+            // You can format and display the surf report details
+
+
+            // Display the report on the canvas
+
+        } else {
+            // Handle the case where no surf report is available for the selected location
+            System.out.println("No surf report available for " + location.getBeachName());
+        }
+    }
+
+
+
+    //private static void loadSurfReports() {
+        //SurfReportImporter surfReportImporter = new SurfReportImporterText();
         //uses interface to access the object of the implemented class
         // The data type (the interface SurfReportImporter) is a pointer.
         // surfReportImporter points to the object SurfReportImporterText.
         // The code that follows is an interface method.
         // Do not want main method to care about importing surf report data.
         // We only want main to care about methods in the interface SurfReportImporter.
-        surfReportImporter.importSurfReport();
+        //surfReportImporter.importSurfReport();
         //this method (importSurfReport()) is defined
         // in the class that implements the interface SurfReportImporter (SurfReportImporterText)
         //TODO import array of surf reports into a 2D array that will be created.
 
 
-    }
+
     @Override
     public void start(Stage stage) throws Exception {//begin method "start"
         Canvas reportCanvas = new Canvas(); //calls Canvas constructor, returns object
@@ -113,7 +124,7 @@ public class Server extends Application{
         message.setText("Select Your Surf Spot");
         BorderPane borderPane= new BorderPane(); // I used variable borderPane, an instance object of a class, BorderPane
         borderPane.setCenter(reportCanvas);
-        HBox headerHbox = new HBox(10,  message);
+        HBox headerHbox = new HBox(10,message);
         borderPane.setTop(headerHbox);
 
         // Create FlowPane
@@ -122,6 +133,18 @@ public class Server extends Application{
         flowPane.setHgap(10);
         flowPane.setVgap(10);
         flowPane.setAlignment(Pos.CENTER);
+
+        for (int i = 0; i < surfLocations.length; i++) {
+            for (int j = 0; j < surfLocations[i].length; j++) {
+                if (surfLocations[i][j] != null) {
+                    SurfLocation location = surfLocations[i][j];
+                    Button locationButton = new Button(location.getBeachName());
+                    locationButton.setOnAction(e -> displaySurfLocations(location));
+                    flowPane.getChildren().add(locationButton);
+                }
+            }
+        }
+
         //menu
         //Create menu
         Menu SurfSpotMenu = new Menu("Location");
@@ -154,4 +177,10 @@ public class Server extends Application{
 
     }//end method "start"
 
-} //end class Server
+    //public void displaySurfLocation(SurfLocation location) {
+        // Implement the logic to display the surf location's forecast
+        // Update the canvas or any other UI element as needed
+    }
+
+
+//end class Server
