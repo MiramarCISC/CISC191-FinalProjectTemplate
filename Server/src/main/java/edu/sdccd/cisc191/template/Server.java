@@ -15,8 +15,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.util.Random;
 
-import javax.swing.text.html.ListView;
-
 public class Server extends Application {
     private AppLabel quoteLabel = new AppLabel();
     private Quote quote = new Quote();
