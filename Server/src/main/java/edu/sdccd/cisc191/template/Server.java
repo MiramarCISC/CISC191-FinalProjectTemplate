@@ -15,6 +15,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.util.Random;
 
+import javax.swing.text.html.ListView;
+
 public class Server extends Application {
     private AppLabel quoteLabel = new AppLabel();
     private Quote quote = new Quote();
@@ -175,34 +177,53 @@ public class Server extends Application {
 
         //sets timer in minutes and timer label in mm:ss
         timerButton.setOnAction(e -> {
-            if (!timerPopup.isShowing()) {
-                timerPopup.show(stage);
-                timerButton.setText("Set");
-                snackButton.setVisible(false);
-            }
-            else {
-                timerPopup.hide();
-                secondsTotal = timerPopup.getSecondsTotal(inputTimerMinutes);
-                inputTimerMinutes.clear();
-                timerButton.setText("Timer");
-                studyMessage.setText("Time to Study!");
-                //updates time left every second
-                //TODO move this in TimerPopup class as a method?
-                KeyFrame keyFrame = new KeyFrame(Duration.seconds(1), event -> {
-                    secondsTotal--;
+            switch(timerButton.getState()) {
+                case NOTHING:
+                    timerPopup.show(stage);
+                    timerButton.setText("Set");
+                    snackButton.setVisible(false);
+                    timerButton.setState(TimerButtonState.CONFIGURING);
+                    break;
+                case CONFIGURING:
+                    timerPopup.hide();
+                    secondsTotal = timerPopup.getSecondsTotal(inputTimerMinutes);
+                    inputTimerMinutes.clear();
+                    timerButton.setText("Cancel");
+                    studyMessage.setText("Time to Study!");
                     minutes = secondsTotal / 60;
                     seconds = secondsTotal % 60;
                     timerLabel.setText(String.format("%02d", minutes) + ":" + String.format("%02d", seconds));
-                    if (secondsTotal == 0) {
-                        timeline.stop();
-                        studyMessage.setText("Take a Break!");
-                        snackButton.setVisible(true);
-                    }
-                });
-                timeline.getKeyFrames().add(keyFrame);
-                timeline.setCycleCount(secondsTotal);
-                timeline.play();
-            }
+                    //updates time left every second
+                    //TODO move this in TimerPopup class as a method?
+                    KeyFrame keyFrame = new KeyFrame(Duration.seconds(1), event -> {
+                        secondsTotal--;
+                        minutes = secondsTotal / 60;
+                        seconds = secondsTotal % 60;
+                        timerLabel.setText(String.format("%02d", minutes) + ":" + String.format("%02d", seconds));
+                        if (secondsTotal == 0) {
+                            timeline.stop();
+                            studyMessage.setText("Take a Break!");
+                            snackButton.setVisible(true);
+                            timerButton.setState(TimerButtonState.NOTHING);
+                        }
+                    });
+                    timeline.getKeyFrames().add(keyFrame);
+                    timeline.setCycleCount(secondsTotal);
+                    timeline.play();
+                    timerButton.setState(TimerButtonState.COUNTING);
+                    break;
+                case COUNTING:
+                    timerButton.setText("Timer");
+                    timeline.stop();
+                    timeline.getKeyFrames().clear();
+                    timerLabel.setText("");
+                    studyMessage.setText("");
+
+                    timerButton.setState(TimerButtonState.NOTHING);
+                    break;
+                default:
+                    break;
+            };
         });
 
         //snack popup
