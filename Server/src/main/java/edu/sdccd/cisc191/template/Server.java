@@ -1,186 +1,263 @@
 package org.example;
 
+import java.util.Arrays;
+import java.util.Scanner;
 
-import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuItem;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
+public class GroceryStore {
+    private GroceryItem[] items;
+    private int size;
 
-//for menu
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.Menu;
+    public GroceryStore(int initialSize) {
+        this.items = new GroceryItem[initialSize];
+        this.size = 0;
+    }
 
+    public GroceryItem getAtIndex(int index) {
+        if (index >= 0 && index < size) {
+            return items[index];
+        }
+        return null;
+    }
 
-public class Server extends Application{
+    public void setAtIndex(int index, GroceryItem item) {
+        if (index >= 0 && index < size) {
+            items[index] = item;
+        }
+    }
 
+    public int findIndexOf(GroceryItem item) {
+        for (int i = 0; i < size; i++) {
+            if (items[i].equals(item)) {
+                return i;
+            }
+        }
+        return -1;
+    }
 
-    private static GUILabel message; // to hold the title of this GUI
+    public void printAll() {
+        for (int i = 0; i < size; i++) {
+            System.out.println(items[i]);
+        }
+    }
 
+    public void deleteAtIndex(int index) {
+        if (index >= 0 && index < size) {
+            for (int i = index; i < size - 1; i++) {
+                items[i] = items[i + 1];
+            }
+            items[size - 1] = null; // Remove the last item
+            size--;
+        }
+    }
 
-    public static SurfLocation[][] surfLocations = new SurfLocation[2][2]; //creates an array of locations
-    public static SurfReport[][] surfReports = new SurfReport[2][2]; //creates an array of surf reports
-    private static java.util.Date Date;
+    public void expand(int newSize) {
+        items = Arrays.copyOf(items, newSize);
+    }
+
+    public void shrink(int newSize) {
+        if (newSize >= 0 && newSize < size) {
+            items = Arrays.copyOf(items, newSize);
+            size = newSize;
+        }
+    }
 
     public static void main(String[] args) {
-
-        //getAtIndex, setAtIndex, findIndexOf, printAll, deleteAtIndex, expand, shrink
-
-
-        populateSurfLocations();
-        printSurfLocations(surfLocations);
-        populateSurfReports();
-        launch();//must extend Application
-        System.out.println(message);
-
-        for (int i = 0; i < surfReports.length; i++) {
-         System.out.println(surfReports[i]);
-        }
-
-    }
-    //public static void loadSurfLocations(){ //preloading with example
-        //surfLocations[0][0] = new SurfLocation("La Jolla Shores", false, "rocky cliffs");
-
-   // }
-   public static void populateSurfLocations() {
-       surfLocations[0][0] = new SurfLocation("Huntington Beach", false, "sandy beach");
-       surfLocations[0][1] = new SurfLocation("Malibu", false, "point break");
-       surfLocations[1][0] = new SurfLocation("Trestles", true, "sandy beach");
-       surfLocations[1][1] = new SurfLocation("Rincon", false, "point break");
-   }
-    public static void  printSurfLocations(SurfLocation surfLocationsArray[][]) {
-
-        // Loop through all rows in succession
-        for (int i = 0; i < surfLocationsArray.length; i++)
-
-            // Loop through all elements of current row
-            for (int j = 0; j < surfLocationsArray[i].length; j++)
-                System.out.println(surfLocationsArray[i][j] + " ");
-
-    }
+        Scanner scanner = new Scanner(System.in);
+        GroceryStore store = new GroceryStore(10); // Initial size of 10
 
 
+        GroceryStore2D store2D = new GroceryStore2D(5, 10); // Initial size of 5x10
 
-public static void populateSurfReports(){
+        boolean isRunning = true;
+        while (isRunning) {
+            System.out.println("\nMenu:");
+            System.out.println("1. GroceryStore (1D Array) Operations");
+            System.out.println("2. GroceryStore2D (2D Array) Operations");
+            System.out.println("3. Exit");
 
-        surfReports[0][0] = new SurfReport(Date,"Wave height is around 7ft, onshore winds blowing 6mph, tide height is mid to high",3.5,15,2);
-        surfReports[0][1] = new SurfReport(Date, "Wave height is around 8ft, onshore winds blowing 5mph, tide height is high",3.5,15,2);
-        surfReports[1][0] = new SurfReport(Date, "Wave height is around 1.5ft, offshore winds blows 4mph, tide height is low",3.5,15,2);
-        surfReports[1][1] = new SurfReport(Date,"Wave height is around 6ft, onshore winds blowing 3mph, tide height is mid to high",3.5,15,2);
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
 
-    }
-    public SurfReport[][] getSurfReports() {
-        return surfReports;
-    }
-    public static void displaySurfLocations(SurfLocation location) {
-        // Check if a surf report exists for the selected location
-        //SurfReport new surfReports  = getSurfReports();
+            switch (choice) {
+                case 1:
+                    groceryStoreMenu(store, scanner);
+                    break;
 
-        SurfReport surfReports = location.getSurfReports();
+                case 2:
+                    groceryStore2DMenu(store2D, scanner);
+                    break;
 
-        if (surfReports != null) {
-
-            // Assuming you have a canvas to display the surf report, you can update it like this:
-            message.setText("Surf Report for " + location.getBeachName() +  "\n" + "Date: " + surfReports.getDate() + "\n" + "Wave Height: " + surfReports.getWaveHeight() + " ft\n" + "Wind Speed: " + surfReports.getWindSpeed() + " mph\n" + "Tide Height: " + surfReports.getTideHeight() + " ft\n" );
-            // You can format and display the surf report details
-
-
-            // Display the report on the canvas
-
-        } else {
-            // Handle the case where no surf report is available for the selected location
-            System.out.println("No surf report available for " + location.getBeachName());
-        }
-    }
-
-
-
-    //private static void loadSurfReports() {
-        //SurfReportImporter surfReportImporter = new SurfReportImporterText();
-        //uses interface to access the object of the implemented class
-        // The data type (the interface SurfReportImporter) is a pointer.
-        // surfReportImporter points to the object SurfReportImporterText.
-        // The code that follows is an interface method.
-        // Do not want main method to care about importing surf report data.
-        // We only want main to care about methods in the interface SurfReportImporter.
-        //surfReportImporter.importSurfReport();
-        //this method (importSurfReport()) is defined
-        // in the class that implements the interface SurfReportImporter (SurfReportImporterText)
-        //TODO import array of surf reports into a 2D array that will be created.
-
-
-
-    @Override
-    public void start(Stage stage) throws Exception {//begin method "start"
-        Canvas reportCanvas = new Canvas(); //calls Canvas constructor, returns object
-
-        message = new GUILabel();
-        message.setText("Select Your Surf Spot");
-        BorderPane borderPane= new BorderPane(); // I used variable borderPane, an instance object of a class, BorderPane
-        borderPane.setCenter(reportCanvas);
-        HBox headerHbox = new HBox(10,message);
-        borderPane.setTop(headerHbox);
-
-        // Create FlowPane
-        FlowPane flowPane = new FlowPane();
-        flowPane.setPadding(new Insets(10, 10, 10, 10));
-        flowPane.setHgap(10);
-        flowPane.setVgap(10);
-        flowPane.setAlignment(Pos.CENTER);
-
-        for (int i = 0; i < surfLocations.length; i++) {
-            for (int j = 0; j < surfLocations[i].length; j++) {
-                if (surfLocations[i][j] != null) {
-                    SurfLocation location = surfLocations[i][j];
-                    Button locationButton = new Button(location.getBeachName());
-                    locationButton.setOnAction(e -> displaySurfLocations(location));
-                    flowPane.getChildren().add(locationButton);
-                }
+                case 3:
+                    isRunning = false;
+                    break;
             }
         }
 
-        //menu
-        //Create menu
-        Menu SurfSpotMenu = new Menu("Location");
-        //create items for location menu
-        javafx.scene.control.MenuItem locationMenu1 = new javafx.scene.control.MenuItem("City of San Diego");
-        javafx.scene.control.MenuItem locationMenu2 = new javafx.scene.control.MenuItem( "San Diego County");
-        javafx.scene.control.MenuItem locationMenu3 = new javafx.scene.control.MenuItem( "Southern California");
-        //add items to menu
-        SurfSpotMenu.getItems().addAll(locationMenu1, locationMenu2, locationMenu3);
-
-        Menu EnvironmentMenu=new Menu("Environment");
-        //create items for environment menu
-        javafx.scene.control.MenuItem EnvironmentMenu1=new javafx.scene.control.MenuItem("Sandy Beach");
-        javafx.scene.control.MenuItem EnvironmentMenu2=new javafx.scene.control.MenuItem("Point Break");
-        javafx.scene.control.MenuItem EnvironmentMenu3 =new MenuItem("Pier");
-        // add items to menu
-        EnvironmentMenu.getItems().addAll(EnvironmentMenu1, EnvironmentMenu2, EnvironmentMenu3);
-        //create menu bar
-        MenuBar menuBar = new MenuBar(SurfSpotMenu, EnvironmentMenu);
-
-        borderPane.setLeft(menuBar);
-        //display menu
-
-
-        // create scene, stage, set title, and show
-        Scene scene = new Scene(borderPane, 300, 250);//created scene
-        stage.setScene(scene);// created stage
-        stage.setTitle("Surf Locations");//set title
-        stage.show();//created show
-
-    }//end method "start"
-
-    //public void displaySurfLocation(SurfLocation location) {
-        // Implement the logic to display the surf location's forecast
-        // Update the canvas or any other UI element as needed
+        scanner.close();
     }
 
+    private static void groceryStoreMenu(GroceryStore store, Scanner scanner) {
+        boolean isRunning = true;
+        while (isRunning) {
+            System.out.println("\nGroceryStore Menu:");
+            System.out.println("1. Get item at index");
+            System.out.println("2. Set item at index");
+            System.out.println("3. Find index of item");
+            System.out.println("4. Print all items");
+            System.out.println("5. Delete item at index");
+            System.out.println("6. Expand array");
+            System.out.println("7. Shrink array");
+            System.out.println("8. Back to Main Menu");
 
-//end class Server
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter index: ");
+                    int getIndex = scanner.nextInt();
+                    System.out.println(store.getAtIndex(getIndex));
+                    break;
+
+                case 2:
+                    System.out.print("Enter index: ");
+                    int setIndex = scanner.nextInt();
+                    System.out.print("Enter item name: ");
+                    String itemName = scanner.next();
+                    System.out.print("Enter item price:");
+                    double itemPrice = scanner.nextDouble();
+                    store.setAtIndex(setIndex, new GroceryItem(itemName, itemPrice));
+                    break;
+
+                case 3:
+                    System.out.print("Enter item name to find: ");
+                    String findItemName = scanner.next();
+                    System.out.print("Enter item price to find: ");
+                    double findItemPrice = scanner.nextDouble();
+                    GroceryItem itemToFind = new GroceryItem(findItemName,findItemPrice);
+                    int foundIndex = store.findIndexOf(itemToFind);
+                    if (foundIndex >= 0) {
+                        System.out.println("Item found at index: " + foundIndex);
+                    } else {
+                        System.out.println("Item not found in the store.");
+                    }
+                    break;
+
+                case 4:
+                    store.printAll();
+                    break;
+
+                case 5:
+                    System.out.print("Enter index to delete: ");
+                    int deleteIndex = scanner.nextInt();
+                    store.deleteAtIndex(deleteIndex);
+                    break;
+
+                case 6:
+                    System.out.print("Enter new size to expand: ");
+                    int expandSize = scanner.nextInt();
+                    store.expand(expandSize);
+                    break;
+
+                case 7:
+                    System.out.print("Enter new size to shrink: ");
+                    int shrinkSize = scanner.nextInt();
+                    store.shrink(shrinkSize);
+                    break;
+
+                case 8:
+                    isRunning = false;
+                    break;
+            }
+        }
+    }
+
+    private static void groceryStore2DMenu(GroceryStore2D store2D, Scanner scanner) {
+        boolean isRunning = true;
+        while (isRunning) {
+            System.out.println("\nGroceryStore2D Menu:");
+            System.out.println("1. Get item at index");
+            System.out.println("2. Set item at index");
+            System.out.println("3. Find index of item");
+            System.out.println("4. Print all items");
+            System.out.println("5. Delete item at index");
+            System.out.println("6. Expand array");
+            System.out.println("7. Shrink array");
+            System.out.println("8. Back to Main Menu");
+
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter row index: ");
+                    int rowIndex = scanner.nextInt();
+                    System.out.print("Enter column index: ");
+                    int colIndex = scanner.nextInt();
+                    System.out.println(store2D.getAtIndex(rowIndex, colIndex));
+                    break;
+
+                case 2:
+                    System.out.print("Enter row index: ");
+                    int rowIndex2 = scanner.nextInt();
+                    System.out.print("Enter column index: ");
+                    int colIndex2 = scanner.nextInt();
+                    System.out.print("Enter item name: ");
+                    String itemName = scanner.next();
+                    System.out.print("Enter item price: ");
+                    double itemPrice = scanner.nextDouble();
+                    store2D.setAtIndex(rowIndex2, colIndex2, new GroceryItem(itemName, itemPrice));
+                    break;
+
+                case 3:
+                    System.out.print("Enter item name to find: ");
+                    String findItemName = scanner.next();
+                    System.out.print("Enter item price to find: ");
+                    double findItemPrice = scanner.nextDouble();
+                    GroceryItem itemToFind = new GroceryItem(findItemName,findItemPrice);
+                    int[] foundIndex = new int[]{store2D.findIndexOf(itemToFind)};
+                    if (foundIndex != null) {
+                        System.out.println("Item found at row: " + foundIndex[0] + " and column: " + foundIndex[1]);
+                    } else {
+                        System.out.println("Item not found in the store.");
+                    }
+                    break;
+
+                case 4:
+                    store2D.printAll();
+                    break;
+
+                case 5:
+                    System.out.print("Enter row index to delete: ");
+                    int rowIndex3 = scanner.nextInt();
+                    System.out.print("Enter column index to delete: ");
+                    int colIndex3 = scanner.nextInt();
+                    store2D.deleteAtIndex(rowIndex3, colIndex3);
+                    break;
+
+                case 6:
+                    System.out.print("Enter new row size to expand: ");
+                    int expandRowSize = scanner.nextInt();
+                    System.out.print("Enter new column size to expand: ");
+                    int expandColSize = scanner.nextInt();
+                    store2D.expand(expandRowSize, expandColSize);
+                    break;
+
+                case 7:
+                    System.out.print("Enter new row size to shrink: ");
+                    int shrinkRowSize = scanner.nextInt();
+                    System.out.print("Enter new column size to shrink: ");
+                    int shrinkColSize = scanner.nextInt();
+                    store2D.shrink(shrinkRowSize, shrinkColSize);
+                    break;
+
+                case 8:
+                    isRunning = false;
+                    break;
+            }
+        }
+    }
+}
+
+
+
