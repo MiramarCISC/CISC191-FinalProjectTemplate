@@ -32,6 +32,9 @@ public class GroceryStoreTest {
         assertEquals(20, store.items.length);
         store.shrink(5);
         assertEquals(5, store.items.length);
+
+
+
     }
 
     @Test
@@ -62,6 +65,8 @@ public class GroceryStoreTest {
         store2D.shrink(3, 5);
         assertEquals(3, store2D.numRows);
         assertEquals(5, store2D.numCols);
+
+
     }
 
     @Test
@@ -105,4 +110,51 @@ public class GroceryStoreTest {
         assertTrue(results.contains("Carrot,3,D"));
         assertTrue(results.endsWith("Onion,4,A"));
     }
+
+    @Test
+    public void testBinarySearch() {
+        GroceryStore store = new GroceryStore(10);
+
+        // Add items to the store
+        GroceryItem item1 = new GroceryItem("Item1", 1.99);
+        GroceryItem item2 = new GroceryItem("Item2", 2.99);
+        GroceryItem item3 = new GroceryItem("Item3", 0.99);
+        store.setAtIndex(0, item1);
+        store.setAtIndex(1, item2);
+        store.setAtIndex(2, item3);
+
+        // Sort the items in the store
+        store.sortItems();
+
+        // Create a sorted array for searching
+        GroceryItem[] sortedItems = {item1, item2, item3};
+
+        // Search for item2
+        int foundIndex = store.binarySearch(item2);
+
+        // Assert that item2 is found at index 1
+        assertEquals(1, foundIndex);
+    }
+
+    @Test
+    public void testSortItems() {
+        GroceryStore store = new GroceryStore(10);
+
+        // Add items to the store in a random order
+        GroceryItem item3 = new GroceryItem("Item3", 0.99);
+        GroceryItem item1 = new GroceryItem("Item1", 1.99);
+        GroceryItem item2 = new GroceryItem("Item2", 2.99);
+        store.setAtIndex(0, item3);
+        store.setAtIndex(1, item1);
+        store.setAtIndex(2, item2);
+
+        // Sort the items in the store
+        store.sortItems();
+
+        // Check if the items are sorted in ascending order
+        assertEquals(item1, store.getAtIndex(0));
+        assertEquals(item2, store.getAtIndex(1));
+        assertEquals(item3, store.getAtIndex(2));
+    }
+
 }
