@@ -1,51 +1,30 @@
-package edu.sdccd.cisc191.template;
+package edu.sdccd.cisc191;
 
-import java.net.*;
 import java.io.*;
-
-/**
- * This program opens a connection to a computer specified
- * as the first command-line argument.  If no command-line
- * argument is given, it prompts the user for a computer
- * to connect to.  The connection is made to
- * the port specified by LISTENING_PORT.  The program reads one
- * line of text from the connection and then closes the
- * connection.  It displays the text that it read on
- * standard output.  This program is meant to be used with
- * the server program, DateServer, which sends the current
- * date and time on the computer where the server is running.
- */
-
+import java.net.Socket;
 public class Client {
-    private Socket clientSocket;
-    private PrintWriter out;
-    private BufferedReader in;
-
-    public void startConnection(String ip, int port) throws IOException {
-        clientSocket = new Socket(ip, port);
-        out = new PrintWriter(clientSocket.getOutputStream(), true);
-        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-    }
-
-    public CustomerResponse sendRequest() throws Exception {
-        out.println(CustomerRequest.toJSON(new CustomerRequest(1)));
-        return CustomerResponse.fromJSON(in.readLine());
-    }
-
-    public void stopConnection() throws IOException {
-        in.close();
-        out.close();
+    public static void main(String[] args) throws IOException,
+            ClassNotFoundException {
+//create socket to communicate with server
+        Socket clientSocket = new Socket("localhost", 9999);
+        GroceryRequest request = new GroceryRequest("dairy", "milk");
+// write info from request to output stream to send to server
+        ObjectOutputStream out = new
+                ObjectOutputStream(clientSocket.getOutputStream());
+        out.writeObject(request);
+//read input stream and assign it to response
+        ObjectInputStream in = new
+                ObjectInputStream(clientSocket.getInputStream());
+        GroceryResponse response = (GroceryResponse) in.readObject();
+        printResults(response);
         clientSocket.close();
     }
-    public static void main(String[] args) {
-        Client client = new Client();
-        try {
-            client.startConnection("127.0.0.1", 4444);
-            System.out.println(client.sendRequest().toString());
-            client.stopConnection();
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
+    //method returning response to console
+    public static void printResults(GroceryResponse response) {
+        System.out.println("Grocery Info:");
+        System.out.println("Request: " + response.getRequest());
+        System.out.println("Price: $" + response.getPrice());
+        System.out.println("Calories: " + response.getCalories());
     }
-} //end class Client
 
+}
