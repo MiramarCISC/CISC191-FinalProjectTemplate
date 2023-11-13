@@ -2,7 +2,7 @@ package edu.sdccd.cisc191;
 
 import java.io.*;
 import java.net.Socket;
-public class Client {
+public class GroceryClient {
     public static void main(String[] args) throws IOException,
             ClassNotFoundException {
 //create socket to communicate with server
