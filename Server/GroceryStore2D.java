@@ -30,9 +30,10 @@ public class GroceryStore2D {
     public void setAtIndex(int row, int col, GroceryItem item) {
         if (isValidIndex(row, col)) {
             LinkedList<GroceryItem> items = rows.get(row);
-            if (col >= 0 && col < items.size()) {
-                items.set(col, item);
+            while (items.size() <= col) {
+                items.add(null); // Initialize the LinkedList with null elements up to col
             }
+            items.set(col, item);
         }
     }
 
