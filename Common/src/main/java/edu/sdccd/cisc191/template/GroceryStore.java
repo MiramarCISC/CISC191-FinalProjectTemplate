@@ -68,6 +68,30 @@ public class GroceryStore {
             size = newSize;
         }
     }
+    public int binarySearch(GroceryItem item) {
+        // First, sort the items array
+        sortItems();
+
+        int left = 0;
+        int right = size - 1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+
+            if (items[mid].equals(item)) {
+                return mid; // Item found, return its index
+            }
+
+            if (items[mid].compareTo(item) < 0) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        return 1; // Item not found
+    }
+
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
