@@ -32,9 +32,7 @@ public class GroceryStoreTest {
         assertEquals(20, store.items.length);
         store.shrink(5);
         assertEquals(5, store.items.length);
-
-
-
+        
     }
 
     @Test
