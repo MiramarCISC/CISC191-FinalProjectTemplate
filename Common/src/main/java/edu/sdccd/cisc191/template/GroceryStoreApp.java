@@ -13,7 +13,8 @@ import java.util.Map;
 
 public class GroceryStoreApp extends Application {
     public GroceryStore2D store2D;
-
+    private TextField searchField;  // Search bar
+    private ListView<String> searchResults;  // Display search results
     // HashMaps to store prices for each item in Dairy and Snacks aisles
     private Map<String, Double> dairyPrices;
     private Map<String, Double> snacksPrices;
@@ -59,13 +60,27 @@ public class GroceryStoreApp extends Application {
         Scene scene = new Scene(grid, 400, 300);
         primaryStage.setScene(scene);
         primaryStage.show();
+        searchField = new TextField();
+        searchField.setPromptText("Search items by name");
+        searchResults = new ListView<>();
+        searchResults.setPrefHeight(150);
     }
 
     private GridPane createGrid() {
+
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(10, 10, 10, 10));
         grid.setVgap(5);
         grid.setHgap(5);
+        // Create the search components and add them to the grid
+        searchField = new TextField();
+        searchField.setPromptText("Search items by name");
+        grid.add(searchField, 0, 0);
+
+        searchResults = new ListView<>();
+        searchResults.setPrefHeight(150);
+        grid.add(searchResults, 0, 1);
+
         return grid;
     }
 
@@ -77,15 +92,15 @@ public class GroceryStoreApp extends Application {
         // Aisle dropdown menu
         ComboBox<String> aisleDropdown = new ComboBox<>(aisleOptions);
         aisleDropdown.setPromptText("Select Aisle");
-        grid.add(aisleDropdown, 0, 0);
+        grid.add(aisleDropdown, 0, 2);
 
         // Options ListView
         ListView<String> optionsListView = new ListView<>();
-        grid.add(optionsListView, 0, 1);
+        grid.add(optionsListView, 0, 3);
 
         // Price label
         Label priceLabel = new Label("Price: ");
-        grid.add(priceLabel, 0, 2);
+        grid.add(priceLabel, 0, 4);
 
         // Event handler for aisle selection
         aisleDropdown.setOnAction(event -> {
