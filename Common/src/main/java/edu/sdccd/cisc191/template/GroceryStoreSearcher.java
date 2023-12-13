@@ -1,11 +1,11 @@
 package edu.sdccd.cisc191;
 
 public class GroceryStoreSearcher {
-    public static int binarySearch(GroceryItem[] items, int size, GroceryItem item) {
+    public static int binarySearch(edu.sdccd.cisc191.GroceryItem[] items, int size, edu.sdccd.cisc191.GroceryItem item) {
         return binarySearch(items, item, 0, size - 1);
     }
 
-    private static int binarySearch(GroceryItem[] items, GroceryItem item, int low, int high) {
+    private static int binarySearch(edu.sdccd.cisc191.GroceryItem[] items, edu.sdccd.cisc191.GroceryItem item, int low, int high) {
         while (low <= high) {
             int mid = low + (high - low) / 2;
 

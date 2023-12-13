@@ -1,9 +1,9 @@
-package edu.sdccd.cisc191;
+package edu.sdccd.cisc191.template;
 
 import java.util.Arrays;
 
 public class GroceryStoreSorter {
-    public static void quickSort(GroceryItem[] items, int low, int high) {
+    public static void quickSort(edu.sdccd.cisc191.GroceryItem[] items, int low, int high) {
         if (low < high) {
             int pivotIndex = partition(items, low, high);
             quickSort(items, low, pivotIndex - 1);
@@ -11,8 +11,8 @@ public class GroceryStoreSorter {
         }
     }
 
-    private static int partition(GroceryItem[] items, int low, int high) {
-        GroceryItem pivot = items[high];
+    private static int partition(edu.sdccd.cisc191.GroceryItem[] items, int low, int high) {
+        edu.sdccd.cisc191.GroceryItem pivot = items[high];
         int i = low - 1;
 
         for (int j = low; j < high; j++) {
@@ -29,7 +29,7 @@ public class GroceryStoreSorter {
         return i + 1;
     }
 
-    private static void swap(GroceryItem[] items, int i, int j) {
+    private static <GroceryItem> void swap(GroceryItem[] items, int i, int j) {
         GroceryItem temp = items[i];
         items[i] = items[j];
         items[j] = temp;
