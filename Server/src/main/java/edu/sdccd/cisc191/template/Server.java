@@ -12,7 +12,7 @@ import java.util.*;
  * and process connections until it is killed (by a CONTROL-C,
  * for example).  Note that this server processes each connection
  * as it is received, rather than creating a separate thread
- * to process the connection.
+ * to process the connection
  */
 public class Server {
     private ServerSocket serverSocket;

@@ -16,7 +16,7 @@ public class Player {
 
     /*
      * Constructor
-     * @param playerName takes in player's name
+     * @param playerName take in player's name
      * @param health takes in player's health
      * @param strength takes in player's strength stat
      * @param defense takes in player's defense stat
