@@ -43,11 +43,13 @@ public class Server {
 
     public static void main(String[] args) {
 
-        //player testing
         Scanner keyboard = new Scanner(System.in);
+        Player adventurer = new Player();
+        RandomEvent randomEvent = new RandomEvent();
+
+        //player testing
         String[] classes = {"Warrior", "Tank", "Assassin"};
         System.out.println("To begin your journey, please select your class. " + Arrays.toString(classes));
-        Player adventurer = new Player();
 
         switch(keyboard.nextLine().toUpperCase()) {
             case "WARRIOR":
@@ -77,12 +79,14 @@ public class Server {
                 System.out.println("Welcome " + adventurer.getPlayerName() + ". " + adventurer);
                 break;
         }
-        System.out.println("Is there a name you go by?");
+
+        System.out.println("\nIs there a name you go by?\n");
         adventurer.setPlayerName(keyboard.nextLine());
 
-        // Add tic tac toe game here
+        System.out.println("I see. I wish you the best of luck on your journey, " + adventurer.getPlayerName() + ".\n");
 
-        System.out.println("I see. I wish you the best of luck on your journey, " + adventurer.getPlayerName() + ".");
+        //Random Event
+        randomEvent.askRandomEvent();
 
         Server server = new Server();
         try {
