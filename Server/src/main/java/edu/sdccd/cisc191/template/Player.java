@@ -1,10 +1,13 @@
 package edu.sdccd.cisc191.template;
 
+/**
+ * The Player Class
+ */
 public class Player {
     private String playerName;
     private int health, strength, defense;
 
-    /*
+    /**
      * no-arg constructor
      */
     public Player() {
@@ -14,7 +17,7 @@ public class Player {
         defense = 75;
     } //end no-arg constructor
 
-    /*
+    /**
      * Constructor
      * @param playerName take in player's name
      * @param health takes in player's health
@@ -28,7 +31,7 @@ public class Player {
         this.defense = defense;
     } //end constructor
 
-    /*
+    /**
      * sets player name
      * @param playerName takes in player's name
      */
@@ -36,7 +39,7 @@ public class Player {
         this.playerName = playerName;
     } //end setPlayerName()
 
-    /*
+    /**
      * gets player name
      * @return player's name
      */
@@ -44,7 +47,7 @@ public class Player {
         return playerName;
     } //end getPlayerName()
 
-    /*
+    /**
      * sets player's health
      * @param health takes in player's health
      */
@@ -52,7 +55,7 @@ public class Player {
         this.health = health;
     } //end setHealth()
 
-    /*
+    /**
      * gets player's health
      * @return player's health
      */
@@ -60,7 +63,7 @@ public class Player {
         return health;
     } //end getHealth()
 
-    /*
+    /**
      * sets player's strength stat
      * @param strength takes in player's strength stat
      */
@@ -68,7 +71,7 @@ public class Player {
         this.strength = strength;
     }
 
-    /*
+    /**
      * gets player's strength stat
      * @return player's strength stat
      */
@@ -76,7 +79,7 @@ public class Player {
         return strength;
     } //end getStrength()
 
-    /*
+    /**
      * sets player's defense stat
      * @param defense takes in player's defense stat
      */
@@ -84,7 +87,7 @@ public class Player {
         this.defense = defense;
     }
 
-    /*
+    /**
      * gets player's defense stat
      * @return player's defense stat
      */
@@ -92,11 +95,11 @@ public class Player {
         return defense;
     } //end getDefense()
 
-    /*
+    /**
      * Tells current stats of player
      * @return player data
      */
-    public String getStats() {
+    public String toString() {
         return "These are your current stats: " + getHealth() + " health, " +
                 getStrength() + " strength, " + getDefense() + " defense.";
     }
