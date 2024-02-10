@@ -96,7 +96,7 @@ public class Player {
      * Tells current stats of player
      * @return player data
      */
-    public String toString() {
+    public String getStats() {
         return "These are your current stats: " + getHealth() + " health, " +
                 getStrength() + " strength, " + getDefense() + " defense.";
     }

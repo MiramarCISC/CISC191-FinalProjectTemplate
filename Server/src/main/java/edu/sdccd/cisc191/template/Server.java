@@ -79,6 +79,9 @@ public class Server {
         }
         System.out.println("Is there a name you go by?");
         adventurer.setPlayerName(keyboard.nextLine());
+
+        // Add tic tac toe game here
+
         System.out.println("I see. I wish you the best of luck on your journey, " + adventurer.getPlayerName() + ".");
 
         Server server = new Server();
