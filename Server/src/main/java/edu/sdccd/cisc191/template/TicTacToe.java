@@ -16,6 +16,15 @@ public class TicTacToe extends Player {
     } //end drawBoard()
 
     /*
+     * shows board placements
+     */
+    public void showBoard() {
+        for (char[] chars : ticTacToe) {
+            System.out.println(Arrays.toString(chars));
+        }
+    } //end showBoard()
+
+    /*
      * asks player for where they want to place
      */
     public void askPlayerPosition() {
@@ -100,10 +109,12 @@ public class TicTacToe extends Player {
             if (rows) {
                 if (ticTacToe[i][0] == 'X') {
                     System.out.println();
+                    showBoard();
                     System.out.println("Congratulations! " + player + ", you won!");
                 }
                 else {
                     System.out.println();
+                    showBoard();
                     System.out.println("Ouch! Better luck next time.");
                 }
                 return true;
@@ -112,10 +123,12 @@ public class TicTacToe extends Player {
             else if (cols){
                 if (ticTacToe[0][i] == 'X') {
                     System.out.println();
+                    showBoard();
                     System.out.println("Congratulations! " + player + ", you won!");
                 }
                 else {
                     System.out.println();
+                    showBoard();
                     System.out.println("Ouch! Better luck next time.");
                 }
                 return true;
@@ -128,15 +141,18 @@ public class TicTacToe extends Player {
         if ((topLeftDiagonal) || (topRightDiagonal)) {
             if (ticTacToe[1][1] == 'X') {
                 System.out.println();
+                showBoard();
                 System.out.println("Congratulations! " + player + ", you won!");
             }
             else {
                 System.out.println();
+                showBoard();
                 System.out.println("Ouch! Better luck next time.");
             }
             return true;
         }
         if (checkDraw()) {
+            showBoard();
             System.out.println("It's a draw!");
             return true;
         }
@@ -179,11 +195,6 @@ public class TicTacToe extends Player {
                 gameEnd = true;
             }
         } while(!gameEnd);
-
-        //show game board once ended
-        for (char[] chars : ticTacToe) {
-            System.out.println(Arrays.toString(chars));
-        }
     } //end beginGame()
 
 } //end class
