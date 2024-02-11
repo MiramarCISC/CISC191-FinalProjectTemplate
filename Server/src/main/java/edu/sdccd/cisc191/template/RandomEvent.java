@@ -5,7 +5,6 @@ import java.util.*;
  * The RandomEvent Class
  */
 public class RandomEvent {
-    private final Random rand = new Random();
 
     /**
      * Asks user a random event
@@ -19,6 +18,7 @@ public class RandomEvent {
         System.out.println("Will you take the chance? (Y/N)");
 
         if (keyboard.nextLine().equalsIgnoreCase("Y")) {
+            System.out.println("A random event has been chosen!");
             generateRandomEvent();
         }
         else {
@@ -31,12 +31,14 @@ public class RandomEvent {
      */
     public void generateRandomEvent() {
 
-        int numOfEvents = 2; // Change this value to how many events there are
+        Random rand = new Random();
+
+        int numOfEvents = 1; // Change this value to how many events there are
         String[] events = new String[numOfEvents]; //Create an array according to how many events there are
 
         //assign games
         events[0] = "TicTacToe";
-        events[1] = "TicTacToe";
+        // events[1] = "TestGame2";
 
         //switch to decide what game to play
         String eventName = events[rand.nextInt(numOfEvents)];
@@ -45,7 +47,7 @@ public class RandomEvent {
                 playTicTacToe();
                 break;
             case "TestGame2":
-                playTicTacToe();
+                // another game
                 break;
             default:
                 System.out.println("ur code brokee");
@@ -58,6 +60,7 @@ public class RandomEvent {
      */
     public void playTicTacToe() {
         TicTacToe game = new TicTacToe();
+        System.out.println("Random Event: TicTacToe");
         game.drawBoard();
         game.beginGame();
     } //end playTicTacToe()
