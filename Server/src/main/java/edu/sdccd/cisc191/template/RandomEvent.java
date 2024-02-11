@@ -5,25 +5,26 @@ import java.util.*;
  * The RandomEvent Class
  */
 public class RandomEvent {
-    private Scanner keyboard = new Scanner(System.in);
-    private Random rand = new Random();
+    private final Random rand = new Random();
 
     /**
      * Asks user a random event
      */
     public void askRandomEvent() {
+        Scanner keyboard = new Scanner(System.in);
 
         System.out.println("A random event has popped up!");
         System.out.println("If you clear this then you get rewards!");
-        System.out.println("But if you fail then you will get punished...");
+        System.out.println("But if you fail, then you will get punished...");
         System.out.println("Will you take the chance? (Y/N)");
+
         if (keyboard.nextLine().equalsIgnoreCase("Y")) {
             generateRandomEvent();
         }
         else {
             System.out.println("Ah, feeling unlucky today, I see.");
         }
-    }
+    } //end askRandomEvent()
 
     /**
      * random # generator to select random event
@@ -31,40 +32,40 @@ public class RandomEvent {
     public void generateRandomEvent() {
 
         int numOfEvents = 2; // Change this value to how many events there are
+        String[] events = new String[numOfEvents]; //Create an array according to how many events there are
 
-        String eventName;
-        String[] events = new String[numOfEvents];
-
+        //assign games
         events[0] = "TicTacToe";
-        events[1] = "TestGame2";
+        events[1] = "TicTacToe";
 
-        eventName = events[rand.nextInt(numOfEvents)];
-
+        //switch to decide what game to play
+        String eventName = events[rand.nextInt(numOfEvents)];
         switch (eventName) {
             case "TicTacToe":
-                TicTacToe();
+                playTicTacToe();
                 break;
             case "TestGame2":
-                //hi
-                //gaming
+                playTicTacToe();
                 break;
             default:
                 System.out.println("ur code brokee");
                 break;
         }
-    }
+    } //end generateRandomEvent()
 
     /**
      * TicTacToe Game
      */
-    public void TicTacToe() {
-        System.out.println("TicTacToe"); // temp code
-    }
+    public void playTicTacToe() {
+        TicTacToe game = new TicTacToe();
+        game.drawBoard();
+        game.beginGame();
+    } //end playTicTacToe()
 
     /**
      * TestGame2 Game
      */
-    public void TestGame2() {
+    public void playTestGame2() {
         System.out.println("TestGame2"); // temp code
-    }
+    } //end playTestGame2()
 }

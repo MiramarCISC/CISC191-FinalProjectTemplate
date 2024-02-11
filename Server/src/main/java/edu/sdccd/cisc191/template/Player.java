@@ -102,5 +102,5 @@ public class Player {
     public String toString() {
         return "These are your current stats: " + getHealth() + " health, " +
                 getStrength() + " strength, " + getDefense() + " defense.";
-    }
+    } //end toString()
 }

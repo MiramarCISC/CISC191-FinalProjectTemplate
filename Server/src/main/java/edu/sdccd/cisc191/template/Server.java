@@ -41,7 +41,6 @@ public class Server {
         serverSocket.close();
     }
 
-    /*
     public static void main(String[] args) {
 
         Server server = new Server();
@@ -53,5 +52,4 @@ public class Server {
         }
 
     }
-    */
 } //end class Server
