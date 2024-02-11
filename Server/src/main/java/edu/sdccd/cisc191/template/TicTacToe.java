@@ -45,9 +45,6 @@ public class TicTacToe extends Player {
                 System.out.println("Sorry, that place is taken/out of bounds. Try again.");
             }
         }
-        if (checkWinner("Adventurer")) {
-            gameEnd = true;
-        }
     } //end askPlayerPosition()
 
     public void askNPCPosition() {
@@ -70,9 +67,6 @@ public class TicTacToe extends Player {
                 turnDone = true;
             }
         } //end turn
-        if (checkWinner("Adventurer")) {
-            gameEnd = true;
-        }
     } //end askNPCPosition()
 
     public boolean checkDraw() {
@@ -98,24 +92,30 @@ public class TicTacToe extends Player {
      */
     public boolean checkWinner(String player) {
         //loop through board to see if someone won
-        for (int i = 0; i < ticTacToe.length-1; i++) {
-
+        for (int i = 0; i < ticTacToe.length; i++) {
             //check rows to see if there's 3 in a row
-            if (ticTacToe[i][0] == ticTacToe[i][1] && ticTacToe[i][1] == ticTacToe[i][2] && ticTacToe[i][0] != '-') {
+            boolean rows = (ticTacToe[i][0] == ticTacToe[i][1]) && (ticTacToe[i][1] == ticTacToe[i][2]) && (ticTacToe[i][0] != '-');
+            boolean cols = (ticTacToe[0][i] == ticTacToe[1][i]) && (ticTacToe[1][i] == ticTacToe[2][i]) && (ticTacToe[0][i] != '-');
+
+            if (rows) {
                 if (ticTacToe[i][0] == 'X') {
+                    System.out.println();
                     System.out.println("Congratulations! " + player + ", you won!");
                 }
                 else {
+                    System.out.println();
                     System.out.println("Ouch! Better luck next time.");
                 }
                 return true;
             }
             //check cols to see if there's 3 in a col
-            if (ticTacToe[0][i] == ticTacToe[1][i] && ticTacToe[1][i] == ticTacToe[2][i] && ticTacToe[0][i] != '-'){
+            else if (cols){
                 if (ticTacToe[0][i] == 'X') {
+                    System.out.println();
                     System.out.println("Congratulations! " + player + ", you won!");
                 }
                 else {
+                    System.out.println();
                     System.out.println("Ouch! Better luck next time.");
                 }
                 return true;
@@ -127,17 +127,18 @@ public class TicTacToe extends Player {
         boolean topRightDiagonal = (ticTacToe[0][2] == ticTacToe[1][1]) && (ticTacToe[1][1] == ticTacToe[2][0] && ticTacToe[0][2] != '-');
         if ((topLeftDiagonal) || (topRightDiagonal)) {
             if (ticTacToe[1][1] == 'X') {
+                System.out.println();
                 System.out.println("Congratulations! " + player + ", you won!");
             }
             else {
+                System.out.println();
                 System.out.println("Ouch! Better luck next time.");
             }
             return true;
         }
-
-        // Check for a draw
         if (checkDraw()) {
             System.out.println("It's a draw!");
+            return true;
         }
 
         //if no cases were true, game has not ended yet
@@ -156,11 +157,27 @@ public class TicTacToe extends Player {
                 System.out.println(Arrays.toString(chars));
             }
 
-            //player's turn and checks if they won
+            // player's turn and checks if they won
+            System.out.println("\nPlayer's turn:");
             askPlayerPosition();
+            if (checkWinner("Adventurer")) {
+                gameEnd = true;
+                break;
+            }
 
-            //NPC's turn and checks if they won
+            // NPC's turn and checks if they won
+            System.out.println("\nNPC's turn:");
             askNPCPosition();
+            if (checkWinner("NPC")) {
+                gameEnd = true;
+                break;
+            }
+
+            // Check for a draw
+            if (checkDraw()) {
+                System.out.println("It's a draw!");
+                gameEnd = true;
+            }
         } while(!gameEnd);
 
         //show game board once ended
