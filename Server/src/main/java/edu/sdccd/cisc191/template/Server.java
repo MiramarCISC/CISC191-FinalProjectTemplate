@@ -42,6 +42,19 @@ public class Server {
     }
 
     public static void main(String[] args) {
+        Scanner keyboard = new Scanner(System.in);
+        SystemMenu menu = new SystemMenu();
+        RandomEvent randomEvent = new RandomEvent();
+
+        // System Creation
+        menu.classCreation();
+
+        // Random Event
+        randomEvent.askRandomEvent();
+
+        keyboard.close();
+
+        ////////////////////////////////////
 
         Server server = new Server();
         try {

@@ -17,7 +17,7 @@ public class RandomEvent {
         System.out.println("But if you fail, then you will get punished...");
         System.out.println("Will you take the chance? (Y/N)");
 
-        if (keyboard.nextLine().equalsIgnoreCase("Y")) {
+        if (keyboard.next().equalsIgnoreCase("Y")) {
             System.out.println("A random event has been chosen!");
             generateRandomEvent();
         }

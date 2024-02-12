@@ -110,7 +110,7 @@ public class TicTacToe extends Player {
      * @param player takes in player's name
      * @return if someone won or not
      */
-    public boolean checkWinner(String player) {
+    public boolean checkWinner() {
         //loop through board to see if someone won
         for (int i = 0; i < ticTacToe.length; i++) {
             //check rows to see if there's 3 in a row
@@ -121,7 +121,7 @@ public class TicTacToe extends Player {
                 if (ticTacToe[i][0] == 'X') {
                     System.out.println();
                     showBoard();
-                    System.out.println("Congratulations! " + player + ", you won!");
+                    System.out.println("Congratulations! " + getPlayerName() + ", you won!");
                 }
                 else {
                     System.out.println();
@@ -135,7 +135,7 @@ public class TicTacToe extends Player {
                 if (ticTacToe[0][i] == 'X') {
                     System.out.println();
                     showBoard();
-                    System.out.println("Congratulations! " + player + ", you won!");
+                    System.out.println("Congratulations! " + getPlayerName() + ", you won!");
                 }
                 else {
                     System.out.println();
@@ -153,7 +153,7 @@ public class TicTacToe extends Player {
             if (ticTacToe[1][1] == 'X') {
                 System.out.println();
                 showBoard();
-                System.out.println("Congratulations! " + player + ", you won!");
+                System.out.println("Congratulations! " + getPlayerName() + ", you won!");
             }
             else {
                 System.out.println();
@@ -187,7 +187,7 @@ public class TicTacToe extends Player {
             // player's turn and checks if they won
             System.out.println("\nPlayer's turn:");
             askPlayerPosition();
-            if (checkWinner("Adventurer")) {
+            if (checkWinner()) {
                 gameEnd = true;
                 break;
             }
@@ -195,7 +195,7 @@ public class TicTacToe extends Player {
             // NPC's turn and checks if they won
             System.out.println("\nNPC's turn:");
             askNPCPosition();
-            if (checkWinner("NPC")) {
+            if (checkWinner()) {
                 gameEnd = true;
                 break;
             }
@@ -207,5 +207,4 @@ public class TicTacToe extends Player {
             }
         } while(!gameEnd);
     } //end beginGame()
-
 } //end class

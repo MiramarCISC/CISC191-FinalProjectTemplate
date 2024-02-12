@@ -5,7 +5,7 @@ package edu.sdccd.cisc191.template;
  */
 public class Player {
     private String playerName;
-    private int health, strength, defense;
+    private int health, strength, defense, gold;
 
     /**
      * no-arg constructor
@@ -15,6 +15,7 @@ public class Player {
         health = 100;
         strength = 75;
         defense = 75;
+        gold = 5;
     } //end no-arg constructor
 
     /**
@@ -29,6 +30,7 @@ public class Player {
         this.health = health;
         this.strength = strength;
         this.defense = defense;
+        this.gold = 5;
     } //end constructor
 
     /**
@@ -56,6 +58,14 @@ public class Player {
     } //end setHealth()
 
     /**
+     * adds player's health
+     * @param health takes in player's health
+     */
+    public void addHealth(int health) {
+        this.health += health;
+    } //end addHealth()
+
+    /**
      * gets player's health
      * @return player's health
      */
@@ -69,7 +79,15 @@ public class Player {
      */
     public void setStrength(int strength) {
         this.strength = strength;
-    }
+    } //end setStrength()
+
+    /**
+     * adds player's strength stat
+     * @param strength takes in player's defense stat
+     */
+    public void addStrength(int strength) {
+        this.strength += strength;
+    } //end addStrength()
 
     /**
      * gets player's strength stat
@@ -85,7 +103,15 @@ public class Player {
      */
     public void setDefense(int defense) {
         this.defense = defense;
-    }
+    } //end setDefense()
+
+    /**
+     * adds player's defense stat
+     * @param defense takes in player's defense stat
+     */
+    public void addDefense(int defense) {
+        this.defense += defense;
+    } //end addDefense()
 
     /**
      * gets player's defense stat
@@ -96,11 +122,35 @@ public class Player {
     } //end getDefense()
 
     /**
+     * sets player's gold
+     * @param gold takes in player's defense stat
+     */
+    public void setGold(int gold) {
+        this.gold = gold;
+    } //end setGold()
+
+    /**
+     * adds player's gold
+     * @param gold takes in player's defense stat
+     */
+    public void addGold(int gold) {
+        this.gold += gold;
+    } //end addGold()
+
+    /**
+     * gets player's gold
+     * @return player's gold
+     */
+    public int getGold() {
+        return gold;
+    } //end getGold()
+
+    /**
      * Tells current stats of player
      * @return player data
      */
     public String toString() {
         return "These are your current stats: " + getHealth() + " health, " +
-                getStrength() + " strength, " + getDefense() + " defense.";
+                getStrength() + " strength, " + getDefense() + " defense, " + getGold() + " gold.";
     } //end toString()
 }
