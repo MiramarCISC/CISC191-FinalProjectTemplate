@@ -5,8 +5,35 @@ import java.util.*;
  * The SystemMenu Class
  */
 public class SystemMenu extends Player{
-    Player adventurer = new Player();
-    Scanner keyboard = new Scanner(System.in);
+
+    protected static Player adventurer = new Player();
+    protected Scanner keyboard = new Scanner(System.in);
+
+    /**
+     * main screen used for system menu, giving player options to choose from
+     */
+    public void mainScreen() {
+        System.out.println("What do you want to do?");
+        System.out.println("Explore      Store      Bag      Profile");
+        switch (keyboard.nextLine().toUpperCase()) {
+            case "EXPLORE":
+                explore();
+                break;
+            case "STORE":
+                //go to store
+                break;
+            case "BAG":
+                //go to bag
+                break;
+            case "PROFILE":
+                //go to profile
+                break;
+            default:
+                System.out.println("Sorry, we did not recognize your choice. Please try again.");
+                mainScreen();
+                break;
+        }
+    } //end mainScreen()
 
     /**
      * starts classCreation for the user
@@ -42,6 +69,9 @@ public class SystemMenu extends Player{
         nameCreation();
     } // end classCreation()
 
+    /**
+     * asks player for their name
+     */
     public void nameCreation() {
 
         System.out.println("Is there a name you go by?");
@@ -51,6 +81,11 @@ public class SystemMenu extends Player{
 
     } // end nameCreation()
 
+    /**
+     * potion menu that lets player interact with potions they have
+     * can drink/pour potion
+     * if player drinks, adds related buffs
+     */
     public void potionMenu() {
 
         String action;
@@ -105,4 +140,13 @@ public class SystemMenu extends Player{
             cont = keyboard.nextLine();
         }
     } // end potion()
+
+    /**
+     * one of the options available in the system menu
+     */
+    public void explore() {
+        System.out.println();
+        RandomEvent random = new RandomEvent();
+        random.askRandomEvent();
+    }
 } // end class

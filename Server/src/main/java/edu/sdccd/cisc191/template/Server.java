@@ -44,15 +44,14 @@ public class Server {
     public static void main(String[] args) {
         Scanner keyboard = new Scanner(System.in);
         SystemMenu menu = new SystemMenu();
-        RandomEvent randomEvent = new RandomEvent();
 
         // System Creation
         menu.classCreation();
+        menu.mainScreen();
 
-        // Random Event
-        randomEvent.askRandomEvent();
 
         keyboard.close();
+
 
         ////////////////////////////////////
 

@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * TicTacToe game
  */
-public class TicTacToe extends Player {
+public class TicTacToe extends RandomEvent{
     private final char[][] ticTacToe = new char[3][3];
     private boolean gameEnd = false;
 
@@ -107,7 +107,6 @@ public class TicTacToe extends Player {
 
     /**
      * check who won
-     * @param player takes in player's name
      * @return if someone won or not
      */
     public boolean checkWinner() {
@@ -121,12 +120,12 @@ public class TicTacToe extends Player {
                 if (ticTacToe[i][0] == 'X') {
                     System.out.println();
                     showBoard();
-                    System.out.println("Congratulations! " + getPlayerName() + ", you won!");
+                    winGame();
                 }
                 else {
                     System.out.println();
                     showBoard();
-                    System.out.println("Ouch! Better luck next time.");
+                    loseGame();
                 }
                 return true;
             }
@@ -135,12 +134,12 @@ public class TicTacToe extends Player {
                 if (ticTacToe[0][i] == 'X') {
                     System.out.println();
                     showBoard();
-                    System.out.println("Congratulations! " + getPlayerName() + ", you won!");
+                    winGame();
                 }
                 else {
                     System.out.println();
                     showBoard();
-                    System.out.println("Ouch! Better luck next time.");
+                    loseGame();
                 }
                 return true;
             }
@@ -153,18 +152,18 @@ public class TicTacToe extends Player {
             if (ticTacToe[1][1] == 'X') {
                 System.out.println();
                 showBoard();
-                System.out.println("Congratulations! " + getPlayerName() + ", you won!");
+                winGame();
             }
             else {
                 System.out.println();
                 showBoard();
-                System.out.println("Ouch! Better luck next time.");
+                loseGame();
             }
             return true;
         }
         if (checkDraw()) {
             showBoard();
-            System.out.println("It's a draw!");
+            System.out.println("It's a draw! You will lose nothing, but will gain nothing." );
             return true;
         }
 
@@ -202,7 +201,7 @@ public class TicTacToe extends Player {
 
             // Check for a draw
             if (checkDraw()) {
-                System.out.println("It's a draw!");
+                System.out.println("It's a draw! You will lose nothing, but will gain nothing." );
                 gameEnd = true;
             }
         } while(!gameEnd);

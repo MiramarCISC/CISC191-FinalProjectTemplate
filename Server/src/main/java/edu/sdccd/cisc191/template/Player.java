@@ -4,8 +4,8 @@ package edu.sdccd.cisc191.template;
  * The Player Class
  */
 public class Player {
-    private String playerName;
-    private int health, strength, defense, gold;
+    protected String playerName;
+    protected int health, strength, defense, gold=10;
 
     /**
      * no-arg constructor
@@ -15,7 +15,6 @@ public class Player {
         health = 100;
         strength = 75;
         defense = 75;
-        gold = 5;
     } //end no-arg constructor
 
     /**
@@ -30,7 +29,6 @@ public class Player {
         this.health = health;
         this.strength = strength;
         this.defense = defense;
-        this.gold = 5;
     } //end constructor
 
     /**
@@ -83,7 +81,7 @@ public class Player {
 
     /**
      * adds player's strength stat
-     * @param strength takes in player's defense stat
+     * @param strength takes in player's strength stat
      */
     public void addStrength(int strength) {
         this.strength += strength;
@@ -123,7 +121,7 @@ public class Player {
 
     /**
      * sets player's gold
-     * @param gold takes in player's defense stat
+     * @param gold takes in player's gold
      */
     public void setGold(int gold) {
         this.gold = gold;
@@ -131,11 +129,19 @@ public class Player {
 
     /**
      * adds player's gold
-     * @param gold takes in player's defense stat
+     * @param gold takes in gold to add
      */
     public void addGold(int gold) {
         this.gold += gold;
     } //end addGold()
+
+    /**
+     * subtracts player's gold
+     * @param gold takes in gold to subtract
+     */
+    public void subtractGold(int gold) {
+        this.gold -= gold;
+    } //end subtractGold()
 
     /**
      * gets player's gold

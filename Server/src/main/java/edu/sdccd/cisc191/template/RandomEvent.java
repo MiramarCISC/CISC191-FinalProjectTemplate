@@ -4,14 +4,12 @@ import java.util.*;
 /**
  * The RandomEvent Class
  */
-public class RandomEvent {
+public class RandomEvent extends SystemMenu{
 
     /**
      * Asks user a random event
      */
     public void askRandomEvent() {
-        Scanner keyboard = new Scanner(System.in);
-
         System.out.println("A random event has popped up!");
         System.out.println("If you clear this then you get rewards!");
         System.out.println("But if you fail, then you will get punished...");
@@ -56,6 +54,24 @@ public class RandomEvent {
     } //end generateRandomEvent()
 
     /**
+     * responds when player wins the random event
+     */
+    public void winGame() {
+        System.out.println("Congratulations! " + adventurer.getPlayerName() + ", you won!");
+        System.out.println("As your reward, you have acquired 5 gold.");
+        adventurer.addGold(5);
+    }
+
+    /**
+     * responds when player loses the random event
+     */
+    public void loseGame() {
+        System.out.println("Ouch! Better luck next time.");
+        System.out.println("As you lost, you pay the opponent 5 gold.");
+        adventurer.subtractGold(5);
+    } //end loseGame()
+
+    /**
      * TicTacToe Game
      */
     public void playTicTacToe() {
@@ -63,6 +79,7 @@ public class RandomEvent {
         System.out.println("Random Event: TicTacToe");
         game.drawBoard();
         game.beginGame();
+        System.out.println("Here is your current gold: " + adventurer.getGold());
     } //end playTicTacToe()
 
     /**
