@@ -2,10 +2,14 @@ package edu.sdccd.cisc191.template;
 
 import java.util.*;
 
+/**
+ * TicTacToe game
+ */
 public class TicTacToe extends Player {
     private final char[][] ticTacToe = new char[3][3];
     private boolean gameEnd = false;
-    /*
+
+    /**
      * sets up TicTacToe board
      */
     public void drawBoard() {
@@ -15,7 +19,7 @@ public class TicTacToe extends Player {
         }
     } //end drawBoard()
 
-    /*
+    /**
      * shows board placements
      */
     public void showBoard() {
@@ -24,7 +28,7 @@ public class TicTacToe extends Player {
         }
     } //end showBoard()
 
-    /*
+    /**
      * asks player for where they want to place
      */
     public void askPlayerPosition() {
@@ -56,6 +60,9 @@ public class TicTacToe extends Player {
         }
     } //end askPlayerPosition()
 
+    /**
+     * asks NPC for where they want to place
+     */
     public void askNPCPosition() {
         int row, col;
         boolean turnDone = false;
@@ -78,6 +85,10 @@ public class TicTacToe extends Player {
         } //end turn
     } //end askNPCPosition()
 
+    /**
+     * checks if the game is a draw
+     * @return true if there's a draw and false is there isn't
+     */
     public boolean checkDraw() {
         boolean draw = false;
         int count = 0;
@@ -94,9 +105,9 @@ public class TicTacToe extends Player {
         return draw;
     } //end checkDraw()
 
-    /*
+    /**
      * check who won
-     * @param takes in player's name
+     * @param player takes in player's name
      * @return if someone won or not
      */
     public boolean checkWinner(String player) {
@@ -161,7 +172,7 @@ public class TicTacToe extends Player {
         return false;
     } //end checkWinner()
 
-    /*
+    /**
      * begins game
      */
     public void beginGame() {

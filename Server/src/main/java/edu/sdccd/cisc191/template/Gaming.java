@@ -11,7 +11,6 @@ public class Gaming {
         Player adventurer = new Player();
         RandomEvent randomEvent = new RandomEvent();
 
-        /*
         //player testing
         String[] classes = {"Warrior", "Tank", "Assassin"};
         System.out.println("To begin your journey, please select your class. " + Arrays.toString(classes));
@@ -50,7 +49,6 @@ public class Gaming {
         adventurer.setPlayerName(keyboard.nextLine());
 
         System.out.println("I see. I wish you the best of luck on your journey, " + adventurer.getPlayerName() + ".\n");
-        */
 
         //Random Event
         randomEvent.askRandomEvent();
