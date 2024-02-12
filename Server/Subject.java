@@ -1,0 +1,52 @@
+import java.util.ArrayList;
+public class Subject {
+    private String nameOfSubject;
+    private boolean weighted;
+    private double gradeInClass;
+    private ArrayList<Assignment> assignmentList;
+
+    public Subject() {
+        nameOfSubject = "";
+        weighted = false;
+        gradeInClass = 0.0;
+
+    }
+
+    public Subject(String name, boolean weight, double grade) {
+        nameOfSubject = name;
+        weighted = weight;
+        gradeInClass = grade;
+    }
+
+    public String getNameOfSubject() {
+        return nameOfSubject;
+    }
+
+    public void setNameOfSubject(String nameOfSubject) {
+        this.nameOfSubject = nameOfSubject;
+    }
+
+    public boolean isWeighted() {
+        return weighted;
+    }
+
+    public void setWeighted(boolean weighted) {
+        this.weighted = weighted;
+    }
+
+    public double getGradeInClass() {
+        return gradeInClass;
+    }
+
+    public void setGradeInClass(double gradeInClass) {
+        this.gradeInClass = gradeInClass;
+    }
+
+    public ArrayList<Assignment> getAssignmentList() {
+        return assignmentList;
+    }
+
+    public void setAssignmentList(ArrayList<Assignment> assignmentList) {
+        this.assignmentList = assignmentList;
+    }
+}
