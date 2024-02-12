@@ -34,9 +34,9 @@ public class TicTacToe extends Player {
 
         while (!turnDone) {
             boolean outOfBounds;
-            System.out.println("Enter your row number: ");
+            System.out.print("Enter your row number: ");
             row = keyboard.nextInt() - 1;
-            System.out.println("Enter your col number: ");
+            System.out.print("Enter your col number: ");
             col = keyboard.nextInt() - 1;
 
             // Check if the position is out of bounds
