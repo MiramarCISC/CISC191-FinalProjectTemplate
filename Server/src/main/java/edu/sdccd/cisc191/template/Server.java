@@ -42,16 +42,13 @@ public class Server {
     }
 
     public static void main(String[] args) {
-        Scanner keyboard = new Scanner(System.in);
+
         SystemMenu menu = new SystemMenu();
 
-        // System Creation
         menu.classCreation();
-        menu.mainScreen();
+        menu.mainMenu();
 
-
-        keyboard.close();
-
+        System.out.println("END OF DEMO.");
 
         ////////////////////////////////////
 

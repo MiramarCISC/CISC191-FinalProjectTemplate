@@ -4,7 +4,7 @@ import java.util.*;
 /**
  * The RandomEvent Class
  */
-public class RandomEvent extends SystemMenu{
+public class RandomEvent extends SystemMenu {
 
     /**
      * Asks user a random event

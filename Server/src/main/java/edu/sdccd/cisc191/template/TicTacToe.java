@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * TicTacToe game
  */
-public class TicTacToe extends RandomEvent{
+public class TicTacToe extends RandomEvent {
     private final char[][] ticTacToe = new char[3][3];
     private boolean gameEnd = false;
 

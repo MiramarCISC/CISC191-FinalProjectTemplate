@@ -4,34 +4,46 @@ import java.util.*;
 /**
  * The SystemMenu Class
  */
-public class SystemMenu extends Player{
+public class SystemMenu extends Player {
 
-    protected static Player adventurer = new Player();
+    protected Player adventurer = new Player();
     protected Scanner keyboard = new Scanner(System.in);
 
     /**
      * main screen used for system menu, giving player options to choose from
      */
-    public void mainScreen() {
-        System.out.println("What do you want to do?");
-        System.out.println("Explore      Store      Bag      Profile");
-        switch (keyboard.nextLine().toUpperCase()) {
-            case "EXPLORE":
-                explore();
-                break;
-            case "STORE":
-                //go to store
-                break;
-            case "BAG":
-                //go to bag
-                break;
-            case "PROFILE":
-                //go to profile
-                break;
-            default:
-                System.out.println("Sorry, we did not recognize your choice. Please try again.");
-                mainScreen();
-                break;
+    public void mainMenu() {
+
+        String cont;
+
+        System.out.println("Do you want to open the Main Menu? (Y/N)");
+        cont = keyboard.nextLine();
+
+        while (cont.equalsIgnoreCase("Y")) {
+
+            System.out.println("What do you want to do?");
+            System.out.println("Explore      Store      Bag      Profile");
+
+            switch (keyboard.nextLine().toUpperCase()) {
+                case "EXPLORE":
+                    explore();
+                    break;
+                case "STORE":
+                    System.out.println("STORE WORK IN PROGRESS"); //go to store
+                    break;
+                case "BAG":
+                    potionMenu(); //go to bag
+                    break;
+                case "PROFILE":
+                    System.out.println("Welcome " + adventurer.getPlayerName() + ". " + adventurer); //go to profile
+                    break;
+                default:
+                    System.out.println("Sorry, we did not recognize your choice. Please try again.");
+                    mainMenu();
+                    break;
+            }
+            System.out.println("Do you want to reopen the Main Menu? (Y/N)");
+            cont = keyboard.nextLine();
         }
     } //end mainScreen()
 
@@ -44,22 +56,18 @@ public class SystemMenu extends Player{
         String[] classes = {"Warrior", "Tank", "Assassin"};
         System.out.println("To begin your journey, please select your class. " + Arrays.toString(classes));
 
-
         switch (keyboard.nextLine().toUpperCase()) {
             case "WARRIOR":
                 adventurer = new Player("Warrior", 100, 90, 60);
                 System.out.println("Welcome " + adventurer.getPlayerName() + ". " + adventurer);
-                potionMenu();
                 break;
             case "TANK":
                 adventurer = new Player("Tank", 135, 30, 85);
                 System.out.println("Welcome " + adventurer.getPlayerName() + ". " + adventurer);
-                potionMenu();
                 break;
             case "ASSASSIN":
                 adventurer = new Player("Assassin", 80, 125, 45);
                 System.out.println("Welcome " + adventurer.getPlayerName() + ". " + adventurer);
-                potionMenu();
                 break;
             default:
                 System.out.println("Sorry, we did not recognize your class. Please try again.");
@@ -88,9 +96,7 @@ public class SystemMenu extends Player{
      */
     public void potionMenu() {
 
-        String action;
-        String type;
-        String cont;
+        String action, type, cont;
 
         System.out.println("Do you want to open the Potion menu? (Y/N)");
         cont = keyboard.nextLine();
@@ -103,35 +109,35 @@ public class SystemMenu extends Player{
             System.out.println("What type of potion?\n(Shield or Strength)");
             type = keyboard.nextLine();
 
-            if (action.equalsIgnoreCase("Drink")) {
+            if (action.equalsIgnoreCase("Drink")) { // Checking action
                 switch (type.toUpperCase()) {
-                    case "SHIELD":
+                    case "SHIELD": // Checking Potion Type
                         System.out.println("You drank a shield potion! Increasing current health and defense...");
                         adventurer.addHealth(25);
                         adventurer.addDefense(25);
                         break;
-                    case "STRENGTH":
+                    case "STRENGTH": // Checking Potion Type
                         System.out.println("You drank a strength potion! Increasing strength...");
                         adventurer.addStrength(25);
                         break;
-                    default:
+                    default: // Checking Potion Type
                         System.out.println("Invalid Potion Type.");
                         break;
                 }
                 System.out.println("Done! " + adventurer);
-            } else if (action.equalsIgnoreCase("Pour")) {
+            } else if (action.equalsIgnoreCase("Pour")) { // Checking action
                 switch (type.toUpperCase()) {
-                    case "SHIELD":
+                    case "SHIELD": // Checking Potion Type
                         System.out.println("You poured a shield potion! A blue lily grew in its place.");
                         break;
-                    case "STRENGTH":
+                    case "STRENGTH": // Checking Potion Type
                         System.out.println("You poured a strength potion! A thorny red rose grew in its place.");
                         break;
-                    default:
+                    default: // Checking Potion Type
                         System.out.println("Invalid Potion Type.");
                         break;
                 }
-            } else {
+            } else { // Checking action
                 System.out.println("Invalid Action");
                 potionMenu();
             }
