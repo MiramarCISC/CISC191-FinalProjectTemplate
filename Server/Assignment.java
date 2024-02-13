@@ -7,6 +7,19 @@ public class Assignment {
     //private int estInMinutes;
     private boolean busyWork;
 
+    public Assignment() {
+        nameOfAssignment = "";
+        daysUntilDueDate = 0;
+        pointsOfAssignment = 0;
+        busyWork = false;
+    }
+
+    public Assignment(String name) {
+        nameOfAssignment = name;
+        daysUntilDueDate = 0;
+        pointsOfAssignment = 0;
+        busyWork = false;
+    }
     public String getNameOfAssignment() {
         return nameOfAssignment;
     }

@@ -16,7 +16,7 @@ public class Main {
         System.out.println("2. Update Subject");
         System.out.println("3 Add Assignment");
         System.out.println("4. Update Assignment\n");
-
+        //create while pit here
         System.out.print("Choose an option, 1, 2, 3, or 4: ");
         option = keyboard.nextChar();
 
@@ -44,13 +44,28 @@ public class Main {
                     Subject temp = new Subject(nameOfSubject, weighted, grade);
                     subjectArray.add(temp);
                 }
-
+                break;
             // Update/Delete Subject names in array list
             case '2':
+                int subjectOption;
                 System.out.println("1. Update Subject");
                 System.out.println("2. Remove Subject");
+                //while pit
+                System.out.print("Pick an option, 1 or 2: ");
+                subjectOption = keyboard.nextInt();
+                switch (subjectOption) {
+                    //Update Subject
+                    case 1:
+                        break;
 
-
+                    //Remove Subject
+                    case 2:
+                        int period = 0;
+                        //while pit
+                        System.out.println("Enter the period of the subject you want to remove: ");
+                        period = keyboard.nextInt();
+                        break;
+                }
             // Add Assignment
             case '3':
 
