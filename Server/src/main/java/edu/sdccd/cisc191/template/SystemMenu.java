@@ -6,7 +6,7 @@ import java.util.*;
  */
 public class SystemMenu extends Player {
 
-    protected Player adventurer = new Player();
+    protected static Player adventurer = new Player();
     protected Scanner keyboard = new Scanner(System.in);
 
     /**
@@ -16,7 +16,7 @@ public class SystemMenu extends Player {
 
         String cont;
 
-        System.out.println("Do you want to open the Main Menu? (Y/N)");
+        System.out.println("\nDo you want to open the Main Menu? (Y/N)");
         cont = keyboard.nextLine();
 
         while (cont.equalsIgnoreCase("Y")) {
@@ -42,7 +42,7 @@ public class SystemMenu extends Player {
                     mainMenu();
                     break;
             }
-            System.out.println("Do you want to reopen the Main Menu? (Y/N)");
+            System.out.println("\nDo you want to reopen the Main Menu? (Y/N)");
             cont = keyboard.nextLine();
         }
     } //end mainScreen()
@@ -60,21 +60,23 @@ public class SystemMenu extends Player {
             case "WARRIOR":
                 adventurer = new Player("Warrior", 100, 90, 60);
                 System.out.println("Welcome " + adventurer.getPlayerName() + ". " + adventurer);
+                nameCreation();
                 break;
             case "TANK":
                 adventurer = new Player("Tank", 135, 30, 85);
                 System.out.println("Welcome " + adventurer.getPlayerName() + ". " + adventurer);
+                nameCreation();
                 break;
             case "ASSASSIN":
                 adventurer = new Player("Assassin", 80, 125, 45);
                 System.out.println("Welcome " + adventurer.getPlayerName() + ". " + adventurer);
+                nameCreation();
                 break;
             default:
                 System.out.println("Sorry, we did not recognize your class. Please try again.");
                 classCreation();
                 break;
         }
-        nameCreation();
     } // end classCreation()
 
     /**
@@ -98,7 +100,7 @@ public class SystemMenu extends Player {
 
         String action, type, cont;
 
-        System.out.println("Do you want to open the Potion menu? (Y/N)");
+        System.out.println("\nDo you want to open the Potion menu? (Y/N)");
         cont = keyboard.nextLine();
 
         while (cont.equalsIgnoreCase("Y")) {
@@ -142,7 +144,7 @@ public class SystemMenu extends Player {
                 potionMenu();
             }
 
-            System.out.println("Do you want to open the Potion menu again? (Y/N)");
+            System.out.println("\nDo you want to open the Potion menu again? (Y/N)");
             cont = keyboard.nextLine();
         }
     } // end potion()
