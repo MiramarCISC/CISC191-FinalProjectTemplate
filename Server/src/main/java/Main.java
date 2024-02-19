@@ -9,9 +9,9 @@ import java.util.*;
  * @since 2/11/24
  */
 public class Main {
+    Scanner keyboard = new Scanner(System.in);
     public static void main(String[] args) {
         char option;
-        Scanner keyboard = new Scanner(System.in);
         System.out.println("1. Run Setup");
         System.out.println("2. Update Subject");
         System.out.println("3 Add Assignment");
@@ -19,7 +19,7 @@ public class Main {
         //create while pit here
         System.out.print("Choose an option, 1, 2, 3, or 4: ");
         option = keyboard.nextChar();
-
+        ArrayList<Subject> subjectArray = new ArrayList<Subject>();
         switch (option) {
             /*
             Run Setup:
@@ -33,7 +33,7 @@ public class Main {
                 double grade;
                 System.out.print("Enter the amount of classes you are in: ");
                 amountOfSubjects = keyboard.nextInt();
-                ArrayList<Subject> subjectArray = new ArrayList<Subject>(amountOfSubjects);
+                subjectArray = new ArrayList<Subject>(amountOfSubjects);
                 for (int i = 0; i < amountOfSubjects; i++) {
                     System.out.println("Enter the name of period " + (amountOfSubjects + 1) + ":");
                     nameOfSubject = keyboard.nextLine();
@@ -68,6 +68,10 @@ public class Main {
                 }
             // Add Assignment
             case '3':
+                //wtf is going on here idk what im doing
+                //while pit
+                System.out.print("Enter the period of the subject you would like to add an assignment to : ");
+                int period = keyboard.nextInt() - 1;
 
             // Update Current Assignments
             case '4':
