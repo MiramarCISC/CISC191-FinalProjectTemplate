@@ -72,6 +72,8 @@ public class Main {
                 //while pit
                 System.out.print("Enter the period of the subject you would like to add an assignment to : ");
                 int period = keyboard.nextInt() - 1;
+                Subject subject = new Subject();
+                subject = subjectArray.get(period);
 
             // Update Current Assignments
             case '4':
