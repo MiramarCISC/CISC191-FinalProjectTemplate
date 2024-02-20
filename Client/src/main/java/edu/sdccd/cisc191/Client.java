@@ -1,5 +1,6 @@
 package edu.sdccd.cisc191;
 
+import edu.sdccd.cisc191.ciphers.Hill;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -62,71 +63,92 @@ public class Client extends Application{
         }
         launch(args);
     }
-        @Override
-        public void start(Stage primaryStage) throws Exception {
-            primaryStage.setTitle("Decode");
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        primaryStage.setTitle("Decode");
 
-            //list of Ciphers
-            combobox = new ComboBox<>();
-            combobox.getItems().addAll(
-                    "Cipher 1",
-                    "Cipher 2"
-            );
-            //listen for selection changes
-            combobox.setOnAction(e -> System.out.println(combobox.getValue()));
+        //list of Ciphers
+        combobox = new ComboBox<>();
+        combobox.getItems().addAll(
+                "Hill Cipher",
+                "Caesar Cipher"
+        );
+        //listen for selection changes
+        combobox.setOnAction(e -> System.out.println(combobox.getValue()));
 
-            //labels
-            Label label = new Label("Enter key:");
+        //labels
+        Label label = new Label("Enter key:");
 
-            //text input
-            TextField input = new TextField();
+        //text input
+        TextField input = new TextField();
 
-            //Text Area
-            textArea = new TextArea();
+        //Text Area
+        textArea = new TextArea();
 
-            //Decode/encode button
-            Button button = new Button("Decode");
-            button.setOnAction(e -> System.out.println(textArea.getText()));
-            Button encode = new Button("Encode");
-            encode.setOnAction(e -> System.out.println("it encodes!!!!!!"));
+        //Decode/encode button
+        Button button = new Button("Encode");
+        button.setOnAction(e -> Client.encode(textArea.getText(), input.getText(), combobox.getValue()));
+        Button encode = new Button("Decode");
+        encode.setOnAction(e -> Client.decode(textArea.getText(), input.getText(), combobox.getValue()));
 
-            //Import File Button
-            Button files = new Button("Select File");
-            files.setOnAction(e -> {
-                FileChooser fc = new FileChooser();
-                fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("TXT files", "*.TXT"),
-                        new FileChooser.ExtensionFilter("txt files", ".txt"));
-                File selectedFile = fc.showOpenDialog(null);
-                if (selectedFile != null) {
-                    try{
-                        Scanner scanner = new Scanner(selectedFile);
-                        while(scanner.hasNextLine()){
-                            textArea.appendText(scanner.nextLine());
-                        }
-                    }catch (FileNotFoundException f){
-                        f.getMessage();
+        //Import File Button
+        Button files = new Button("Select File");
+        files.setOnAction(e -> {
+            FileChooser fc = new FileChooser();
+            fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("TXT files", "*.TXT"),
+                    new FileChooser.ExtensionFilter("txt files", ".txt"));
+            File selectedFile = fc.showOpenDialog(null);
+            if (selectedFile != null) {
+                try{
+                    Scanner scanner = new Scanner(selectedFile);
+                    while(scanner.hasNextLine()){
+                        textArea.appendText(scanner.nextLine());
                     }
-                } else {
-                    System.out.println("File is not valid");
+                }catch (FileNotFoundException f){
+                    f.getMessage();
                 }
-            });
+            } else {
+                System.out.println("File is not valid");
+            }
+        });
 
 
-            //layout
-            HBox layout2 = new HBox(10);
-            layout2.getChildren().addAll(input, combobox);
-            layout2.setAlignment(Pos.CENTER);
-            HBox layout3 = new HBox(10);
-            layout3.setAlignment(Pos.CENTER);
-            layout3.getChildren().addAll(button, encode);
-            VBox layout = new VBox(10);
-            layout.setPadding(new Insets(20, 20, 20, 20));
-            layout.setAlignment(Pos.CENTER);
-            layout.getChildren().addAll(label, layout2, layout3, textArea, files);
+        //layout
+        HBox layout2 = new HBox(10);
+        layout2.getChildren().addAll(input, combobox);
+        layout2.setAlignment(Pos.CENTER);
+        HBox layout3 = new HBox(10);
+        layout3.setAlignment(Pos.CENTER);
+        layout3.getChildren().addAll(button, encode);
+        VBox layout = new VBox(10);
+        layout.setPadding(new Insets(20, 20, 20, 20));
+        layout.setAlignment(Pos.CENTER);
+        layout.getChildren().addAll(label, layout2, layout3, textArea, files);
 
-            Scene scene = new Scene(layout, 800,600);
-            primaryStage.setScene(scene);
-            primaryStage.show();
+        Scene scene = new Scene(layout, 800,600);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    public static void encode(String plainText, String key, String cipherType) {
+        switch(cipherType) {
+            case "Hill Cipher":
+                System.out.println(Hill.encode(plainText, key));
+                break;
+            case "Caesar Cipher":
+                System.out.println("Encoding Caesar Cipher");
+                break;
         }
-    } //end class Client
+    }
 
+    public static void decode(String plainText, String key, String cipherType) {
+        switch(cipherType) {
+            case "Hill Cipher":
+                Hill.decode(plainText, key);
+                break;
+            case "Caesar Cipher":
+                System.out.println("Decoding Caesar Cipher");
+                break;
+        }
+    }
+} //end class Client
