@@ -34,7 +34,10 @@ public class Client extends Application{
     private BufferedReader in;
     ComboBox<String> combobox;
     private TextArea textArea;
-    
+    private static Stage window;
+    private static Scene scene2;
+    private static String cipherText, plainText;
+
     public void startConnection(String ip, int port) throws IOException {
         clientSocket = new Socket(ip, port);
         out = new PrintWriter(clientSocket.getOutputStream(), true);
@@ -65,7 +68,8 @@ public class Client extends Application{
     }
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Decode");
+        window = primaryStage;
+        window.setTitle("Decode");
 
         //list of Ciphers
         combobox = new ComboBox<>();
@@ -125,18 +129,21 @@ public class Client extends Application{
         layout.setAlignment(Pos.CENTER);
         layout.getChildren().addAll(label, layout2, layout3, textArea, files);
 
+
         Scene scene = new Scene(layout, 800,600);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        window.setScene(scene);
+        window.show();
     }
 
     public static void encode(String plainText, String key, String cipherType) {
         switch(cipherType) {
             case "Hill Cipher":
-                System.out.println(Hill.encode(plainText, key));
+                cipherText = Hill.encode(plainText, key);
+                createSecondWindow();
                 break;
             case "Caesar Cipher":
                 System.out.println("Encoding Caesar Cipher");
+                window.setScene(scene2);
                 break;
         }
     }
@@ -145,10 +152,21 @@ public class Client extends Application{
         switch(cipherType) {
             case "Hill Cipher":
                 Hill.decode(plainText, key);
+                window.setScene(scene2);
                 break;
             case "Caesar Cipher":
                 System.out.println("Decoding Caesar Cipher");
+                window.setScene(scene2);
                 break;
         }
+    }
+
+    public static void createSecondWindow() {
+        Label answer = new Label("Result: \n" + cipherText);
+        HBox layout4 = new HBox(10);
+        layout4.setAlignment(Pos.CENTER);
+        layout4.getChildren().addAll(answer);
+        scene2 = new Scene(layout4, 500, 300);
+        window.setScene(scene2);
     }
 } //end class Client
