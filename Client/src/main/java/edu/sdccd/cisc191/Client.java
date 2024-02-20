@@ -1,7 +1,8 @@
-package edu.sdccd.cisc191.template;
+package edu.sdccd.cisc191;
 
 import java.net.*;
 import java.io.*;
+import java.util.*;
 
 /**
  * This program opens a connection to a computer specified
@@ -41,11 +42,13 @@ public class Client {
         Client client = new Client();
         try {
             client.startConnection("127.0.0.1", 4444);
-            System.out.println(client.sendRequest().toString());
+            System.out.println(client.sendRequest().getId());
             client.stopConnection();
         } catch(Exception e) {
             e.printStackTrace();
         }
+
+
     }
 } //end class Client
 

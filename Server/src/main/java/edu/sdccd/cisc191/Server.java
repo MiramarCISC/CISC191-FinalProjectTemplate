@@ -1,4 +1,4 @@
-package edu.sdccd.cisc191.template;
+package edu.sdccd.cisc191;
 
 import java.net.*;
 import java.io.*;
@@ -48,5 +48,7 @@ public class Server {
         } catch(Exception e) {
             e.printStackTrace();
         }
+
+        System.out.println("Hello World");
     }
 } //end class Server
