@@ -104,13 +104,16 @@ public class Main {
                 System.out.print("Enter the period of the assignment you would like to update information for: ");
                 int period2 = keyboard.nextInt() - 1;
                 subject2 = subjectArray.get(period2);
+                printAllAssignments(subject2);
+                System.out.print("Enter the number of the assignment you would like to update: ");
+                int index1 = keyboard.nextInt();
 
 
 
             // Remove Assignment
             case "5":
 
-                Arraylist<Assignment> assignmentArraylist1 = new Arraylist<Assignment>();
+                ArrayList<Assignment> assignmentArraylist1 = new ArrayList<Assignment>();
 
                 Systen.out.print("Enter the period of the subject you would like to remove an assignment from: ");
                 int period5 = keyboard.nextInt() - 1;
@@ -124,8 +127,10 @@ public class Main {
 
 
 
-                assignmentArraylist = subject5.getAssignmentList1();
-                assignmentArraylist.remove(temp);
+                assignmentArraylist1 = subject5.getAssignmentList1();
+                assignmentArraylist1.remove(temp);
+
+                subject5.setAssignmentList(assignmentArraylist1);
 
                 subjectArray.set(period5, subject5);
 
