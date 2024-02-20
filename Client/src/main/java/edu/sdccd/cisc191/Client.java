@@ -9,7 +9,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
 import java.net.*;
 import java.io.*;
 import java.util.Scanner;
@@ -34,7 +33,7 @@ public class Client extends Application{
     private BufferedReader in;
     ComboBox<String> combobox;
     private TextArea textArea;
-
+    
     public void startConnection(String ip, int port) throws IOException {
         clientSocket = new Socket(ip, port);
         out = new PrintWriter(clientSocket.getOutputStream(), true);
@@ -56,6 +55,7 @@ public class Client extends Application{
         try {
             client.startConnection("127.0.0.1", 4444);
             System.out.println(client.sendRequest().toString());
+            System.out.println(client.sendRequest().getId());
             client.stopConnection();
         } catch(Exception e) {
             e.printStackTrace();
@@ -128,6 +128,5 @@ public class Client extends Application{
             primaryStage.setScene(scene);
             primaryStage.show();
         }
-
     } //end class Client
 

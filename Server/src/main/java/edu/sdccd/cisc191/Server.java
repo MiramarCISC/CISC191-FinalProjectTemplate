@@ -1,17 +1,5 @@
 package edu.sdccd.cisc191;
 
-import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-
 import java.net.*;
 import java.io.*;
 
@@ -25,12 +13,11 @@ import java.io.*;
  * as it is received, rather than creating a separate thread
  * to process the connection.
  */
-public class Server extends Application {
+public class Server {
     private ServerSocket serverSocket;
     private Socket clientSocket;
     private PrintWriter out;
     private BufferedReader in;
-    ComboBox<String> combobox;
 
     public void start(int port) throws Exception {
         serverSocket = new ServerSocket(port);
@@ -61,42 +48,5 @@ public class Server extends Application {
         } catch(Exception e) {
             e.printStackTrace();
         }
-        launch(args);
-    }
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Decode");
-
-        //list of Ciphers
-        combobox = new ComboBox<>();
-        combobox.getItems().addAll(
-                "Cipher 1",
-                "Cipher 2"
-        );
-        //listen for selection changes
-        combobox.setOnAction(e -> System.out.println(combobox.getValue()));
-
-        //labels
-        Label label = new Label("Enter Message:");
-
-        //text input
-        TextField input = new TextField();
-
-
-        //Button
-        Button button = new Button("Decode");
-        button.setOnAction(e -> System.out.println(input.getText()));
-
-        //layout
-        HBox layout2 = new HBox(10);
-        layout2.getChildren().addAll(input, combobox);
-        VBox layout = new VBox(10);
-        layout.setPadding(new Insets(20, 20, 20, 20));
-        layout.setAlignment(Pos.CENTER);
-        layout.getChildren().addAll(label, layout2, button);
-
-        Scene scene = new Scene(layout, 300,250);
-        primaryStage.setScene(scene);
-        primaryStage.show();
     }
 } //end class Server
