@@ -77,7 +77,6 @@ public class Main {
                 }
             // Add Assignment
             case "3":
-                //wtf is going on here idk what im doing
                 //while pit
                 Assignment assignment = new Assignment();
                 Arraylist<Assignment> assignmentArraylist = new Arraylist<Assignment>();
