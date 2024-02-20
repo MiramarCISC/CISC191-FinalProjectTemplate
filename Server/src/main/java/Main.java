@@ -85,9 +85,21 @@ public class Main {
                 int period = keyboard.nextInt() - 1;
                 Subject subject = new Subject(subjectArray.get(period));
 
-                System.out.println("\nEnter the name of the assignment: ");
+                System.out.print("\nEnter the name of the assignment: ");
                 assignment.setNameOfAssignment(keyboard.nextLine());
-                System.out.println("Add other information by using the update assignment option!");
+                System.out.print("Enter the days until its due: ");
+                assignment.setDaysUntilDueDate(keyboard.nextInt());
+                System.out.print("Enter the points for the assignment: ");
+                assignment.setPointsOfAssignment(keyboard.nextInt());
+                //TODO while pit
+                System.out.print("Is it busy work? y/n ");
+                String input = keyboard.next();
+                if (input == "y") {
+                    assignment.setBusyWork(true);
+                }
+                else if (input == "n") {
+                    assignment.setBusyWork(false);
+                }
 
                 assignmentArrayList = subject.getAssignmentList();
                 assignmentArrayList.add(assignment);
@@ -105,8 +117,7 @@ public class Main {
                 subject2 = subjectArray.get(period2);
                 printAllAssignments(subject2);
                 System.out.print("Enter the number of the assignment you would like to update: ");
-                int index1 = keyboard.nextInt();
-
+                int index1 = keyboard.nextInt() - 1;
 
 
             // Remove Assignment
@@ -151,4 +162,5 @@ public class Main {
             System.out.println(a + ". " + tempArray.get(i).getNameOfAssignment());
         }
     }
+    public static
 }
