@@ -11,6 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.scene.text.*;
 import java.net.*;
 import java.io.*;
 import java.util.Scanner;
@@ -163,12 +164,13 @@ public class Client extends Application{
     }
 
     public static void createSecondWindow() {
-        Label answer = new Label("Result: \n" + outputText);
+        Label answer = new Label("Result:");
         VBox layout4 = new VBox(10);
+        TextField output = new TextField(outputText);
         Button back = new Button("Back");
         back.setOnAction(e -> window.setScene(scene));
         layout4.setAlignment(Pos.CENTER);
-        layout4.getChildren().addAll(answer, back);
+        layout4.getChildren().addAll(answer, output, back);
         scene2 = new Scene(layout4, 500, 300);
         window.setScene(scene2);
     }
