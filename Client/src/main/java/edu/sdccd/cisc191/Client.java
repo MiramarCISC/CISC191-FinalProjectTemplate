@@ -36,7 +36,7 @@ public class Client extends Application{
     ComboBox<String> combobox;
     private TextArea textArea;
     private static Stage window;
-    private static Scene scene2;
+    private static Scene scene, scene2;
     private static String outputText;
 
     public void startConnection(String ip, int port) throws IOException {
@@ -131,7 +131,7 @@ public class Client extends Application{
         layout.getChildren().addAll(label, layout2, layout3, textArea, files);
 
 
-        Scene scene = new Scene(layout, 800,600);
+        scene = new Scene(layout, 800,600);
         window.setScene(scene);
         window.show();
     }
@@ -164,9 +164,11 @@ public class Client extends Application{
 
     public static void createSecondWindow() {
         Label answer = new Label("Result: \n" + outputText);
-        HBox layout4 = new HBox(10);
+        VBox layout4 = new VBox(10);
+        Button back = new Button("Back");
+        back.setOnAction(e -> window.setScene(scene));
         layout4.setAlignment(Pos.CENTER);
-        layout4.getChildren().addAll(answer);
+        layout4.getChildren().addAll(answer, back);
         scene2 = new Scene(layout4, 500, 300);
         window.setScene(scene2);
     }
