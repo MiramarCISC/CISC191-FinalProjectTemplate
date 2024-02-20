@@ -36,7 +36,7 @@ public class Client extends Application{
     ComboBox<String> combobox;
     private TextArea textArea;
     private static Stage window;
-    private static Scene scene, scene2;
+    private static Scene scene;
     private static String outputText;
 
     public void startConnection(String ip, int port) throws IOException {
@@ -170,7 +170,7 @@ public class Client extends Application{
         back.setOnAction(e -> window.setScene(scene));
         layout4.setAlignment(Pos.CENTER);
         layout4.getChildren().addAll(answer, output, back);
-        scene2 = new Scene(layout4, 500, 300);
+        Scene scene2 = new Scene(layout4, 500, 300);
         window.setScene(scene2);
     }
 } //end class Client
