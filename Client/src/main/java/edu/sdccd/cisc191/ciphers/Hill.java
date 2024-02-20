@@ -27,8 +27,8 @@ public class Hill {
 
         return cipherText.toString();
     }
-    public static void decode(String plainText, String key) {
-        System.out.println(plainText + " " + key);
+    public static String decode(String plainText, String key) {
+        return plainText + " " + key;
     }
 
     private static int[][] createKeyMatrix(String key) {

@@ -1,5 +1,6 @@
 package edu.sdccd.cisc191;
 
+import edu.sdccd.cisc191.ciphers.Caesar;
 import edu.sdccd.cisc191.ciphers.Hill;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -36,7 +37,7 @@ public class Client extends Application{
     private TextArea textArea;
     private static Stage window;
     private static Scene scene2;
-    private static String cipherText, plainText;
+    private static String outputText;
 
     public void startConnection(String ip, int port) throws IOException {
         clientSocket = new Socket(ip, port);
@@ -138,12 +139,12 @@ public class Client extends Application{
     public static void encode(String plainText, String key, String cipherType) {
         switch(cipherType) {
             case "Hill Cipher":
-                cipherText = Hill.encode(plainText, key);
+                outputText = Hill.encode(plainText, key);
                 createSecondWindow();
                 break;
             case "Caesar Cipher":
-                System.out.println("Encoding Caesar Cipher");
-                window.setScene(scene2);
+                outputText = Caesar.encode(plainText, key);
+                createSecondWindow();
                 break;
         }
     }
@@ -151,18 +152,18 @@ public class Client extends Application{
     public static void decode(String plainText, String key, String cipherType) {
         switch(cipherType) {
             case "Hill Cipher":
-                Hill.decode(plainText, key);
-                window.setScene(scene2);
+                outputText = Hill.decode(plainText, key);
+                createSecondWindow();
                 break;
             case "Caesar Cipher":
-                System.out.println("Decoding Caesar Cipher");
-                window.setScene(scene2);
+                outputText = Caesar.decode(plainText,key);
+                createSecondWindow();
                 break;
         }
     }
 
     public static void createSecondWindow() {
-        Label answer = new Label("Result: \n" + cipherText);
+        Label answer = new Label("Result: \n" + outputText);
         HBox layout4 = new HBox(10);
         layout4.setAlignment(Pos.CENTER);
         layout4.getChildren().addAll(answer);
