@@ -9,13 +9,24 @@ public class Subject {
         nameOfSubject = "";
         weighted = false;
         gradeInClass = 0.0;
-
+        assignmentList = new ArrayList<Assignment>();
     }
 
     public Subject(String name, boolean weight, double grade) {
         nameOfSubject = name;
         weighted = weight;
         gradeInClass = grade;
+    }
+
+    /**
+     * Copy constructor
+     * @param subject Subject object to copy
+     */
+    public Subject(Subject subject) {
+        nameOfSubject = subject.getNameOfSubject();
+        weighted = subject.isWeighted();
+        gradeInclass = subject.getGradeInClass();
+        assignmentList = subject.getAssignmentList();
     }
 
     public String getNameOfSubject() {
