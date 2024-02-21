@@ -149,7 +149,7 @@ public class Client extends Application{
         }
     }
 
-    public static void decode(String plainText, String key, String cipherType) {
+    public static void decode(String plainText, String key, String cipherType){
         switch(cipherType) {
             case "Hill Cipher":
                 outputText = Hill.decode(plainText, key);
