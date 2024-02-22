@@ -3,7 +3,7 @@ public class Assignment {
 
     private String nameOfAssignment;
     private int daysUntilDueDate;
-    private double pointsOfAssignment;
+    private int pointsOfAssignment;
     //private int estInMinutes;
     private boolean busyWork;
 
@@ -28,10 +28,10 @@ public class Assignment {
         this.nameOfAssignment = nameOfAssignment;
     }
 
-    public double getPointsOfAssignment() {
+    public int getPointsOfAssignment() {
         return pointsOfAssignment;
     }
-    public void setPointsOfAssignment(double pointsOfAssignment) {
+    public void setPointsOfAssignment(int pointsOfAssignment) {
         this.pointsOfAssignment = pointsOfAssignment;
     }
 

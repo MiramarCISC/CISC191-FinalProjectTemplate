@@ -77,7 +77,6 @@ public class Main {
                 }
             // Add Assignment
             case "3":
-                //wtf is going on here idk what im doing
                 //while pit
                 Assignment assignment = new Assignment();
                 Arraylist<Assignment> assignmentArraylist = new Arraylist<Assignment>();
@@ -86,9 +85,21 @@ public class Main {
                 int period = keyboard.nextInt() - 1;
                 Subject subject = new Subject(subjectArray.get(period));
 
-                System.out.println("\nEnter the name of the assignment: ");
+                System.out.print("\nEnter the name of the assignment: ");
                 assignment.setNameOfAssignment(keyboard.nextLine());
-                System.out.println("Add other information by using the update assignment option!");
+                System.out.print("Enter the days until its due: ");
+                assignment.setDaysUntilDueDate(keyboard.nextInt());
+                System.out.print("Enter the points for the assignment: ");
+                assignment.setPointsOfAssignment(keyboard.nextInt());
+                //TODO while pit
+                System.out.print("Is it busy work? y/n ");
+                String input = keyboard.next();
+                if (input == "y") {
+                    assignment.setBusyWork(true);
+                }
+                else if (input == "n") {
+                    assignment.setBusyWork(false);
+                }
 
                 assignmentArrayList = subject.getAssignmentList();
                 assignmentArrayList.add(assignment);
@@ -104,13 +115,15 @@ public class Main {
                 System.out.print("Enter the period of the assignment you would like to update information for: ");
                 int period2 = keyboard.nextInt() - 1;
                 subject2 = subjectArray.get(period2);
-
+                printAllAssignments(subject2);
+                System.out.print("Enter the number of the assignment you would like to update: ");
+                int index1 = keyboard.nextInt() - 1;
 
 
             // Remove Assignment
             case "5":
 
-                Arraylist<Assignment> assignmentArraylist1 = new Arraylist<Assignment>();
+                ArrayList<Assignment> assignmentArraylist1 = new ArrayList<Assignment>();
 
                 Systen.out.print("Enter the period of the subject you would like to remove an assignment from: ");
                 int period5 = keyboard.nextInt() - 1;
@@ -124,8 +137,10 @@ public class Main {
 
 
 
-                assignmentArraylist = subject5.getAssignmentList1();
-                assignmentArraylist.remove(temp);
+                assignmentArraylist1 = subject5.getAssignmentList1();
+                assignmentArraylist1.remove(temp);
+
+                subject5.setAssignmentList(assignmentArraylist1);
 
                 subjectArray.set(period5, subject5);
 
@@ -147,4 +162,5 @@ public class Main {
             System.out.println(a + ". " + tempArray.get(i).getNameOfAssignment());
         }
     }
+    public static
 }
