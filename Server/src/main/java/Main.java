@@ -11,14 +11,16 @@ import java.util.*;
 public class Main {
     public static Scanner keyboard = new Scanner(System.in);
     public static void main(String[] args) {
+        // TODO add q to quit as option when implementing javafx
         String option;
         System.out.println("1. Run Setup");
         System.out.println("2. Update Subject");
-        System.out.println("3. Add Assignment");
-        System.out.println("4. Update Assignment Information");
-        System.out.println("5. Remove Assignment");
+        System.out.println("3. Remove Subject");
+        System.out.println("4. Add Assignment");
+        System.out.println("5. Update Assignment");
+        System.out.println("6. Remove Assignment");
         //create while pit here
-        System.out.print("Choose an option, 1, 2, 3, or 4 or 'q' to quit ");
+        System.out.print("Choose an option, 1, 2, 3, 4, 5, or 'q' to quit ");
         option = keyboard.next();
         ArrayList<Subject> subjectArray = new ArrayList<Subject>();
         switch (option) {
@@ -48,36 +50,26 @@ public class Main {
                 break;
             // Update/Delete Subject names in array list
             case "2":
-                int subjectOption;
-                System.out.println("1. Rename Subject");
-                System.out.println("2. Remove Subject");
-                //while pit
-                System.out.print("Pick an option, 1 or 2: ");
-                subjectOption = keyboard.nextInt();
-                switch (subjectOption) {
-                    //Update Subject
-                    case 1:
-                        int period = 0;
-                        System.out.print("Enter the period of the subject you want to rename: ");
-                        period = keyboard.nextInt() - 1;
-                        System.out.print("\nEnter the new name of the subject: ");
-                        String subjectName = keyboard.nextLine();
-                        Subject subject = new Subject();
-                        subject.setNameOfSubject(subjectName);
-                        subjectArray.set(period, subject);
-                        break;
+                int period = 0;
+                System.out.print("Enter the period of the subject you want to update: ");
+                period = keyboard.nextInt() - 1;
+                System.out.print("\nEnter the new name of the subject: ");
+                String subjectName = keyboard.nextLine();
+                Subject subject = new Subject();
+                subject.setNameOfSubject(subjectName);
+                subjectArray.set(period, subject);
+                break;
 
-                    //Remove Subject
-                    case 2:
-                        //while pit
-                        System.out.println("Enter the period of the subject you want to remove: ");
-                        int period1 = keyboard.nextInt() - 1;
-                        subjectArray.remove(period1);
-                        break;
-                }
-            // Add Assignment
+                //Remove Subject
             case "3":
-                //wtf is going on here idk what im doing
+                //while pit
+                System.out.println("Enter the period of the subject you want to remove: ");
+                int period1 = keyboard.nextInt() - 1;
+                subjectArray.remove(period1);
+                break;
+
+            // Add Assignment
+            case "4":
                 //while pit
                 Assignment assignment = new Assignment();
                 Arraylist<Assignment> assignmentArraylist = new Arraylist<Assignment>();
@@ -86,9 +78,21 @@ public class Main {
                 int period = keyboard.nextInt() - 1;
                 Subject subject = new Subject(subjectArray.get(period));
 
-                System.out.println("\nEnter the name of the assignment: ");
+                System.out.print("\nEnter the name of the assignment: ");
                 assignment.setNameOfAssignment(keyboard.nextLine());
-                System.out.println("Add other information by using the update assignment option!");
+                System.out.print("Enter the days until its due: ");
+                assignment.setDaysUntilDueDate(keyboard.nextInt());
+                System.out.print("Enter the points for the assignment: ");
+                assignment.setPointsOfAssignment(keyboard.nextInt());
+                //TODO while pit
+                System.out.print("Is it busy work? y/n ");
+                String input = keyboard.next();
+                if (input == "y") {
+                    assignment.setBusyWork(true);
+                }
+                else if (input == "n") {
+                    assignment.setBusyWork(false);
+                }
 
                 assignmentArrayList = subject.getAssignmentList();
                 assignmentArrayList.add(assignment);
@@ -97,20 +101,43 @@ public class Main {
                 subjectArray.set(period, subject);
                 break;
             // Update Current Assignments
-            case "4":
+            case "5":
                 ArrayList<Assignment> tempArrayList = new ArrayList<Assignment>();
                 Subject subject2 = new Subject();
 
+                //ask user for subject
                 System.out.print("Enter the period of the assignment you would like to update information for: ");
                 int period2 = keyboard.nextInt() - 1;
                 subject2 = subjectArray.get(period2);
+                tempArrayList = subject2.getAssignmentList();
 
+                //display list for user to pick from, then update info
+                printAllAssignments(subject2);
+                System.out.print("Enter the number of the assignment you would like to update: ");
+                int index1 = keyboard.nextInt() - 1;
+                System.out.print("\nEnter the name of the assignment: ");
+                tempArrayList.setNameOfAssignment(keyboard.nextLine());
+                System.out.print("Enter the days until its due: ");
+                tempArrayList.setDaysUntilDueDate(keyboard.nextInt());
+                System.out.print("Enter the points for the assignment: ");
+                tempArrayList.setPointsOfAssignment(keyboard.nextInt());
+                //TODO while pit
+                System.out.print("Is it busy work? y/n ");
+                String input1 = keyboard.next();
+                if (input1 == "y") {
+                    tempArrayList.setBusyWork(true);
+                }
+                else if (input1 == "n") {
+                    tempArrayList.setBusyWork(false);
+                }
 
+                subject2.setAssignmentList(tempArrayList);
+                subjectArray.set(period2, subject2);
 
             // Remove Assignment
-            case "5":
+            case "6":
 
-                Arraylist<Assignment> assignmentArraylist1 = new Arraylist<Assignment>();
+                ArrayList<Assignment> assignmentArraylist1 = new ArrayList<Assignment>();
 
                 Systen.out.print("Enter the period of the subject you would like to remove an assignment from: ");
                 int period5 = keyboard.nextInt() - 1;
@@ -119,13 +146,15 @@ public class Main {
 
 
                 printAllAssignments(subject5);
-                System.out.print("From the list above, enter the number correlating to the assignment you would like to remove:  ")
+                System.out.print("From the list above, enter the number correlating to the assignment you would like to remove: ");
                 int temp = keyboard.nextInt() - 1;
 
 
 
-                assignmentArraylist = subject5.getAssignmentList1();
-                assignmentArraylist.remove(temp);
+                assignmentArraylist1 = subject5.getAssignmentList1();
+                assignmentArraylist1.remove(temp);
+
+                subject5.setAssignmentList(assignmentArraylist1);
 
                 subjectArray.set(period5, subject5);
 
@@ -133,10 +162,13 @@ public class Main {
 
         }
     }
-    public static int calculatePriority(Assignment o) {
+    public static int calculatePriorityPoints(Assignment o) {
         int counter = 0;
         int temp = o.getDaysUntilDueDate();
-        counter += (10/temp)
+        counter += (10/temp);
+        temp = o.getPointsOfAssignment();
+        counter += (2/temp);
+        return counter;
     }
     public static void printAllAssignments(Subject o) {
         ArrayList<Assignment> tempArray = new ArrayList<Assignment>();
