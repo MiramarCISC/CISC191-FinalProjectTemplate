@@ -1,3 +1,5 @@
+package edu.sdccd.cisc191.template;
+
 import java.util.ArrayList;
 public class Subject {
     private String nameOfSubject;
@@ -20,7 +22,7 @@ public class Subject {
 
     /**
      * Copy constructor
-     * @param subject Subject object to copy
+     * @param subject edu.sdccd.cisc191.template.Subject object to copy
      */
     public Subject(Subject subject) {
         nameOfSubject = subject.getNameOfSubject();

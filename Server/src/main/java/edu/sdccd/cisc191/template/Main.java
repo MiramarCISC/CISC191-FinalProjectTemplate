@@ -1,3 +1,7 @@
+package edu.sdccd.cisc191.template;
+
+import edu.sdccd.cisc191.template.Assignment;
+
 import java.util.*;
 /** Program Description
  * 1) Console opens w/ options
@@ -14,11 +18,11 @@ public class Main {
         // TODO add q to quit as option when implementing javafx
         String option;
         System.out.println("1. Run Setup");
-        System.out.println("2. Update Subject");
-        System.out.println("3. Remove Subject");
-        System.out.println("4. Add Assignment");
-        System.out.println("5. Update Assignment");
-        System.out.println("6. Remove Assignment");
+        System.out.println("2. Update edu.sdccd.cisc191.template.Subject");
+        System.out.println("3. Remove edu.sdccd.cisc191.template.Subject");
+        System.out.println("4. Add edu.sdccd.cisc191.template.Assignment");
+        System.out.println("5. Update edu.sdccd.cisc191.template.Assignment");
+        System.out.println("6. Remove edu.sdccd.cisc191.template.Assignment");
         //create while pit here
         System.out.print("Choose an option, 1, 2, 3, 4, 5, or 'q' to quit ");
         option = keyboard.next();
@@ -26,7 +30,7 @@ public class Main {
         switch (option) {
             /*
             Run Setup:
-                Set Subject array
+                Set edu.sdccd.cisc191.template.Subject array
                 Add initial assignments
             */
             case "1":
@@ -48,7 +52,7 @@ public class Main {
                     subjectArray.add(temp);
                 }
                 break;
-            // Update/Delete Subject names in array list
+            // Update/Delete edu.sdccd.cisc191.template.Subject names in array list
             case "2":
                 int period = 0;
                 System.out.print("Enter the period of the subject you want to update: ");
@@ -60,7 +64,7 @@ public class Main {
                 subjectArray.set(period, subject);
                 break;
 
-                //Remove Subject
+                //Remove edu.sdccd.cisc191.template.Subject
             case "3":
                 //while pit
                 System.out.println("Enter the period of the subject you want to remove: ");
@@ -68,7 +72,7 @@ public class Main {
                 subjectArray.remove(period1);
                 break;
 
-            // Add Assignment
+            // Add edu.sdccd.cisc191.template.Assignment
             case "4":
                 //while pit
                 Assignment assignment = new Assignment();
@@ -134,7 +138,7 @@ public class Main {
                 subject2.setAssignmentList(tempArrayList);
                 subjectArray.set(period2, subject2);
 
-            // Remove Assignment
+            // Remove edu.sdccd.cisc191.template.Assignment
             case "6":
 
                 ArrayList<Assignment> assignmentArraylist1 = new ArrayList<Assignment>();
