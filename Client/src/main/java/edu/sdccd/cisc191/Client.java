@@ -168,6 +168,7 @@ public class Client extends Application{
         TextField output = new TextField(outputText);
         Button back = new Button("Back");
         back.setOnAction(e -> window.setScene(scene));
+        layout4.setPadding(new Insets(50,50,50,50));
         layout4.setAlignment(Pos.CENTER);
         layout4.getChildren().addAll(answer, output, back);
         Scene scene2 = new Scene(layout4, 500, 300);
