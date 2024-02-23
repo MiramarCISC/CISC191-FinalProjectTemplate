@@ -22,6 +22,12 @@ public class Assignment {
         pointsOfAssignment = 0;
         busyWork = false;
     }
+    public Assignment(Assignment a) {
+        nameOfAssignment = a.nameOfAssignment;
+        daysUntilDueDate = a.daysUntilDueDate;
+        pointsOfAssignment = a.pointsOfAssignment;
+        busyWork = a.busyWork;
+    }
     public String getNameOfAssignment() {
         return nameOfAssignment;
     }

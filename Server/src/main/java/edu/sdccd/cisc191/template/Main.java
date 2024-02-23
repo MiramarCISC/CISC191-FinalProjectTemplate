@@ -76,11 +76,11 @@ public class Main {
             case "4":
                 //while pit
                 Assignment assignment = new Assignment();
-                Arraylist<Assignment> assignmentArraylist = new Arraylist<Assignment>();
+                ArrayList<Assignment> assignmentArrayList = new ArrayList<Assignment>();
 
                 System.out.print("Enter the period of the subject you would like to add an assignment to: ");
-                int period = keyboard.nextInt() - 1;
-                Subject subject = new Subject(subjectArray.get(period));
+                int period3 = keyboard.nextInt() - 1;
+                Subject subject3 = new Subject(subjectArray.get(period3));
 
                 System.out.print("\nEnter the name of the assignment: ");
                 assignment.setNameOfAssignment(keyboard.nextLine());
@@ -98,11 +98,11 @@ public class Main {
                     assignment.setBusyWork(false);
                 }
 
-                assignmentArrayList = subject.getAssignmentList();
+                assignmentArrayList = subject3.getAssignmentList();
                 assignmentArrayList.add(assignment);
-                subject.setAssignmentList(assignmentArrayList);
+                subject3.setAssignmentList(assignmentArrayList);
 
-                subjectArray.set(period, subject);
+                subjectArray.set(period3, subject3);
                 break;
             // Update Current Assignments
             case "5":
@@ -119,31 +119,33 @@ public class Main {
                 printAllAssignments(subject2);
                 System.out.print("Enter the number of the assignment you would like to update: ");
                 int index1 = keyboard.nextInt() - 1;
+                Assignment assignment2 = new Assignment(tempArrayList.get(index1));
                 System.out.print("\nEnter the name of the assignment: ");
-                tempArrayList.setNameOfAssignment(keyboard.nextLine());
+                String temp = keyboard.nextLine();
+                assignment2.setNameOfAssignment(temp);
                 System.out.print("Enter the days until its due: ");
-                tempArrayList.setDaysUntilDueDate(keyboard.nextInt());
+                assignment2.setDaysUntilDueDate(keyboard.nextInt());
                 System.out.print("Enter the points for the assignment: ");
-                tempArrayList.setPointsOfAssignment(keyboard.nextInt());
+                assignment2.setPointsOfAssignment(keyboard.nextInt());
                 //TODO while pit
                 System.out.print("Is it busy work? y/n ");
                 String input1 = keyboard.next();
                 if (input1 == "y") {
-                    tempArrayList.setBusyWork(true);
+                    assignment2.setBusyWork(true);
                 }
                 else if (input1 == "n") {
-                    tempArrayList.setBusyWork(false);
+                    assignment2.setBusyWork(false);
                 }
-
+                tempArrayList.set(index1, assignment2);
                 subject2.setAssignmentList(tempArrayList);
                 subjectArray.set(period2, subject2);
 
-            // Remove edu.sdccd.cisc191.template.Assignment
+            // Remove .Assignment
             case "6":
 
                 ArrayList<Assignment> assignmentArraylist1 = new ArrayList<Assignment>();
 
-                Systen.out.print("Enter the period of the subject you would like to remove an assignment from: ");
+                System.out.print("Enter the period of the subject you would like to remove an assignment from: ");
                 int period5 = keyboard.nextInt() - 1;
 
                 Subject subject5 = subjectArray.get(period5);
@@ -151,12 +153,12 @@ public class Main {
 
                 printAllAssignments(subject5);
                 System.out.print("From the list above, enter the number correlating to the assignment you would like to remove: ");
-                int temp = keyboard.nextInt() - 1;
+                int temp4 = keyboard.nextInt() - 1;
 
 
 
-                assignmentArraylist1 = subject5.getAssignmentList1();
-                assignmentArraylist1.remove(temp);
+                assignmentArraylist1 = subject5.getAssignmentList();
+                assignmentArraylist1.remove(temp4);
 
                 subject5.setAssignmentList(assignmentArraylist1);
 

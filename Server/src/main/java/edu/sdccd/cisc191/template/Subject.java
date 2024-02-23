@@ -27,7 +27,7 @@ public class Subject {
     public Subject(Subject subject) {
         nameOfSubject = subject.getNameOfSubject();
         weighted = subject.isWeighted();
-        gradeInclass = subject.getGradeInClass();
+        gradeInClass = subject.getGradeInClass();
         assignmentList = subject.getAssignmentList();
     }
 
