@@ -1,7 +1,5 @@
 package edu.sdccd.cisc191.ciphers;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
-
 import java.io.IOException;
 
 public class Hill {
@@ -61,7 +59,7 @@ public class Hill {
 
         for(int i=0; i<n; i++) {
             for(int j=0; j<n; j++) {
-                keyMatrix[i][j] = key.charAt(i*n+j) - 'A';
+                keyMatrix[i][j] = key.charAt((i*n+j)%(key.length())) - 'A';
             }
         }
 
@@ -114,8 +112,8 @@ public class Hill {
         return subMatrix;
     }
 
-    public static int[][] findInverse(int[][] matrix) {
-        int det = Math.abs(findDeterminant(matrix))%26;
+    public static int[][] findInverse(int[][] inputMatrix) {
+        int det = findDeterminant(inputMatrix);
         try {
             if (det % 2 == 0 || det == 13)
                 throw new IOException("The key is non-invertible");
@@ -123,30 +121,49 @@ public class Hill {
             System.out.println(e.getMessage());
         }
 
-        int[][] inverse = new int[matrix.length][matrix[0].length];
-        int inverseDet = MULT_INVERSE[det-1];
+        double[][] matrix = augmentIdentityMatrix(inputMatrix);
+        int[][] inverse = new int[inputMatrix.length][inputMatrix[0].length];
+        int inverseDet = MULT_INVERSE[((det%26)+26)%26 - 1];
 
-        if (matrix.length>2) {
-            for (int i = 0, iteration = 0; i < matrix.length; i++) {
-                for (int j = 0; j < matrix[0].length; j++) {
-                    inverse[i][j] = (int) (Math.pow(-1, iteration) * findDeterminant(getSubMatrix(matrix, j, i))%26);
-                    iteration++;
-                    if(inverse[i][j] < 0) {
-                        inverse[i][j] %= 26;
-                        inverse[i][j] += 26;
-                    }
-                    if(matrix.length%2 == 0)
-                        iteration++;
-                }
+        for(int i=0; i<matrix.length; i++) {
+            matrix[i] = scaleRow(matrix[i], 1/matrix[i][i]);
+            for(int j=0; j<matrix.length; j++) {
+                if(j!=i)
+                    matrix[j] = addRow(matrix[j], scaleRow(matrix[i], -1*matrix[j][i]));
             }
-        } else {
-            inverse[0][0] = (matrix[1][1] * inverseDet)%26;
-            inverse[1][1] = (matrix[0][0] * inverseDet)%26;
-            inverse[0][1] = 26 - (matrix[0][1] * inverseDet)%26;
-            inverse[1][0] = 26 - (matrix[1][0] * inverseDet)%26;
         }
 
+        for(int i=0; i<matrix.length; i++) {
+            for(int j=matrix.length; j<matrix[0].length; j++) {
+                inverse[i][j-matrix.length] = (int) (Math.round(((matrix[i][j] * det * inverseDet)%26))+26)%26;
+            }
+        }
         return inverse;
     }
 
+    public static double[] addRow(double[] outputVector, double[] b) {
+        for(int i=0; i<outputVector.length; i++) {
+            outputVector[i] += b[i];
+        }
+        return outputVector;
+    }
+
+    public static double[] scaleRow(double[] row, double scalar) {
+        double[] output = new double[row.length];
+        for(int i=0; i<row.length; i++) {
+            output[i]= row[i] * scalar;
+        }
+        return output;
+    }
+
+    public static double[][] augmentIdentityMatrix(int[][] matrix) {
+        double[][] ret = new double[matrix.length][matrix[0].length*2];
+        for(int i=0; i<matrix.length; i++){
+            for(int j=0; j<matrix.length; j++) {
+                ret[i][j] = matrix[i][j];
+            }
+            ret[i][i + matrix.length] = 1;
+        }
+        return ret;
+    }
 }
