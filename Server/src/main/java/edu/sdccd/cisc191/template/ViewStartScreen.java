@@ -3,6 +3,7 @@ package edu.sdccd.cisc191.template;
 import javafx.event.ActionEvent;
 import javafx.application.Application;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -15,6 +16,7 @@ import javax.swing.*;
 
 public class ViewStartScreen extends Application {
     private int screenWidth, screenHeight; //allows buttons to be scaled accordingly
+    private int amountOfClasses;
     private BorderPane layout;
     private Stage stage;
     private Scene startScene, sceneClassName;
@@ -40,7 +42,11 @@ public class ViewStartScreen extends Application {
         //button to direct the user to set up
         OptionButton setupButton = new OptionButton("Run Setup", screenWidth / 5, screenHeight / 3);
         setupButton.setOnAction((ActionEvent e)-> {
-            runSetup1();
+            try {
+                runSetup1();
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
         });
 
         //title and credits to the authors
@@ -70,7 +76,7 @@ public class ViewStartScreen extends Application {
      * updates global variable subjectArrayList according to the user
      * directs to runSetup2()
       */
-    public void runSetup1() {
+    public void runSetup1() throws Exception{
 
         TextField answers = new TextField("100");
         answers.setPrefSize(screenWidth/2, screenHeight/8);
@@ -81,23 +87,44 @@ public class ViewStartScreen extends Application {
         confirm.setOnAction((ActionEvent e)-> {
             //TODO make sure user only inputs integers
             subjectArrayList = new ArrayList<>(Integer.parseInt(answers.getText()));
-            runSetup2();
+            amountOfClasses = Integer.parseInt(answers.getText());
+            try {
+                runSetup2();
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
         });
+        VBox buttons = new VBox(screenHeight/60, promptClasses, answers, confirm);
+        layout = new BorderPane(buttons);
+        sceneClassName = new Scene(layout, screenWidth, screenHeight);
+        stage.setTitle("Set Schedule");
+        stage.setScene(sceneClassName);
+        stage.show();
     }
-    public void runSetup2() {
-        int i = 0;
-        for (i = 0; i < subjectArrayList.size(), i++) {
-            Label promptName = new Label("Enter the name of period " + i);
+    public void runSetup2() throws Exception {
+
+            Label promptName = new Label("Enter the name of the class you would like to add");
             TextField name = new TextField();
-            name.setPrefSize(screenWidth/2), screenHeight/8);
+            name.setPrefSize(screenWidth/2, screenHeight/8);
+            //TODO implement this cause i cant
+            //Checkbox weighted = new Checkbox("Is the class weighted?", false);
+            Label promptGrade = new Label("What is your current grade in the class?");
+            TextField grade = new TextField();
+            OptionButton confirm = new OptionButton("Confirm", screenWidth/6, screenHeight/24);
+            confirm.setOnAction((ActionEvent yes)-> {
 
-            Checkbox weighted = new Checkbox("Is the class weighted?", false);
+            });
+            VBox buttons = new VBox(20);
+            buttons.getChildren().addAll(promptName, name, promptGrade, grade, confirm);
+            buttons.setAlignment(Pos.CENTER);
+            layout = new BorderPane(buttons);
 
-            VBox layout2 = new VBox(20.0, promptName, name, weighted);
-
-            sceneClassName = (layout2, screenWidth, screenHeight);
-            stage.setTitle("Set your Classes");
-            stage.setScene(sceneClassName);
+            sceneClassName = new Scene(layout, screenWidth, screenHeight);
+            switchScene(sceneClassName, "Set your classes");
+            stage.show();
         }
+    public void switchScene(Scene scene, String title) {
+        stage.setScene(scene);
+        stage.setTitle(title);
     }
 }
