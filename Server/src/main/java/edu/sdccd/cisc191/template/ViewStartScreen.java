@@ -9,12 +9,17 @@ import javafx.stage.Stage;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import java.util.ArrayList;
+import java.awt.Checkbox;
+import javax.swing.*;
 
 public class ViewStartScreen extends Application {
     private int screenWidth, screenHeight; //allows buttons to be scaled accordingly
     private BorderPane layout;
     private Stage stage;
-
+    private Scene startScene, sceneClassName;
+    private String temp;
+    private ArrayList<Subject> subjectArrayList = new ArrayList<>();
     /**
      *
      * @param stage the primary stage for this application, onto which
@@ -25,17 +30,17 @@ public class ViewStartScreen extends Application {
      * Initial screen that the user sees
      * Hooray for javafx
      */
-    public void start(Stage stage) {
+    public void start(Stage stage) throws Exception{
         //variables???
         this.stage = stage;
-        //1080/1920 resolution
-        screenWidth = 1080;
-        screenHeight = 1920;
+        // 720x1200 resolution
+        screenWidth = 720;
+        screenHeight = 1200;
 
         //button to direct the user to set up
         OptionButton setupButton = new OptionButton("Run Setup", screenWidth / 5, screenHeight / 3);
         setupButton.setOnAction((ActionEvent e)-> {
-            runSetup();
+            runSetup1();
         });
 
         //title and credits to the authors
@@ -51,16 +56,48 @@ public class ViewStartScreen extends Application {
         buttons.setAlignment(Pos.BOTTOM_RIGHT);
         layout.setBottom(buttons);
 
-        Scene scene = new Scene(layout, screenWidth, screenHeight);
+        startScene = new Scene(layout, screenWidth, screenHeight);
         stage.setTitle("Send Help Now");
-        stage.setScene(scene);
+        stage.setScene(startScene);
         stage.show();
     }
     public static void main(String[] args) {
         launch();
     }
-    public void runSetup() {
-        TextField answers = new TextField();
+
+    /**
+     * Asks the user for how many classes they have
+     * updates global variable subjectArrayList according to the user
+     * directs to runSetup2()
+      */
+    public void runSetup1() {
+
+        TextField answers = new TextField("100");
         answers.setPrefSize(screenWidth/2, screenHeight/8);
+
+        Label promptClasses = new Label("How many classes with homework do you have?");
+
+        OptionButton confirm = new OptionButton("Confirm", screenWidth/4, screenHeight/16);
+        confirm.setOnAction((ActionEvent e)-> {
+            //TODO make sure user only inputs integers
+            subjectArrayList = new ArrayList<>(Integer.parseInt(answers.getText()));
+            runSetup2();
+        });
+    }
+    public void runSetup2() {
+        int i = 0;
+        for (i = 0; i < subjectArrayList.size(), i++) {
+            Label promptName = new Label("Enter the name of period " + i);
+            TextField name = new TextField();
+            name.setPrefSize(screenWidth/2), screenHeight/8);
+
+            Checkbox weighted = new Checkbox("Is the class weighted?", false);
+
+            VBox layout2 = new VBox(20.0, promptName, name, weighted);
+
+            sceneClassName = (layout2, screenWidth, screenHeight);
+            stage.setTitle("Set your Classes");
+            stage.setScene(sceneClassName);
+        }
     }
 }
