@@ -4,71 +4,72 @@ import java.io.IOException;
 
 public class Hill {
     private static final int[] MULT_INVERSE= {1,0,9,0,21,0,15,0,3,0,19,0,0,0,7,0,23,0,11,0,5,0,17,0,25};
+    private static String INPUT_TEXT,ALPHA_INPUT_TEXT;
 
     /**************************************************************************
      * Encrypts plain text using a Hill Cipher given a key word
      *************************************************************************/
     public static String encode(String inputText, String key) {
         //Removes all non alphabet characters and spaces
-        String plainText = inputText.toUpperCase().replaceAll("[^A-Z]", "");
-        StringBuilder cipherText = new StringBuilder();
-        int[][] keyMatrix = createKeyMatrix(key);
+        INPUT_TEXT = inputText;
+        ALPHA_INPUT_TEXT = INPUT_TEXT.toUpperCase().replaceAll("[^A-Z]", "");
+        int[][] keyMatrix = createKeyMatrix(key.toUpperCase());
         int matrixLength = keyMatrix.length;
 
         //Append Z's to allow key matrix to transform entire plain text
-        if(plainText.length()%matrixLength != 0)
-            for(int i=0; i<plainText.length()%matrixLength; i++) {
-                plainText = plainText.concat("Z");
+        if(ALPHA_INPUT_TEXT.length()%matrixLength != 0)
+            for(int i=0; i<ALPHA_INPUT_TEXT.length()%matrixLength; i++) {
+                ALPHA_INPUT_TEXT = ALPHA_INPUT_TEXT.concat("Z");
+                INPUT_TEXT += 'Z';
             }
 
-        //Transforms plain text matrix.length letters at a time
-        for(int i=0; i<=plainText.length()-matrixLength; i+=matrixLength) {
-            //Arranges letters as a vector
-            int[] letterVector = new int[matrixLength];
-            for(int c=0; c<letterVector.length; c++){
-                letterVector[c%matrixLength] = plainText.charAt(c+i) - 'A';
-            }
-
-            letterVector = matrixMultiply(keyMatrix, letterVector);
-
-            //Appends output with transformed vector
-            for(int c : letterVector) {
-                cipherText.append((char)(c + 'A'));
-            }
-        }
-
-        return cipherText.toString();
+        return transformText(keyMatrix);
     }
 
     /**************************************************************************
      * Decodes cipher text using a Hill Cipher given the encryption key
      *************************************************************************/
-    public static String decode(String cipherText, String key){
+    public static String decode(String inputText, String key){
         //Removes all spaces and non-alphabetic characters
-        cipherText = cipherText.toUpperCase().replaceAll("[^A-Z]", "");
-        StringBuilder plainText = new StringBuilder();
+        INPUT_TEXT = inputText;
+        ALPHA_INPUT_TEXT = INPUT_TEXT.toUpperCase().replaceAll("[^A-Z]", "");
 
         //Creates decryption matrix by inverting the key matrix
-        int[][] decryptionMatrix = findInverse(createKeyMatrix(key));
-        int matrixLength = decryptionMatrix.length;
+        return transformText(findInverse(createKeyMatrix(key)));
+    }
 
-        //Transforms plain text matrix.length letters at a time
-        for(int i=0; i<=cipherText.length()-matrixLength; i+=matrixLength) {
-            //Arranges letters into a vector
+    /**************************************************************************
+     * Transforms text using encryption/decryption matrix
+     *************************************************************************/
+    private static String transformText(int[][] keyMatrix) {
+        StringBuilder outputText = new StringBuilder();
+        int matrixLength = keyMatrix.length;
+
+        for(int i=0, offset=0; i<=ALPHA_INPUT_TEXT.length()-matrixLength; i+=matrixLength) {
+            //Arranges letters as a vector
             int[] letterVector = new int[matrixLength];
             for(int c=0; c<letterVector.length; c++){
-                letterVector[c%matrixLength] = cipherText.charAt(c+i) - 'A';
+                letterVector[c%matrixLength] = ALPHA_INPUT_TEXT.charAt(c+i) - 'A';
             }
 
-            letterVector = matrixMultiply(decryptionMatrix, letterVector);
+            letterVector = matrixMultiply(keyMatrix, letterVector);
 
             //Appends output with transformed vector
-            for(int c : letterVector) {
-                plainText.append((char)(c + 'A'));
+            for(int j=0; j<letterVector.length; j++) {
+                char c = INPUT_TEXT.charAt((i+j+offset));
+
+                if(c>=97 && c<=122){        //Appends letter as lowercase if lowercase in input text
+                    outputText.append((char)(letterVector[j] + 'a'));
+                } else if(c<65 || c>90){    //Appends punctuation then decrements j to reiterate index
+                    outputText.append(c);
+                    offset++;
+                    j--;
+                } else {                    //Appends letter without any alteration after encryption/decryption
+                    outputText.append((char)(letterVector[j] + 'A'));
+                }
             }
         }
-
-        return plainText.toString();
+        return outputText.toString();
     }
 
     /**************************************************************************
