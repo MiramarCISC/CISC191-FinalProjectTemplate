@@ -43,7 +43,7 @@ public class ViewStartScreen extends Application {
         OptionButton setupButton = new OptionButton("Run Setup", screenWidth / 5, screenHeight / 3);
         setupButton.setOnAction((ActionEvent e)-> {
             try {
-                runSetup1();
+                runSetup2();
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
@@ -76,7 +76,7 @@ public class ViewStartScreen extends Application {
      * updates global variable subjectArrayList according to the user
      * directs to runSetup2()
       */
-    public void runSetup1() throws Exception{
+   /* public void runSetup1() throws Exception{
 
         TextField answers = new TextField("100");
         answers.setPrefSize(screenWidth/2, screenHeight/8);
@@ -101,6 +101,11 @@ public class ViewStartScreen extends Application {
         stage.setScene(sceneClassName);
         stage.show();
     }
+*/
+    /**
+     * First screen the user sees when
+     * @throws Exception
+     */
     public void runSetup2() throws Exception {
 
             Label promptName = new Label("Enter the name of the class you would like to add");
@@ -112,9 +117,13 @@ public class ViewStartScreen extends Application {
             TextField grade = new TextField();
             grade.setPrefSize(screenWidth/2, screenHeight/8);
             OptionButton confirm = new OptionButton("Confirm", screenWidth/6, screenHeight/24);
+            /* adds first class to subject array list
+               directs to main interface
+             */
             confirm.setOnAction((ActionEvent yes)-> {
                 try {
-                    runMainScreen();
+                    subjectArrayList.add(new Subject(name.getText(), Double.parseDouble(grade.getText())));
+                    runMainScreen(subjectArrayList);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -128,11 +137,58 @@ public class ViewStartScreen extends Application {
             switchScene(sceneClassName, "Set your classes");
             stage.show();
         }
+
+    /**
+     * this is done in like every method so i wanted it to be convenient
+     * @param scene scene to switch to
+     * @param title title of new scene
+     */
     public void switchScene(Scene scene, String title) {
         stage.setScene(scene);
         stage.setTitle(title);
     }
-    public void runMainScreen() throws Exception {
 
+    /**
+     *
+     * @param a subjectArrayList, used to have the proper amount of buttons
+     * @throws Exception prevents anything from not compiling
+     */
+    public void runMainScreen(ArrayList<Subject> a) throws Exception {
+        Label classList = new Label("Your Classes");
+        VBox classes = new VBox(screenHeight/240, classList);
+        classes.setAlignment(Pos.TOP_LEFT);
+        for (int i = 0; i < a.size(); i++) {
+            OptionButton button = new OptionButton(a.get(0).getNameOfSubject(), screenWidth / 3, screenHeight / 10);
+            //i helps keep track of which subject is which
+            int finalI = i;
+            button.setOnAction((ActionEvent e)-> {
+                viewAssignmentList(finalI);
+            });
+            classes.getChildren().add(button);
+        }
+        //allows user to add another class to the list
+        OptionButton addClass = new OptionButton("Add Class", screenWidth/5, screenHeight/17.5);
+        addClass.setOnAction((ActionEvent e)-> {
+            try {
+                runSetup2();
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        HBox bottomButtons = new HBox(240, addClass);
+        bottomButtons.setAlignment(Pos.BOTTOM_LEFT);
+        layout = new BorderPane(classes);
+        layout.setBottom(bottomButtons);
+        sceneClassName = new Scene(layout, screenWidth, screenHeight);
+        switchScene(sceneClassName, "View Information");
+        stage.show();
+    }
+
+    /**
+     *
+     * @param subjectArrayIndex index of subjectArray i.e which subject does the user want to access
+     */
+    public void viewAssignmentList(int subjectArrayIndex) {
+        int i = subjectArrayIndex;
     }
 }
