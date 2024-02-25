@@ -110,9 +110,14 @@ public class ViewStartScreen extends Application {
             //Checkbox weighted = new Checkbox("Is the class weighted?", false);
             Label promptGrade = new Label("What is your current grade in the class?");
             TextField grade = new TextField();
+            grade.setPrefSize(screenWidth/2, screenHeight/8);
             OptionButton confirm = new OptionButton("Confirm", screenWidth/6, screenHeight/24);
             confirm.setOnAction((ActionEvent yes)-> {
-
+                try {
+                    runMainScreen();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             });
             VBox buttons = new VBox(20);
             buttons.getChildren().addAll(promptName, name, promptGrade, grade, confirm);
@@ -126,5 +131,8 @@ public class ViewStartScreen extends Application {
     public void switchScene(Scene scene, String title) {
         stage.setScene(scene);
         stage.setTitle(title);
+    }
+    public void runMainScreen() throws Exception {
+
     }
 }
