@@ -19,6 +19,10 @@ public class Subject {
         weighted = weight;
         gradeInClass = grade;
     }
+    public Subject(String name, double grade) {
+        nameOfSubject = name;
+        gradeInClass = grade;
+    }
 
     /**
      * Copy constructor
