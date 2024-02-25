@@ -1,6 +1,6 @@
 package edu.sdccd.cisc191.ciphers;
 
-import java.io.IOException;
+import java.util.Arrays;
 
 public class Hill {
     private static final int[] MULT_INVERSE= {1,0,9,0,21,0,15,0,3,0,19,0,0,0,7,0,23,0,11,0,5,0,17,0,25};
@@ -13,8 +13,25 @@ public class Hill {
         //Removes all non alphabet characters and spaces
         INPUT_TEXT = inputText;
         ALPHA_INPUT_TEXT = INPUT_TEXT.toUpperCase().replaceAll("[^A-Z]", "");
-        int[][] keyMatrix = createKeyMatrix(key.toUpperCase());
+        int[][] keyMatrix = createKeyMatrix(key.toUpperCase().replaceAll("[^A-Z]", ""));
         int matrixLength = keyMatrix.length;
+        double det=1;
+
+        //Copies key matrix as a double
+        double[][] upperTriangular = new double[matrixLength][matrixLength];
+        for(int i=0; i<matrixLength; i++){
+            upperTriangular[i] = Arrays.stream(keyMatrix[i]).asDoubleStream().toArray();
+        }
+
+        //Finds determinant by creating upper triangular matrix
+        gaussianElimination(upperTriangular);
+        for(int i=0; i<matrixLength; i++){
+            det *= upperTriangular[i][i];
+        }
+
+        det = Math.round(det);
+        if (det % 2 == 0 || det == 13)
+            throw new ArithmeticException("The key forms a non-invertible matrix");
 
         //Append Z's to allow key matrix to transform entire plain text
         if(ALPHA_INPUT_TEXT.length()%matrixLength != 0)
@@ -35,7 +52,7 @@ public class Hill {
         ALPHA_INPUT_TEXT = INPUT_TEXT.toUpperCase().replaceAll("[^A-Z]", "");
 
         //Creates decryption matrix by inverting the key matrix
-        return transformText(findInverse(createKeyMatrix(key)));
+        return transformText(findInverse(createKeyMatrix(key.toUpperCase().replaceAll("[^A-Z]", ""))));
     }
 
     /**************************************************************************
@@ -109,68 +126,49 @@ public class Hill {
     }
 
     /**************************************************************************
-     * Finds determinant using Laplace Expansion by calling itself recursively
+     * Performs Gaussian Elimination to transform matrix into row echelon form
      *************************************************************************/
-    private static int findDeterminant(int[][] matrix){
-        int det = 0, sign = 1;
-
-        //Find 2x2 determinant
-        if(matrix.length == 2){
-            return matrix[0][0]*matrix[1][1] - matrix[0][1]*matrix[1][0];
-        }
-
-        //Find nxn determinant where n>2
-        for (int i = 0; i < matrix[0].length; i++) {
-            det += matrix[0][i] * findDeterminant(getSubMatrix(matrix, 0, i)) * sign;
-            sign *= -1;
-        }
-
-        return det;
-    }
-
-    /**************************************************************************
-     * Returns minor matrix for laplace expansion
-     *************************************************************************/
-    public static int[][] getSubMatrix(int[][] matrix, int i, int j) {
-        int[][] subMatrix = new int[matrix.length - 1][matrix[0].length - 1];
-        for(int row=0,outRow=0; row<matrix.length; row++) {
-            for (int col=0,outCol=0; col<matrix.length; col++) {
-                if(col!=j && row!=i) {
-                    subMatrix[outRow][outCol] = matrix[row][col];
-                    outCol++;
-                }
+    private static void gaussianElimination(double[][] matrix) {
+        for(int i=0; i<matrix.length; i++) {
+            int row=i+1;
+            while(matrix[i][i] == 0) {
+                if(row>=matrix.length)   //Whole column is 0
+                    throw new ArithmeticException("The matrix is singular");
+                if(matrix[row][i]!=0)    //Swap row to make non-zero pivot
+                    swapRow(matrix, i, row);
+                row++;
             }
-            if (row != i) {
-                outRow++;
+
+            for(int j=i+1; j<matrix.length; j++) {
+                matrix[j] = addRow(matrix[j], scaleRow(matrix[i], -1*(matrix[j][i]/matrix[i][i])));
             }
         }
-        return subMatrix;
     }
 
     /**************************************************************************
      * Finds inverse matrix using Gauss-Jordan elimination
      *************************************************************************/
-    public static int[][] findInverse(int[][] inputMatrix) {
-        int det = findDeterminant(inputMatrix);
-
-        //Throws exception if matrix is non-invertible mod26
-        try {
-            if (det % 2 == 0 || det == 13)
-                throw new IOException("The key is non-invertible");
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+    private static int[][] findInverse(int[][] inputMatrix) {
+        double det = 1;
 
         double[][] matrix = augmentIdentityMatrix(inputMatrix);
+        gaussianElimination(matrix);
+
+        for(int i=0; i<matrix.length; i++) {
+            det *= matrix[i][i];
+        }
+
+        if (det % 2 == 0 || det == 13)
+            throw new ArithmeticException("The key forms a non-invertible matrix");
+
         int[][] inverse = new int[inputMatrix.length][inputMatrix[0].length];
-        int inverseDet = MULT_INVERSE[((det%26)+26)%26 - 1];
+        int inverseDet = MULT_INVERSE[(((int) Math.round(det)%26)+26)%26 - 1];
 
         //Gauss-Jordan Elimination
         for(int i=0; i<matrix.length; i++) {
             matrix[i] = scaleRow(matrix[i], 1/matrix[i][i]);    //Scales pivot to equal 1
-            for(int j=0; j<matrix.length; j++) {    //Performs row reduction
-                if(j!=i)
-                    matrix[j] = addRow(matrix[j], scaleRow(matrix[i], -1*matrix[j][i]));
+            for(int j=i-1; j>=0; j--) {    //Performs row reduction of elements above pivot
+                matrix[j] = addRow(matrix[j], scaleRow(matrix[i], -1*matrix[j][i]));
             }
         }
 
@@ -187,7 +185,7 @@ public class Hill {
     /**************************************************************************
      * Sets 1st row equal to the sum of both rows
      *************************************************************************/
-    public static double[] addRow(double[] outputVector, double[] b) {
+    private static double[] addRow(double[] outputVector, double[] b) {
         for(int i=0; i<outputVector.length; i++) {
             outputVector[i] += b[i];
         }
@@ -197,7 +195,7 @@ public class Hill {
     /**************************************************************************
      * Scales row by given scalar
      *************************************************************************/
-    public static double[] scaleRow(double[] row, double scalar) {
+    private static double[] scaleRow(double[] row, double scalar) {
         double[] output = new double[row.length];
         for(int i=0; i<row.length; i++) {
             output[i]= row[i] * scalar;
@@ -206,9 +204,20 @@ public class Hill {
     }
 
     /**************************************************************************
+     * Swaps rows of a matrix
+     *************************************************************************/
+    private static void swapRow(double[][] matrix, int row1, int row2){
+        for(int i=0; i<matrix[row1].length; i++){
+            double temp = matrix[row1][i];
+            matrix[row1][i] = matrix[row2][i];
+            matrix[row2][i] = temp;
+        }
+    }
+
+    /**************************************************************************
      * Augments identity matrix to the key matrix
      *************************************************************************/
-    public static double[][] augmentIdentityMatrix(int[][] matrix) {
+    private static double[][] augmentIdentityMatrix(int[][] matrix) {
         double[][] ret = new double[matrix.length][matrix[0].length*2];
         for(int i=0; i<matrix.length; i++){
             for(int j=0; j<matrix.length; j++) {
