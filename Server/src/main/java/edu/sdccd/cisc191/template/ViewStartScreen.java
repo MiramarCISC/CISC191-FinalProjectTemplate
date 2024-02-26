@@ -187,8 +187,36 @@ public class ViewStartScreen extends Application {
     /**
      *
      * @param subjectArrayIndex index of subjectArray i.e which subject does the user want to access
+     * dear God did I do anything correctly
      */
     public void viewAssignmentList(int subjectArrayIndex) {
-        int i = subjectArrayIndex;
+
+
+
+
+
+        ArrayList<Assignment> tempArray = subjectArrayList.get(subjectArrayIndex).getAssignmentList();
+
+        VBox assignments = new VBox(screenHeight / 240);
+        assignments.setAlignment(Pos.TOP_LEFT);
+
+        // for (int i = 0; i < tempArray.size(); i++) {
+        for (Assignment assignment : tempArray) {
+            //OptionButton button = new OptionButton(tempArray.get(i).getNameOfAssignment(), screenWidth / 3, screenHeight / 10);
+            OptionButton button = new OptionButton(assignment.getNameOfAssignment(), screenWidth / 3, screenHeight / 10);
+            //int finalI = i;
+
+            //what do I put in here?
+
+            assignments.getChildren().add(button);
+        }
+
+
+
+        layout = new BorderPane();
+
+        sceneClassName = new Scene(layout, screenWidth, screenHeight);
+        switchScene(sceneClassName, "Assignment List");
+        stage.show();
     }
 }
