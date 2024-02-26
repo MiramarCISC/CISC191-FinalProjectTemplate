@@ -18,10 +18,12 @@ public class Subject {
         nameOfSubject = name;
         weighted = weight;
         gradeInClass = grade;
+        assignmentList = new ArrayList<Assignment>();
     }
     public Subject(String name, double grade) {
         nameOfSubject = name;
         gradeInClass = grade;
+        assignmentList = new ArrayList<Assignment>();
     }
 
     /**
