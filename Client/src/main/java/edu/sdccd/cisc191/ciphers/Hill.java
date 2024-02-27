@@ -1,10 +1,12 @@
 package edu.sdccd.cisc191.ciphers;
 
 import edu.sdccd.cisc191.AlertBox;
+import edu.sdccd.cisc191.CipherTools;
 
+import javax.crypto.Cipher;
 import java.util.Arrays;
 
-public class Hill {
+public class Hill extends CipherTools {
     private static final int[] MULT_INVERSE= {1,0,9,0,21,0,15,0,3,0,19,0,0,0,7,0,23,0,11,0,5,0,17,0,25};
     private static String INPUT_TEXT,ALPHA_INPUT_TEXT;
 

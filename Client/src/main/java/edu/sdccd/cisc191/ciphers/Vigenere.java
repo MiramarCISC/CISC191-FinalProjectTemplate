@@ -1,7 +1,10 @@
 package edu.sdccd.cisc191.ciphers;
 
-public class Vigenere {
-    private static final double[] LETTER_FREQ = {0.08167, 0.01492, 0.02782, 0.04253, 0.12702, 0.02228, 0.02015, 0.06094, 0.06966, 0.000153, 0.00772, 0.04025, 0.02406, 0.06749, 0.07507, 0.01929, 0.00095, 0.05987, 0.06327, 0.09056, 0.02758, 0.00978, 0.0236, 0.0015, 0.01974, 0.00074};
+import edu.sdccd.cisc191.CipherTools;
+
+import java.util.Arrays;
+
+public class Vigenere extends CipherTools {
     private static final int DEPTH_OF_SEARCH = 20;  //Max Length of keyword to search for
 
     /**************************************************************************
@@ -53,17 +56,13 @@ public class Vigenere {
             charArr[i%keyLength][i/keyLength] = (noPunct.charAt(i));
 
         for(int row=0; row<charArr.length; row++) {     //Iterate through each row which is essentially a caesar cipher
-            for(int c=0; c<charArr[row].length; c++) {  //Gets letter frequency of each letter in cipher text
-                if(charArr[row][c]>=65)
-                    letterFreq[row][charArr[row][c] - 'A']++;
-            }
+            letterFreq[row] = getLetterFrequency(Arrays.toString(charArr[row]));
 
             double[] chiSquared = new double[26];
             int chiLow = 0;
 
             for(int shift=0; shift<26; shift++) {   //Iterates through each caesar cipher shift
-                for(int l=0; l<26; l++)             //Chi Square test to compare expected frequencies to real
-                    chiSquared[shift] += (Math.pow((letterFreq[row][(l+shift)%26] - (charArr[row].length*LETTER_FREQ[l])),2))/(LETTER_FREQ[l]*charArr[row].length);
+                chiSquared[shift] = chiSquareTestShifted(charArr.length, letterFreq[row], shift);
                 if(chiSquared[shift]<chiSquared[chiLow])
                     chiLow = shift;
             }
@@ -117,13 +116,9 @@ public class Vigenere {
             //Stores letter frequencies of all characters
             for (int row=0; row<keyLength; row++) {
                 char[] charRow = letterRows[row];
-                for (char c : charRow)
-                    if(c>0)
-                        letterFrequency[row][c - 'A']++;
+                letterFrequency[row] = getLetterFrequency(Arrays.toString(charRow));
 
-                int denom=charRow.length*(charRow.length-1);    //Finds index of coincidence
-                for(int i=0; i<26; i++)
-                    friedmanArr[row] += (double) (letterFrequency[row][i] * (letterFrequency[row][i] - 1)) / denom;
+                friedmanArr[row] = findIndexOfCoincidence(charRow.length, letterFrequency[row]);
             }
 
             //Finds average of IoC
