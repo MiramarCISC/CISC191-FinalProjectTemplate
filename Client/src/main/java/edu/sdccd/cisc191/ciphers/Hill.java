@@ -3,11 +3,13 @@ package edu.sdccd.cisc191.ciphers;
 import edu.sdccd.cisc191.AlertBox;
 import edu.sdccd.cisc191.CipherTools;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 public class Hill extends CipherTools {
     private static final int[] MULT_INVERSE= {1,0,9,0,21,0,15,0,3,0,19,0,0,0,7,0,23,0,11,0,5,0,17,0,25};
     private static String INPUT_TEXT,ALPHA_INPUT_TEXT;
+    private static final int DEPTH_OF_SEARCH = 1000;
 
     /**************************************************************************
      * Encrypts plain text using a Hill Cipher given a key word
@@ -64,9 +66,38 @@ public class Hill extends CipherTools {
     }
 
     public static String cryptanlysis(String inputText) {
-            int[][] matrix = new int[2][2];
-            for()
-        return inputText;
+        String alphaInputText = inputText.toUpperCase().replaceAll("[^A-Z]", "");
+        if (alphaInputText.length()>DEPTH_OF_SEARCH)
+            ALPHA_INPUT_TEXT = alphaInputText.substring(0,DEPTH_OF_SEARCH);
+        else
+            ALPHA_INPUT_TEXT = alphaInputText;
+
+        int[][] matrix;
+        int[][] chiMatrix = new int[2][2];
+        double chiLow = Double.MAX_VALUE;
+
+        for(int a=0; a<26; a++){
+            for(int b=0; b<26; b++) {
+                for(int c=0; c<26; c++) {
+                    for(int d=0; d<26; d++) {
+                        int det = (a*d-b*c)%26;
+                        if(det%2 != 0 || det%13 != 0) {
+                            INPUT_TEXT = ALPHA_INPUT_TEXT;
+                            matrix = new int[][] {{a,b}, {c,d}};
+                            double chiSquared = chiSquareTest(INPUT_TEXT.length(), getLetterFrequency(transformText(matrix)));
+                            if(chiSquared < chiLow) {
+                                chiLow = chiSquared;
+                                chiMatrix = matrix;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        INPUT_TEXT = inputText;
+        ALPHA_INPUT_TEXT = alphaInputText;
+        return transformText(chiMatrix);
     }
 
     /**************************************************************************
