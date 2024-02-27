@@ -81,6 +81,21 @@ public class Client extends Application{
         //listen for selection changes
         combobox.setOnAction(e -> System.out.println(combobox.getValue()));
 
+        //Get Help Button
+        Button help = new Button("Help");
+        help.setOnAction(e -> {
+            switch (combobox.getValue()) {
+                case "Hill Cipher":
+                    AlertBox.display("Hill Cipher", "The key must be a word or series of letters");
+                    break;
+
+                case "Caesar Cipher":
+                    AlertBox.display("Caesar Cipher", "The key must be a number");
+                    break;
+            }
+        }
+    );
+
         //labels
         Label label = new Label("Enter key:");
 
@@ -89,6 +104,7 @@ public class Client extends Application{
 
         //Text Area
         textArea = new TextArea();
+        textArea.setWrapText(true);
 
         //Decode/encode button
         Button button = new Button("Encode");
@@ -120,7 +136,7 @@ public class Client extends Application{
 
         //layout
         HBox layout2 = new HBox(10);
-        layout2.getChildren().addAll(input, combobox);
+        layout2.getChildren().addAll(input, combobox, help);
         layout2.setAlignment(Pos.CENTER);
         HBox layout3 = new HBox(10);
         layout3.setAlignment(Pos.CENTER);
@@ -137,27 +153,35 @@ public class Client extends Application{
     }
 
     public static void encode(String plainText, String key, String cipherType) {
-        switch(cipherType) {
+        switch (cipherType) {
             case "Hill Cipher":
                 outputText = Hill.encode(plainText, key);
                 createSecondWindow();
                 break;
             case "Caesar Cipher":
-                outputText = Caesar.encode(plainText, key);
-                createSecondWindow();
+                try {
+                    outputText = Caesar.encode(plainText, key);
+                    createSecondWindow();
+                } catch (NumberFormatException e) {
+                    AlertBox.display("Error", "ERROR!\nThe key must be a number");
+                }
                 break;
         }
     }
 
-    public static void decode(String plainText, String key, String cipherType){
-        switch(cipherType) {
+    public static void decode(String plainText, String key, String cipherType) {
+        switch (cipherType) {
             case "Hill Cipher":
                 outputText = Hill.decode(plainText, key);
                 createSecondWindow();
                 break;
             case "Caesar Cipher":
-                outputText = Caesar.decode(plainText,key);
-                createSecondWindow();
+                try {
+                    outputText = Caesar.decode(plainText, key);
+                    createSecondWindow();
+                } catch (NumberFormatException e) {
+                    AlertBox.display("Error", "ERROR!\nThe key must be a number");
+                }
                 break;
         }
     }
@@ -165,13 +189,15 @@ public class Client extends Application{
     public static void createSecondWindow() {
         Label answer = new Label("Result:");
         VBox layout4 = new VBox(10);
-        TextField output = new TextField(outputText);
+        TextArea output = new TextArea(outputText);
+        output.setWrapText(true);
+        output.setPrefSize(300,200);
         Button back = new Button("Back");
         back.setOnAction(e -> window.setScene(scene));
         layout4.setPadding(new Insets(50,50,50,50));
         layout4.setAlignment(Pos.CENTER);
         layout4.getChildren().addAll(answer, output, back);
-        Scene scene2 = new Scene(layout4, 500, 300);
+        Scene scene2 = new Scene(layout4, 800, 600);
         window.setScene(scene2);
     }
 } //end class Client
