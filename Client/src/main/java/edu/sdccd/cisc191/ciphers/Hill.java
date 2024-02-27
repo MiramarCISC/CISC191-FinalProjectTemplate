@@ -3,7 +3,6 @@ package edu.sdccd.cisc191.ciphers;
 import edu.sdccd.cisc191.AlertBox;
 import edu.sdccd.cisc191.CipherTools;
 
-import javax.crypto.Cipher;
 import java.util.Arrays;
 
 public class Hill extends CipherTools {
@@ -53,12 +52,21 @@ public class Hill extends CipherTools {
      * Decodes cipher text using a Hill Cipher given the encryption key
      *************************************************************************/
     public static String decode(String inputText, String key){
+        if(key.isEmpty())
+            return cryptanlysis(inputText);
+
         //Removes all spaces and non-alphabetic characters
         INPUT_TEXT = inputText;
         ALPHA_INPUT_TEXT = INPUT_TEXT.toUpperCase().replaceAll("[^A-Z]", "");
 
         //Creates decryption matrix by inverting the key matrix
         return transformText(findInverse(createKeyMatrix(key.toUpperCase().replaceAll("[^A-Z]", ""))));
+    }
+
+    public static String cryptanlysis(String inputText) {
+            int[][] matrix = new int[2][2];
+            for()
+        return inputText;
     }
 
     /**************************************************************************
