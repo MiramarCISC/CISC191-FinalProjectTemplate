@@ -2,6 +2,7 @@ package edu.sdccd.cisc191;
 
 import edu.sdccd.cisc191.ciphers.Caesar;
 import edu.sdccd.cisc191.ciphers.Hill;
+import edu.sdccd.cisc191.ciphers.Vigenere;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -76,7 +77,8 @@ public class Client extends Application{
         combobox = new ComboBox<>();
         combobox.getItems().addAll(
                 "Hill Cipher",
-                "Caesar Cipher"
+                "Caesar Cipher",
+                "Vigenere Cipher"
         );
         //listen for selection changes
         combobox.setOnAction(e -> System.out.println(combobox.getValue()));
@@ -88,10 +90,11 @@ public class Client extends Application{
                 case "Hill Cipher":
                     AlertBox.display("Hill Cipher", "The key must be a word or series of letters");
                     break;
-
                 case "Caesar Cipher":
                     AlertBox.display("Caesar Cipher", "The key must be a number");
                     break;
+                case "Vigenere Cipher":
+                    AlertBox.display("Vigenere Cipher", "The key must be a word or series of letters");
             }
         }
     );
@@ -152,36 +155,46 @@ public class Client extends Application{
         window.show();
     }
 
-    public static void encode(String plainText, String key, String cipherType) {
-        switch (cipherType) {
+    public static void encode(String inputText, String key, String cipherType) {
+        switch(cipherType) {
             case "Hill Cipher":
-                outputText = Hill.encode(plainText, key);
+                outputText = Hill.encode(inputText, key);
                 createSecondWindow();
                 break;
             case "Caesar Cipher":
+                outputText = Caesar.encode(inputText, key);
+                createSecondWindow();
                 try {
-                    outputText = Caesar.encode(plainText, key);
+                    outputText = Caesar.encode(inputText, key);
                     createSecondWindow();
                 } catch (NumberFormatException e) {
                     AlertBox.display("Error", "ERROR!\nThe key must be a number");
                 }
+                break;
+            case "Vigenere Cipher":
+                outputText = Vigenere.encode(inputText, key);
+                createSecondWindow();
                 break;
         }
     }
 
-    public static void decode(String plainText, String key, String cipherType) {
+    public static void decode(String inputText, String key, String cipherType){
         switch (cipherType) {
             case "Hill Cipher":
-                outputText = Hill.decode(plainText, key);
+                outputText = Hill.decode(inputText, key);
                 createSecondWindow();
                 break;
             case "Caesar Cipher":
                 try {
-                    outputText = Caesar.decode(plainText, key);
+                    outputText = Caesar.decode(inputText, key);
                     createSecondWindow();
                 } catch (NumberFormatException e) {
                     AlertBox.display("Error", "ERROR!\nThe key must be a number");
                 }
+                break;
+            case "Vigenere Cipher":
+                outputText = Vigenere.decode(inputText, key);
+                createSecondWindow();
                 break;
         }
     }
