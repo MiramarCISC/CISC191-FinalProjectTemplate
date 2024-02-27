@@ -55,7 +55,7 @@ public class VigenereCipherTest {
                 "The Modules page will be the home page as the course is organized around that. The first module will be stickied, as it will contain information you will need throughout the course and weeks will be sorted in descending order with the active week on top.\n" +
                 "\n" +
                 "Be sure to stay active in Canvas. If you are unable, please let me know ahead of time, or drop the course. I am required by the school to drop students who are inactive. There is a waiting list of students happy to take your spot."
-        , Vigenere.cryptanalyze(inputText));
+        , Vigenere.decode(inputText, ""));
     }
 
     @Test
@@ -90,6 +90,6 @@ public class VigenereCipherTest {
                         "The Modules page will be the home page as the course is organized around that. The first module will be stickied, as it will contain information you will need throughout the course and weeks will be sorted in descending order with the active week on top.\n" +
                         "\n" +
                         "Be sure to stay active in Canvas. If you are unable, please let me know ahead of time, or drop the course. I am required by the school to drop students who are inactive. There is a waiting list of students happy to take your spot."
-                , Vigenere.cryptanalyze(inputText));
+                , Vigenere.decode(inputText, ""));
     }
 }
