@@ -1,5 +1,7 @@
 package edu.sdccd.cisc191.ciphers;
 
+import edu.sdccd.cisc191.AlertBox;
+
 import java.util.Arrays;
 
 public class Hill {
@@ -30,8 +32,10 @@ public class Hill {
         }
 
         det = Math.round(det);
-        if (det % 2 == 0 || det == 13)
+        if (det % 2 == 0 || det == 13) {
+            AlertBox.display("Error", "ERROR!\nYour keyword is non-invertible using a 26 letter alphabet (it won't be able to be decrypted)");
             throw new ArithmeticException("The key forms a non-invertible matrix");
+        }
 
         //Append Z's to allow key matrix to transform entire plain text
         if(ALPHA_INPUT_TEXT.length()%matrixLength != 0)
@@ -132,8 +136,10 @@ public class Hill {
         for(int i=0; i<matrix.length; i++) {
             int row=i+1;
             while(matrix[i][i] == 0) {
-                if(row>=matrix.length)   //Whole column is 0
+                if(row>=matrix.length) {  //Whole column is 0
+                    AlertBox.display("Error", "ERROR!\nYour keyword is non-invertible using a 26 letter alphabet (it won't be able to be decrypted)");
                     throw new ArithmeticException("The matrix is singular");
+                }
                 if(matrix[row][i]!=0)    //Swap row to make non-zero pivot
                     swapRow(matrix, i, row);
                 row++;
@@ -158,8 +164,10 @@ public class Hill {
             det *= matrix[i][i];
         }
 
-        if (det % 2 == 0 || det == 13)
+        if (det % 2 == 0 || det == 13) {
+            AlertBox.display("Error", "ERROR!\nYour keyword is non-invertible using a 26 letter alphabet (it won't be able to be decrypted)");
             throw new ArithmeticException("The key forms a non-invertible matrix");
+        }
 
         int[][] inverse = new int[inputMatrix.length][inputMatrix[0].length];
         int inverseDet = MULT_INVERSE[(((int) Math.round(det)%26)+26)%26 - 1];
