@@ -55,7 +55,7 @@ public class Hill extends CipherTools {
      *************************************************************************/
     public static String decode(String inputText, String key){
         if(key.isEmpty())
-            return cryptanlysis(inputText);
+            return cryptanlysis(inputText, 2);
 
         //Removes all spaces and non-alphabetic characters
         INPUT_TEXT = inputText;
@@ -65,13 +65,29 @@ public class Hill extends CipherTools {
         return transformText(findInverse(createKeyMatrix(key.toUpperCase().replaceAll("[^A-Z]", ""))));
     }
 
-    public static String cryptanlysis(String inputText) {
+    /**************************************************************************
+     * Cryptanalysis of cipher (decryption without key)
+     *************************************************************************/
+    public static String cryptanlysis(String inputText, int n) {
         String alphaInputText = inputText.toUpperCase().replaceAll("[^A-Z]", "");
         if (alphaInputText.length()>DEPTH_OF_SEARCH)
             ALPHA_INPUT_TEXT = alphaInputText.substring(0,DEPTH_OF_SEARCH);
         else
             ALPHA_INPUT_TEXT = alphaInputText;
 
+        int[][] keyMatrix = new int[n][n];
+
+/*        if(n==2)
+            keyMatrix = bruteForce2x2();*/
+
+        keyMatrix = bruteForceNxN(n);
+
+        INPUT_TEXT = inputText;
+        ALPHA_INPUT_TEXT = alphaInputText;
+        return transformText(keyMatrix);
+    }
+
+    private static int[][] bruteForce2x2() {
         int[][] matrix;
         int[][] chiMatrix = new int[2][2];
         double chiLow = Double.MAX_VALUE;
@@ -95,9 +111,27 @@ public class Hill extends CipherTools {
             }
         }
 
-        INPUT_TEXT = inputText;
-        ALPHA_INPUT_TEXT = alphaInputText;
-        return transformText(chiMatrix);
+        return chiMatrix;
+    }
+
+    private static int[][] bruteForceNxN(int n) {
+        int[][] matrix = new int[n][n];
+
+        for(int[] row : matrix) {
+            int iterator=0;
+            while(row[0] > 25) {
+                row[n] = iterator%26;
+                for(int i=row.length-1; i>0; i--) {
+                    row[i] = iterator/(int) Math.pow(26, i);
+                }
+
+                //Transform vector w row
+
+                iterator ++;
+            }
+        }
+
+        return matrix;
     }
 
     /**************************************************************************
