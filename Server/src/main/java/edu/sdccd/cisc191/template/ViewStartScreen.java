@@ -2,9 +2,12 @@ package edu.sdccd.cisc191.template;
 
 import javafx.event.ActionEvent;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -19,7 +22,6 @@ import javafx.scene.text.FontWeight;
 import java.io.FileInputStream;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.control.Button;
 public class ViewStartScreen extends Application {
     private int screenWidth, screenHeight; //allows buttons to be scaled accordingly
     private BorderPane layout;
@@ -39,13 +41,30 @@ public class ViewStartScreen extends Application {
      */
     public void start(Stage stage) throws Exception{
         //variables???
+        DropShadow shadow = new DropShadow();
         this.stage = stage;
         // 720x1200 resolution
         screenWidth = 720;
-        screenHeight = 1200;
+        screenHeight = 1280;
         Font font = Font.font("Montserrat", FontWeight.BOLD, 36);
         //button to direct the user to set up
-        Button setupButton = new Button("Make your Schedule");
+        OptionButton setupButton = new OptionButton("Make your Schedule", 500, 100);
+        setupButton.changeTextColor(Color.CRIMSON);
+        setupButton.changeBackGroundColor();
+        setupButton.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        setupButton.setEffect(shadow);
+                    }
+                });
+        setupButton.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        setupButton.setEffect(null);
+                    }
+                });
         setupButton.setOnAction((ActionEvent e)-> {
             try {
                 runSetup2();
