@@ -23,6 +23,7 @@ public class OptionButton extends Button {
     public void changeBackGroundColor(){
         setStyle("-fx-background-color: #98DBC5");
     }
+
     public void handleClick() {
         isClicked = true;
     }

@@ -6,7 +6,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -41,21 +41,21 @@ public class ViewStartScreen extends Application {
      */
     public void start(Stage stage) throws Exception{
         //variables???
-        DropShadow shadow = new DropShadow();
+        Glow glow = new Glow();
         this.stage = stage;
         // 720x1200 resolution
-        screenWidth = 720;
-        screenHeight = 1280;
+        screenWidth = 630;
+        screenHeight = 1120;
         Font font = Font.font("Montserrat", FontWeight.BOLD, 36);
         //button to direct the user to set up
         OptionButton setupButton = new OptionButton("Make your Schedule", 500, 100);
-        setupButton.changeTextColor(Color.CRIMSON);
+        setupButton.changeTextColor(Color.web("#34A3ED"));
         setupButton.changeBackGroundColor();
         setupButton.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
-                        setupButton.setEffect(shadow);
+                        setupButton.setEffect(glow);
                     }
                 });
         setupButton.addEventHandler(MouseEvent.MOUSE_EXITED,
