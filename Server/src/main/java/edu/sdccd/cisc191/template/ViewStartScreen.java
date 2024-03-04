@@ -289,9 +289,36 @@ public class ViewStartScreen extends Application {
         stage.show();
     }
     public void viewAssignmentInfo(int subjectIndex, int assignmentIndex) {
+        Subject subject = subjectArrayList.get(subjectIndex);
+        ArrayList<Assignment> assignments = subject.getAssignmentList();
+        Assignment selectedAssignment = assignments.get(assignmentIndex);
+
+        // Create labels to display assignment details
+        Label assignmentNameLabel = new Label("Assignment Name: " + selectedAssignment.getNameOfAssignment());
 
 
+        // Create a button to go back to the assignment list
+        OptionButton backButton = new OptionButton("Back to Assignment List", screenWidth / 5, screenHeight / 17.5);
+        backButton.setOnAction((ActionEvent e) -> {
+            try {
+                viewAssignmentList(subjectIndex);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        // Create a VBox to hold the labels and button
+        VBox assignmentInfoLayout = new VBox(screenHeight / 60, assignmentNameLabel,  backButton);
+        assignmentInfoLayout.setAlignment(Pos.CENTER);
+
+        // Set the layout for the scene
+        layout = new BorderPane(assignmentInfoLayout);
+        sceneClassName = new Scene(layout, screenWidth, screenHeight);
+        switchScene(sceneClassName, "Assignment Details");
+        stage.show();
     }
+
+
     public void addAssignment(int subjectIndex) {
         Subject subject = subjectArrayList.get(subjectIndex); // Get the subject from the ArrayList
         Label assignmentNameLabel = new Label("Enter name of Assignment:");
