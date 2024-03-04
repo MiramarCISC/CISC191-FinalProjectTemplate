@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.effect.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -14,6 +15,8 @@ import javafx.stage.Stage;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.awt.Checkbox;
 import javax.swing.*;
@@ -39,39 +42,20 @@ public class ViewStartScreen extends Application {
      * Initial screen that the user sees
      * Hooray for javafx
      */
-    public void start(Stage stage) throws Exception{
+    public void start(Stage stage) throws FileNotFoundException {
         //variables???
         Glow glow = new Glow();
+        glow.setLevel(0.2);
         this.stage = stage;
         // 720x1200 resolution
-        screenWidth = 630;
+        screenWidth = 1000;
         screenHeight = 1120;
         Font font = Font.font("Montserrat", FontWeight.BOLD, 36);
+
         //button to direct the user to set up
         OptionButton setupButton = new OptionButton("Make your Schedule", 500, 100);
         setupButton.changeTextColor(Color.web("#34A3ED"));
         setupButton.changeBackGroundColor();
-        setupButton.addEventHandler(MouseEvent.MOUSE_ENTERED,
-                new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        setupButton.setEffect(glow);
-                    }
-                });
-        setupButton.addEventHandler(MouseEvent.MOUSE_EXITED,
-                new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        setupButton.setEffect(null);
-                    }
-                });
-        setupButton.setOnAction((ActionEvent e)-> {
-            try {
-                runSetup2();
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
-            }
-        });
         setupButton.setFont(font);
         setupButton.setWrapText(true);
 
@@ -81,6 +65,38 @@ public class ViewStartScreen extends Application {
         title.setFont(font);
         //organize title and setup button to be spaced accordingly, set it in center
         VBox buttons = new VBox(screenHeight/120, title, setupButton);
+            Image image = new Image(new FileInputStream("Server/src/main/java/edu/sdccd/cisc191/template/Homework-modified.png"));
+            Image color = new Image(new FileInputStream("Server/src/main/java/edu/sdccd/cisc191/template/Homework.png"));
+            ImageView imageView = new ImageView(image);
+            imageView.setFitHeight(150);
+            imageView.setFitWidth(150);
+            buttons.getChildren().addAll(imageView);
+
+        setupButton.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        setupButton.setEffect(glow);
+                        imageView.setImage(color);
+
+                    }
+                });
+        setupButton.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        setupButton.setEffect(null);
+                        imageView.setImage(image);
+                    }
+                });
+        setupButton.setOnAction((ActionEvent e)-> {
+            try {
+                runSetup2();
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
         buttons.setStyle("-fx-background-color: #FFF1DC");
         buttons.setAlignment(Pos.CENTER);
         layout = new BorderPane(buttons);
@@ -88,10 +104,9 @@ public class ViewStartScreen extends Application {
         buttons = new VBox(credits);
         buttons.setAlignment(Pos.BOTTOM_RIGHT);
         layout.setBottom(buttons);
-
         startScene = new Scene(layout, screenWidth, screenHeight);
         startScene.setFill(Color.web("#81c483"));
-        stage.setTitle("Send Help Now - Logan");
+        stage.setTitle("Schedule and Homework Tracker");
         stage.setScene(startScene);
         stage.show();
     }
@@ -135,10 +150,13 @@ public class ViewStartScreen extends Application {
      * @throws Exception
      */
     public void runSetup2() throws Exception {
+        Font font = Font.font("Montserrat", FontWeight.BOLD, 18);
 
             Label promptName = new Label("Enter the name of the class you would like to add");
             TextField name = new TextField();
-            name.setPrefSize(screenWidth/2, screenHeight/8);
+            name.setFont(font);
+            name.setPrefSize(screenWidth/10, screenHeight/10);
+            promptName.setFont(font);
             //TODO implement this cause i cant
             //Checkbox weighted = new Checkbox("Is the class weighted?", false);
             Label promptGrade = new Label("What is your current grade in the class?");
@@ -158,8 +176,17 @@ public class ViewStartScreen extends Application {
                     throw new RuntimeException(e);
                 }
             });
-            VBox buttons = new VBox(20);
-            buttons.getChildren().addAll(promptName, name, promptGrade, grade, confirm);
+            Label colorChoice = new Label("What color would you like the subject to be?");
+            ChoiceBox<String> dropDown = new ChoiceBox<>();
+            dropDown.getItems().add("Red");
+            dropDown.getItems().add("Blue");
+            dropDown.getItems().add("Yellow");
+            dropDown.getItems().add("Green");
+            dropDown.getItems().add("Orange");
+            dropDown.getItems().add("Purple");
+            VBox buttons = new VBox(50);
+            //TODO Add something to get the information of the color
+            buttons.getChildren().addAll(promptName, name, promptGrade, grade, colorChoice, dropDown, confirm);
             buttons.setAlignment(Pos.CENTER);
             layout = new BorderPane(buttons);
 

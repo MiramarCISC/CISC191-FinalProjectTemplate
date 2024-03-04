@@ -4,6 +4,7 @@ import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
+import javax.swing.text.html.ImageView;
 import java.awt.event.MouseEvent;
 
 public class OptionButton extends Button {
@@ -23,7 +24,8 @@ public class OptionButton extends Button {
     public void changeBackGroundColor(){
         setStyle("-fx-background-color: #98DBC5");
     }
-
+    public void addImage(ImageView image){
+    }
     public void handleClick() {
         isClicked = true;
     }
