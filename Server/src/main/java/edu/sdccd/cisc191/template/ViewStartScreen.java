@@ -290,21 +290,32 @@ public class ViewStartScreen extends Application {
     }
     public void viewAssignmentInfo(int subjectIndex, int assignmentIndex) {
 
+
     }
     public void addAssignment(int subjectIndex) {
-        /* 1) Have user enter name of assignment
-           2) Use subjectIndex to update the respective subjects arraylist
-           3) run a previous method using this new arraylist
-           should take the user back to the main screen
-         */
-        Label assignmentName = new Label("Enter name of Assignment");
-        TextField name = new TextField();
-        name.setPrefSize(screenWidth/2, screenHeight/8);
+        Subject subject = subjectArrayList.get(subjectIndex); // Get the subject from the ArrayList
+        Label assignmentNameLabel = new Label("Enter name of Assignment:");
+        TextField assignmentNameField = new TextField();
+        assignmentNameField.setPrefSize(screenWidth/2, screenHeight/8);
 
-        OptionButton confirm = new OptionButton("Confirm", screenWidth/6, screenHeight/24);
+        OptionButton confirmButton = new OptionButton("Confirm", screenWidth/6, screenHeight/24);
+        confirmButton.setOnAction((ActionEvent e)-> {
+            String assignmentName = assignmentNameField.getText();
+            // Create a new Assignment object with the entered name
+            Assignment assignment = new Assignment(assignmentName);
+            // Add the assignment to the subject's ArrayList
+            subject.addAssignment(assignment);
+            try {
+                runMainScreen(subjectArrayList); // Refresh the main screen with the updated assignment list
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
 
-
-
-        Assignment assignment = new Assignment();
+        VBox buttons = new VBox(screenHeight/60, assignmentNameLabel, assignmentNameField, confirmButton);
+        layout = new BorderPane(buttons);
+        sceneClassName = new Scene(layout, screenWidth, screenHeight);
+        switchScene(sceneClassName, "Add Assignment");
+        stage.show();
     }
 }

@@ -20,6 +20,7 @@ public class Subject {
         gradeInClass = grade;
         assignmentList = new ArrayList<Assignment>();
     }
+
     public Subject(String name, double grade) {
         nameOfSubject = name;
         gradeInClass = grade;
@@ -28,6 +29,7 @@ public class Subject {
 
     /**
      * Copy constructor
+     *
      * @param subject edu.sdccd.cisc191.template.Subject object to copy
      */
     public Subject(Subject subject) {
@@ -68,6 +70,9 @@ public class Subject {
     public void setAssignmentList(ArrayList<Assignment> assignmentList) {
         this.assignmentList = assignmentList;
     }
+
+
+    public void addAssignment(Assignment assignment) {
+        assignmentList.add(assignment);
+    }
 }
-
-
