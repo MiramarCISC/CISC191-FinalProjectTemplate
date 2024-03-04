@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.effect.*;
 import javafx.scene.input.MouseEvent;
@@ -114,11 +115,13 @@ public class ViewStartScreen extends Application {
         launch();
     }
 
-    /**
-     * Asks the user for how many classes they have
-     * updates global variable subjectArrayList according to the user
-     * directs to runSetup2()
-      */
+    /*
+      (change to javadoc when uncommenting code)
+      Asks the user for how many classes they have
+      updates global variable subjectArrayList according to the user
+      directs to runSetup2()
+     */
+
    /* public void runSetup1() throws Exception{
 
         TextField answers = new TextField("100");
@@ -155,15 +158,23 @@ public class ViewStartScreen extends Application {
             Label promptName = new Label("Enter the name of the class you would like to add");
             TextField name = new TextField();
             name.setFont(font);
-            name.setPrefSize(screenWidth/10, screenHeight/10);
+            name.setPrefSize(screenWidth/2, screenHeight/10);
+            name.setMaxWidth(screenWidth/2);
             promptName.setFont(font);
-            //TODO implement this cause i cant
-            //Checkbox weighted = new Checkbox("Is the class weighted?", false);
-            Label promptGrade = new Label("What is your current grade in the class?");
+
+            CheckBox promtWeighted = new CheckBox("Is the class weighted?");
+            promtWeighted.setFont(font);
+
+            Label promptGrade = new Label("What is your current grade in the class? Enter percent value.");
+            promptGrade.setFont(font);
+
             TextField grade = new TextField();
             grade.setPrefSize(screenWidth/2, screenHeight/8);
+            grade.setMaxWidth(screenWidth/2);
+            grade.setFont(font);
             //prevents any compiler errors when adding to sujectArrayList
             OptionButton confirm = new OptionButton("Confirm", screenWidth/6, screenHeight/24);
+
             /* adds first class to subject array list
                directs to main interface
              */
@@ -176,7 +187,9 @@ public class ViewStartScreen extends Application {
                     throw new RuntimeException(e);
                 }
             });
+
             Label colorChoice = new Label("What color would you like the subject to be?");
+            colorChoice.setFont(font);
             ChoiceBox<String> dropDown = new ChoiceBox<>();
             dropDown.getItems().add("Red");
             dropDown.getItems().add("Blue");
@@ -186,7 +199,7 @@ public class ViewStartScreen extends Application {
             dropDown.getItems().add("Purple");
             VBox buttons = new VBox(50);
             //TODO Add something to get the information of the color
-            buttons.getChildren().addAll(promptName, name, promptGrade, grade, colorChoice, dropDown, confirm);
+            buttons.getChildren().addAll(promptName, name, promptGrade, grade, promtWeighted, colorChoice, dropDown, confirm);
             buttons.setAlignment(Pos.CENTER);
             layout = new BorderPane(buttons);
 
@@ -215,6 +228,7 @@ public class ViewStartScreen extends Application {
      */
     public void runMainScreen(ArrayList<Subject> a) throws Exception {
         Label classList = new Label("Your Classes");
+        classList.setStyle("-fx-font-size: 20; -fx-underline: true; -fx-font-weight: bold;");
         VBox classes = new VBox(screenHeight/240, classList);
         classes.setAlignment(Pos.TOP_LEFT);
         for (int i = 0; i < a.size(); i++) {
@@ -268,6 +282,14 @@ public class ViewStartScreen extends Application {
                 throw new RuntimeException(ex);
             }
         });
+        OptionButton backButton = new OptionButton("Back", screenWidth/5, screenHeight/17.5);
+        backButton.setOnAction((ActionEvent e)-> {
+            try {
+                runMainScreen(subjectArrayList);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
         for (int i = 0; i < tempArray.size(); i++) {
             Assignment assignment = tempArray.get(i);
             OptionButton button = new OptionButton(assignment.getNameOfAssignment(), screenWidth / 3, screenHeight / 10);
@@ -281,7 +303,7 @@ public class ViewStartScreen extends Application {
             });
             assignments.getChildren().add(button);
         }
-        HBox bottomButtons = new HBox(addAssignment);
+        HBox bottomButtons = new HBox(screenWidth/1.5, addAssignment, backButton);
         layout = new BorderPane(assignments);
         layout.setBottom(bottomButtons);
         sceneClassName = new Scene(layout, screenWidth, screenHeight);
