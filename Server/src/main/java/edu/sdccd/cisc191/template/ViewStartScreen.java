@@ -379,31 +379,31 @@ public class ViewStartScreen extends Application {
         stage.show();
     }
 
-    /**
-     *  Convert the list of subjects to a CSV file
-     *
-     * @param a The list of subjects to be converted.
-     */
-    public void convertSubjectToCSV(ArrayList<Subject> a) {
-        String csvFilePath = "subjects.csv";
-
-        try (FileWriter writer = new FileWriter(csvFilePath)){
-            writer.append("Class Name,Current Grade,Weighted\n");
-
-            for (Subject subject : a){
-                writer.append(subject.getNameOfSubject())
-                        .append(',')
-                        .append(String.valueOf(subject.getCurrentGrade()))
-                        .append(',')
-                        .append('\n');
-            }
-
-            //msg to javafx success
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    public ArrayList<Subject> csvToSubject() {
-
-  }
-}
+//    /**
+//     *  Convert the list of subjects to a CSV file
+//     *
+//     * @param a The list of subjects to be converted.
+//     */
+//    public void convertSubjectToCSV(ArrayList<Subject> a) {
+//        String csvFilePath = "subjects.csv";
+//
+//        try (FileWriter writer = new FileWriter(csvFilePath)){
+//            writer.append("Class Name,Current Grade,Weighted\n");
+//
+//            for (Subject subject : a){
+//                writer.append(subject.getNameOfSubject())
+//                        .append(',')
+//                        .append(String.valueOf(subject.getCurrentGrade()))
+//                        .append(',')
+//                        .append('\n');
+//            }
+//
+//            //msg to javafx success
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//    public ArrayList<Subject> csvToSubject() {
+//
+//  }
+//}
