@@ -199,6 +199,7 @@ public class ViewStartScreen extends Application {
             dropDown.getItems().add("Purple");
             VBox buttons = new VBox(50);
             //TODO Add something to get the information of the color
+            buttons.setStyle("-fx-background-color: #FFF1DC;");
             buttons.getChildren().addAll(promptName, name, promptGrade, grade, promtWeighted, colorChoice, dropDown, confirm);
             buttons.setAlignment(Pos.CENTER);
             layout = new BorderPane(buttons);
@@ -230,6 +231,7 @@ public class ViewStartScreen extends Application {
         Label classList = new Label("Your Classes");
         classList.setStyle("-fx-font-size: 20; -fx-underline: true; -fx-font-weight: bold;");
         VBox classes = new VBox(screenHeight/240, classList);
+        classes.setStyle("-fx-background-color: #FFF1DC;");
         classes.setAlignment(Pos.TOP_LEFT);
         for (int i = 0; i < a.size(); i++) {
             OptionButton button = new OptionButton(a.get(i).getNameOfSubject(), screenWidth / 3, screenHeight / 10);
@@ -273,6 +275,7 @@ public class ViewStartScreen extends Application {
         ArrayList<Assignment> tempArray = subject.getAssignmentList();
         Label nameOfSubject = new Label(subjectArrayList.get(subjectArrayIndex).getNameOfSubject());
         VBox assignments = new VBox(screenHeight / 240, nameOfSubject);
+        assignments.setStyle("-fx-background-color: #FFF1DC;");
         assignments.setAlignment(Pos.TOP_LEFT);
         OptionButton addAssignment = new OptionButton("Add Assignment", screenWidth/5, screenHeight/17.5);
         addAssignment.setOnAction((ActionEvent e)-> {
