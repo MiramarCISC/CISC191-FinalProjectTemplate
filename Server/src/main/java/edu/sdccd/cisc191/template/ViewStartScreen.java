@@ -18,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.awt.Checkbox;
 import javax.swing.*;
@@ -60,12 +61,15 @@ public class ViewStartScreen extends Application {
         setupButton.setFont(font);
         setupButton.setWrapText(true);
 
+        //csv file of saved schedule
+        OptionButton importSchedule = new OptionButton("Import Schedule", 500, 100);
+
         //title and credits to the authors
         Label title = new Label("Schedule and Homework Tracker");
         Label credits = new Label("Credits: Logan, Simon, Theo, Willy");
         title.setFont(font);
         //organize title and setup button to be spaced accordingly, set it in center
-        VBox buttons = new VBox(screenHeight/120, title, setupButton);
+        VBox buttons = new VBox(screenHeight/120, title, setupButton, importSchedule);
             Image image = new Image(new FileInputStream("Server/src/main/java/edu/sdccd/cisc191/template/Homework-modified.png"));
             Image color = new Image(new FileInputStream("Server/src/main/java/edu/sdccd/cisc191/template/Homework.png"));
             ImageView imageView = new ImageView(image);
@@ -199,6 +203,7 @@ public class ViewStartScreen extends Application {
             dropDown.getItems().add("Purple");
             VBox buttons = new VBox(50);
             //TODO Add something to get the information of the color
+            buttons.setStyle("-fx-background-color: #FFF1DC;");
             buttons.getChildren().addAll(promptName, name, promptGrade, grade, promtWeighted, colorChoice, dropDown, confirm);
             buttons.setAlignment(Pos.CENTER);
             layout = new BorderPane(buttons);
@@ -230,6 +235,7 @@ public class ViewStartScreen extends Application {
         Label classList = new Label("Your Classes");
         classList.setStyle("-fx-font-size: 20; -fx-underline: true; -fx-font-weight: bold;");
         VBox classes = new VBox(screenHeight/240, classList);
+        classes.setStyle("-fx-background-color: #FFF1DC;");
         classes.setAlignment(Pos.TOP_LEFT);
         for (int i = 0; i < a.size(); i++) {
             OptionButton button = new OptionButton(a.get(i).getNameOfSubject(), screenWidth / 3, screenHeight / 10);
@@ -254,7 +260,11 @@ public class ViewStartScreen extends Application {
                 throw new RuntimeException(ex);
             }
         });
-        HBox bottomButtons = new HBox(240, addClass);
+        OptionButton saveSchedule = new OptionButton("Save Schedule", screenWidth/5, screenHeight/17.5);
+        saveSchedule.setOnAction((ActionEvent e)-> {
+            convertSubjectToCSV(subjectArrayList);
+        });
+        HBox bottomButtons = new HBox(screenWidth/1.5, addClass, saveSchedule);
         bottomButtons.setAlignment(Pos.BOTTOM_LEFT);
         layout = new BorderPane(classes);
         layout.setBottom(bottomButtons);
@@ -273,6 +283,7 @@ public class ViewStartScreen extends Application {
         ArrayList<Assignment> tempArray = subject.getAssignmentList();
         Label nameOfSubject = new Label(subjectArrayList.get(subjectArrayIndex).getNameOfSubject());
         VBox assignments = new VBox(screenHeight / 240, nameOfSubject);
+        assignments.setStyle("-fx-background-color: #FFF1DC;");
         assignments.setAlignment(Pos.TOP_LEFT);
         OptionButton addAssignment = new OptionButton("Add Assignment", screenWidth/5, screenHeight/17.5);
         addAssignment.setOnAction((ActionEvent e)-> {
@@ -282,7 +293,7 @@ public class ViewStartScreen extends Application {
                 throw new RuntimeException(ex);
             }
         });
-        OptionButton backButton = new OptionButton("Back", screenWidth/5, screenHeight/17.5);
+        OptionButton backButton = new OptionButton("Back to main screen", screenWidth/5, screenHeight/17.5);
         backButton.setOnAction((ActionEvent e)-> {
             try {
                 runMainScreen(subjectArrayList);
@@ -367,4 +378,32 @@ public class ViewStartScreen extends Application {
         switchScene(sceneClassName, "Add Assignment");
         stage.show();
     }
+
+    /**
+     *  Convert the list of subjects to a CSV file
+     *
+     * @param a The list of subjects to be converted.
+     */
+    public void convertSubjectToCSV(ArrayList<Subject> a) {
+        String csvFilePath = "subjects.csv";
+
+        try (FileWriter writer = new FileWriter(csvFilePath)){
+            writer.append("Class Name,Current Grade,Weighted\n");
+
+            for (Subject subject : a){
+                writer.append(subject.getNameOfSubject())
+                        .append(',')
+                        .append(String.valueOf(subject.getCurrentGrade()))
+                        .append(',')
+                        .append('\n');
+            }
+
+            //msg to javafx success
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public ArrayList<Subject> csvToSubject() {
+
+  }
 }
