@@ -12,23 +12,24 @@ import javafx.scene.effect.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.awt.Checkbox;
+import java.util.Scanner;
 import javax.swing.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import java.io.FileInputStream;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 public class ViewStartScreen extends Application {
     private int screenWidth, screenHeight; //allows buttons to be scaled accordingly
+    private int selectedIndex;
     private BorderPane layout;
     private Stage stage;
     private Scene startScene, sceneClassName;
@@ -125,6 +126,14 @@ public class ViewStartScreen extends Application {
             }
         });
 
+        importSchedule.setOnAction((ActionEvent e)-> {
+            subjectArrayList = convertCSVToSubject();
+            try {
+                runMainScreen(subjectArrayList, selectedIndex);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
         buttons.setStyle("-fx-background-color: #FFF1DC");
         buttons.setAlignment(Pos.CENTER);
         layout = new BorderPane(buttons);
@@ -204,20 +213,6 @@ public class ViewStartScreen extends Application {
         grade.setFont(font);
         //prevents any compiler errors when adding to sujectArrayList
         OptionButton confirm = new OptionButton("Confirm", screenWidth / 6, screenHeight / 24);
-
-            /* adds first class to subject array list
-               directs to main interface
-             */
-        confirm.setOnAction((ActionEvent yes) -> {
-            try {
-                Subject tempSubject = new Subject(name.getText(), Double.parseDouble(grade.getText()));
-                subjectArrayList.add(tempSubject);
-                runMainScreen(subjectArrayList);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        });
-
         Label colorChoice = new Label("What color would you like the subject to be?");
         colorChoice.setFont(font);
         ChoiceBox<String> dropDown = new ChoiceBox<>();
@@ -227,8 +222,22 @@ public class ViewStartScreen extends Application {
         dropDown.getItems().add("Green");
         dropDown.getItems().add("Orange");
         dropDown.getItems().add("Purple");
+            /* adds first class to subject array list
+               directs to main interface
+             */
+        confirm.setOnAction((ActionEvent yes) -> {
+            try {
+                Subject tempSubject = new Subject(name.getText(), Double.parseDouble(grade.getText()));
+                subjectArrayList.add(tempSubject);
+                selectedIndex = dropDown.getSelectionModel().getSelectedIndex();
+                runMainScreen(subjectArrayList, selectedIndex);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+
         VBox buttons = new VBox(50);
-        //TODO Add something to get the information of the color
+
         buttons.setStyle("-fx-background-color: #FFF1DC;");
         buttons.getChildren().addAll(promptName, name, promptGrade, grade, promtWeighted, colorChoice, dropDown, confirm);
         buttons.setAlignment(Pos.CENTER);
@@ -257,7 +266,7 @@ public class ViewStartScreen extends Application {
      * @throws Exception prevents anything from not compiling
      *                   TODO deal with weird user inputs
      */
-    public void runMainScreen(ArrayList<Subject> a) throws Exception {
+    public void runMainScreen(ArrayList<Subject> a, int colorNumber) throws Exception {
         Label classList = new Label("Your Classes");
         classList.setStyle("-fx-font-size: 20; -fx-underline: true; -fx-font-weight: bold;");
         VBox classes = new VBox(screenHeight / 240, classList);
@@ -266,6 +275,7 @@ public class ViewStartScreen extends Application {
         for (int i = 0; i < a.size(); i++) {
             OptionButton button = new OptionButton(a.get(i).getNameOfSubject(), screenWidth / 3, screenHeight / 10);
             //i helps keep track of which subject is which
+            button.changeTextColor(colorNumber);
             int finalI = i;
             try {
                 button.setOnAction((ActionEvent e) -> {
@@ -286,9 +296,9 @@ public class ViewStartScreen extends Application {
             }
         });
         OptionButton saveSchedule = new OptionButton("Save Schedule", screenWidth / 5, screenHeight / 17.5);
-//        saveSchedule.setOnAction((ActionEvent e)-> {
-//            convertSubjectToCSV(subjectArrayList);
-//        });
+        saveSchedule.setOnAction((ActionEvent e)-> {
+            convertSubjectToCSV(subjectArrayList);
+        });
         HBox bottomButtons = new HBox(screenWidth / 1.5, addClass, saveSchedule);
         bottomButtons.setAlignment(Pos.BOTTOM_LEFT);
         layout = new BorderPane(classes);
@@ -321,7 +331,7 @@ public class ViewStartScreen extends Application {
         OptionButton backButton = new OptionButton("Back to main screen", screenWidth / 5, screenHeight / 17.5);
         backButton.setOnAction((ActionEvent e) -> {
             try {
-                runMainScreen(subjectArrayList);
+                runMainScreen(subjectArrayList, selectedIndex);
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
@@ -392,7 +402,7 @@ public class ViewStartScreen extends Application {
             // Add the assignment to the subject's ArrayList
             subject.addAssignment(assignment);
             try {
-                runMainScreen(subjectArrayList); // Refresh the main screen with the updated assignment list
+                runMainScreen(subjectArrayList, selectedIndex); // Refresh the main screen with the updated assignment list
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
@@ -405,31 +415,71 @@ public class ViewStartScreen extends Application {
         stage.show();
     }
 
-//    /**
-//     *  Convert the list of subjects to a CSV file
-//     *
-//     * @param a The list of subjects to be converted.
-//     */
-//    public void convertSubjectToCSV(ArrayList<Subject> a) {
-//        String csvFilePath = "subjects.csv";
-//
-//        try (FileWriter writer = new FileWriter(csvFilePath)){
-//            writer.append("Class Name,Current Grade,Weighted\n");
-//
-//            for (Subject subject : a){
-//                writer.append(subject.getNameOfSubject())
-//                        .append(',')
-//                        .append(String.valueOf(subject.getCurrentGrade()))
-//                        .append(',')
-//                        .append('\n');
-//            }
-//
-//            //msg to javafx success
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//    public ArrayList<Subject> csvToSubject() {
-//
-//  }
+    /**
+     *  Convert the list of subjects to a CSV file
+     *
+     * @param a The list of subjects to be converted.
+     */
+    public void convertSubjectToCSV(ArrayList<Subject> a) {
+        FileChooser.ExtensionFilter availableFiles = new FileChooser.ExtensionFilter("txt files", "*.txt");
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Save Schedule");
+        fc.setInitialFileName("My_Schedule.txt");
+        fc.getExtensionFilters().add(availableFiles);
+        File saveLocation = fc.showSaveDialog(stage);
+        try (FileWriter writer = new FileWriter(saveLocation)){
+            for (int i = 0; i < a.size(); i++){
+                if(a.get(i).isWeighted()) {
+                    writer.append(a.get(i).getNameOfSubject())
+                            .append(',')
+                            .append(String.valueOf(a.get(i).getGradeInClass()))
+                            .append(',')
+                            .append("true")
+                            .append('\n');
+                }
+                else{
+                    writer.append(a.get(i).getNameOfSubject())
+                            .append(',')
+                            .append(String.valueOf(a.get(i).getGradeInClass()))
+                            .append(',')
+                            .append("false")
+                            .append('\n');
+                }
+            }
+            writer.close();
+
+            //msg to javafx success
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * allows the user to import a previously saved schedule in the form of a csv file
+     * @return subject array to be imported
+     */
+    public ArrayList<Subject> convertCSVToSubject() {
+        FileChooser fc = new FileChooser();
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("TXT Files", "*.TXT"),
+                new FileChooser.ExtensionFilter("txt files", "*.txt"));
+        File inFile = fc.showOpenDialog(null);
+        ArrayList<Subject> subjectSave = new ArrayList<>();
+        if (inFile != null) {
+            try{
+                Scanner inputStream = new Scanner(inFile);
+                while(inputStream.hasNextLine()) {
+                    String temp = inputStream.nextLine();
+                    String[] tokens = temp.split(",");
+                    Subject tempSubject = new Subject(tokens[0],  Boolean.parseBoolean(tokens[2]), Double.parseDouble(tokens[1]));
+                    subjectSave.add(tempSubject);
+                }
+            }catch (FileNotFoundException e) {
+                e.getMessage();
+            }
+        }
+        else {
+            System.out.println("Invalid file");
+        }
+        return subjectSave;
+    }
 }
