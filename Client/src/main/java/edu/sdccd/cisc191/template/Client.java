@@ -27,9 +27,9 @@ public class Client {
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
     }
 
-    public CustomerResponse sendRequest() throws Exception {
-        out.println(CustomerRequest.toJSON(new CustomerRequest(1)));
-        return CustomerResponse.fromJSON(in.readLine());
+    public VehicleResponse sendRequest() throws Exception {
+        out.println(VehicleRequest.toJSON(new VehicleRequest(2020, "Tesla", "3")));
+        return VehicleResponse.fromJSON(in.readLine());
     }
 
     public void stopConnection() throws IOException {

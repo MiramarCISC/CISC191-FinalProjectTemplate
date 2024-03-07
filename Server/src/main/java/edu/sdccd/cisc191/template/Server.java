@@ -27,9 +27,9 @@ public class Server {
 
         String inputLine;
         while ((inputLine = in.readLine()) != null) {
-            CustomerRequest request = CustomerRequest.fromJSON(inputLine);
-            CustomerResponse response = new CustomerResponse(request.getId(), "Jane", "Doe");
-            out.println(CustomerResponse.toJSON(response));
+            VehicleRequest request = VehicleRequest.fromJSON(inputLine);
+            VehicleResponse response = new VehicleResponse(request, 120000, 4500, 5, 4, null);
+            out.println(VehicleResponse.toJSON(response));
         }
     }
 
