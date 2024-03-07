@@ -227,8 +227,14 @@ public class ViewStartScreen extends Application {
         dropDown.getItems().add("Green");
         dropDown.getItems().add("Orange");
         dropDown.getItems().add("Purple");
+        dropDown.setOnAction((event) ->{
+            int selectedIndex = dropDown.getSelectionModel().getSelectedIndex();
+            System.out.println(selectedIndex);
+        });
+        System.out.println(dropDown.getValue());
         VBox buttons = new VBox(50);
         //TODO Add something to get the information of the color
+
         buttons.setStyle("-fx-background-color: #FFF1DC;");
         buttons.getChildren().addAll(promptName, name, promptGrade, grade, promtWeighted, colorChoice, dropDown, confirm);
         buttons.setAlignment(Pos.CENTER);
