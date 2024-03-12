@@ -8,6 +8,8 @@ public class Subject {
     private double gradeInClass;
     private ArrayList<Assignment> assignmentList;
 
+
+
     private int color;
 
     public Subject() {
@@ -83,6 +85,8 @@ public class Subject {
     public void addAssignment(Assignment assignment) {
         assignmentList.add(assignment);
     }
+
+
 
 
     public int getColor() {

@@ -6,6 +6,10 @@ public class Assignment {
     private String nameOfAssignment;
     private int daysUntilDueDate;
     private int pointsOfAssignment;
+
+    private double assignmentPercentage;
+
+    private int totalPoints;
     //private int estInMinutes;
     private boolean busyWork;
 
@@ -14,6 +18,8 @@ public class Assignment {
         daysUntilDueDate = 0;
         pointsOfAssignment = 0;
         busyWork = false;
+        totalPoints = 0;
+        assignmentPercentage = 0;
     }
 
     public Assignment(String name) {
@@ -21,12 +27,16 @@ public class Assignment {
         daysUntilDueDate = 0;
         pointsOfAssignment = 0;
         busyWork = false;
+        totalPoints = 0;
+        assignmentPercentage = 0;
     }
     public Assignment(Assignment a) {
         nameOfAssignment = a.nameOfAssignment;
         daysUntilDueDate = a.daysUntilDueDate;
         pointsOfAssignment = a.pointsOfAssignment;
         busyWork = a.busyWork;
+        totalPoints = a.totalPoints;
+        assignmentPercentage = a.assignmentPercentage;
     }
     public String getNameOfAssignment() {
         return nameOfAssignment;
@@ -42,6 +52,24 @@ public class Assignment {
     public void setPointsOfAssignment(int pointsOfAssignment) {
         this.pointsOfAssignment = pointsOfAssignment;
     }
+
+    public int getTotalPoints() {
+        return totalPoints;
+    }
+    public void setTotalPoints(int totalPoints) {
+        this.totalPoints = totalPoints;
+    }
+
+    public double getAssignmentPercentage() {
+        assignmentPercentage = ((double) pointsOfAssignment /totalPoints) * 100;
+        return assignmentPercentage;
+    }
+
+    public void setAssignmentPercentage(double percentage) {
+        assignmentPercentage = percentage;
+    }
+
+
 
 //    public int getEstInMinutes() {
 //        return estInMinutes;

@@ -393,7 +393,10 @@ public class ViewStartScreen extends Application {
         Assignment selectedAssignment = assignments.get(assignmentIndex);
 
         // Create labels to display assignment details
-        Label assignmentNameLabel = new Label("Assignment Name: " + selectedAssignment.getNameOfAssignment());
+        Label assignmentLabel = new Label("Assignment Name: " + selectedAssignment.getNameOfAssignment() + "\n" +
+                "Assignment Points Earned: " + Double.toString(selectedAssignment.getPointsOfAssignment()) + "\n" + "Total Points Possible: " + Double.toString(selectedAssignment.getTotalPoints())
+                + "\n" + "Grade of Assignment: " + (selectedAssignment.getAssignmentPercentage()));
+
 
 
         // Create a button to go back to the assignment list
@@ -407,7 +410,7 @@ public class ViewStartScreen extends Application {
         });
 
         // Create a VBox to hold the labels and button
-        VBox assignmentInfoLayout = new VBox(screenHeight / 60, assignmentNameLabel, backButton);
+        VBox assignmentInfoLayout = new VBox(screenHeight / 60, assignmentLabel, backButton);
         assignmentInfoLayout.setAlignment(Pos.CENTER);
 
         // Set the layout for the scene
@@ -422,13 +425,26 @@ public class ViewStartScreen extends Application {
         Subject subject = subjectArrayList.get(subjectIndex); // Get the subject from the ArrayList
         Label assignmentNameLabel = new Label("Enter name of Assignment:");
         TextField assignmentNameField = new TextField();
+
+        Label assignmentPointsLabel = new Label("Enter amount of points earned on Assignment:");
+        TextField assignmentPointsField = new TextField();
+
+        Label assignmentTotalPointsLabel = new Label("Enter max number of points for Assignment:");
+        TextField assignmentTotalPointsField = new TextField();
+
         assignmentNameField.setPrefSize(screenWidth / 2, screenHeight / 8);
+        assignmentPointsField.setPrefSize(screenWidth / 2, screenHeight / 20);
+        assignmentTotalPointsField.setPrefSize(screenWidth / 2, screenHeight / 20);
 
         OptionButton confirmButton = new OptionButton("Confirm", screenWidth / 6, screenHeight / 24);
         confirmButton.setOnAction((ActionEvent e) -> {
             String assignmentName = assignmentNameField.getText();
+            int assignmentPoints = Integer.parseInt(assignmentPointsField.getText());
+            int totalAssignmentPoints = Integer.parseInt(assignmentTotalPointsField.getText());
             // Create a new Assignment object with the entered name
             Assignment assignment = new Assignment(assignmentName);
+            assignment.setPointsOfAssignment(assignmentPoints);
+            assignment.setTotalPoints(totalAssignmentPoints);
             // Add the assignment to the subject's ArrayList
             subject.addAssignment(assignment);
             try {
@@ -438,7 +454,7 @@ public class ViewStartScreen extends Application {
             }
         });
 
-        VBox buttons = new VBox(screenHeight / 60, assignmentNameLabel, assignmentNameField, confirmButton);
+        VBox buttons = new VBox(screenHeight / 60, assignmentNameLabel, assignmentNameField, assignmentPointsLabel, assignmentPointsField, assignmentTotalPointsLabel, assignmentTotalPointsField, confirmButton);
         layout = new BorderPane(buttons);
         sceneClassName = new Scene(layout, screenWidth, screenHeight);
         switchScene(sceneClassName, "Add Assignment");
