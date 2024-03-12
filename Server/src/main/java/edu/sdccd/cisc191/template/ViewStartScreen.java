@@ -295,6 +295,7 @@ public class ViewStartScreen extends Application {
                     viewAssignmentList(finalI);
                 });
             } catch (Exception e) {
+
                 throw new RuntimeException(e);
             }
             classes.getChildren().add(button);
