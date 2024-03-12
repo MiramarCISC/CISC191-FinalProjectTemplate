@@ -465,6 +465,9 @@ public class ViewStartScreen extends Application {
                             .append(String.valueOf(a.get(i).getGradeInClass()))
                             .append(',')
                             .append("true")
+                            .append(',')
+                            .append(String.valueOf(a.get(i).getColor()))
+                            .append(',')
                             .append('\n');
                 }
                 else{
@@ -473,6 +476,9 @@ public class ViewStartScreen extends Application {
                             .append(String.valueOf(a.get(i).getGradeInClass()))
                             .append(',')
                             .append("false")
+                            .append(',')
+                            .append(String.valueOf(a.get(i).getColor()))
+                            .append(',')
                             .append('\n');
                 }
             }
@@ -501,6 +507,7 @@ public class ViewStartScreen extends Application {
                     String temp = inputStream.nextLine();
                     String[] tokens = temp.split(",");
                     Subject tempSubject = new Subject(tokens[0],  Boolean.parseBoolean(tokens[2]), Double.parseDouble(tokens[1]));
+                    tempSubject.setColor(Integer.parseInt(tokens[3]));
                     subjectSave.add(tempSubject);
                 }
             }catch (FileNotFoundException e) {
