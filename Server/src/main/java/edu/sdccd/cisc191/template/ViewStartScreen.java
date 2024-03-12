@@ -52,7 +52,7 @@ public class ViewStartScreen extends Application {
         this.stage = stage;
         // 720x1200 resolution
         screenWidth = 1000;
-        screenHeight = 1120;
+        screenHeight = 1000;
         Font font = Font.font("Montserrat", FontWeight.BOLD, 36);
 
         //button to direct the user to set up
@@ -232,10 +232,16 @@ public class ViewStartScreen extends Application {
              */
         confirm.setOnAction((ActionEvent yes) -> {
             try {
-                Subject tempSubject = new Subject(name.getText(), Double.parseDouble(grade.getText()));
-                subjectArrayList.add(tempSubject);
+
                 selectedIndex = dropDown.getSelectionModel().getSelectedIndex();
-                runMainScreen(subjectArrayList, selectedIndex);
+                Subject tempSubject = new Subject(name.getText(), Double.parseDouble(grade.getText()));
+                tempSubject.setColor(selectedIndex);
+                int tempColor = tempSubject.getColor();
+
+
+                subjectArrayList.add(tempSubject);
+
+                runMainScreen(subjectArrayList, tempColor);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -279,7 +285,7 @@ public class ViewStartScreen extends Application {
         VBox classes = new VBox(screenHeight / 240, classList);
         classes.setStyle("-fx-background-color: #FFF1DC;");
         classes.setAlignment(Pos.TOP_LEFT);
-        for (int i = 0; i < a.size(); i++) {
+        /* for (int i = 0; i < a.size(); i++) {
             OptionButton button = new OptionButton(a.get(i).getNameOfSubject(), screenWidth / 3, screenHeight / 10);
             //i helps keep track of which subject is which
             button.changeTextColor(colorNumber);
@@ -292,7 +298,24 @@ public class ViewStartScreen extends Application {
                 throw new RuntimeException(e);
             }
             classes.getChildren().add(button);
+        } */
+
+        // set individual color for each subject
+
+        for (Subject subject : a) {
+            OptionButton button = new OptionButton(subject.getNameOfSubject(), screenWidth / 3, screenHeight / 10);
+            button.changeTextColor(subject.getColor()); // Set color based on subject
+            button.setOnAction((ActionEvent e) -> {
+                try {
+                    int subjectIndex = a.indexOf(subject);
+                    viewAssignmentList(subjectIndex);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
+            classes.getChildren().add(button);
         }
+
         //allows user to add another class to the list
         OptionButton addClass = new OptionButton("Add Class", screenWidth / 5, screenHeight / 17.5);
         addClass.setOnAction((ActionEvent e) -> {

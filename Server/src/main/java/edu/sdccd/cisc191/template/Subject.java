@@ -1,17 +1,21 @@
 package edu.sdccd.cisc191.template;
 
 import java.util.ArrayList;
+
 public class Subject {
     private String nameOfSubject;
     private boolean weighted;
     private double gradeInClass;
     private ArrayList<Assignment> assignmentList;
 
+    private int color;
+
     public Subject() {
         nameOfSubject = "";
         weighted = false;
         gradeInClass = 0.0;
         assignmentList = new ArrayList<Assignment>();
+        color = 0;
     }
 
     public Subject(String name, boolean weight, double grade) {
@@ -19,12 +23,14 @@ public class Subject {
         weighted = weight;
         gradeInClass = grade;
         assignmentList = new ArrayList<Assignment>();
+        color = 0;
     }
 
     public Subject(String name, double grade) {
         nameOfSubject = name;
         gradeInClass = grade;
         assignmentList = new ArrayList<Assignment>();
+        color = 0;
     }
 
     /**
@@ -37,6 +43,8 @@ public class Subject {
         weighted = subject.isWeighted();
         gradeInClass = subject.getGradeInClass();
         assignmentList = subject.getAssignmentList();
+        color = 0;
+
     }
 
     public String getNameOfSubject() {
@@ -74,5 +82,14 @@ public class Subject {
 
     public void addAssignment(Assignment assignment) {
         assignmentList.add(assignment);
+    }
+
+
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
     }
 }
