@@ -6,8 +6,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.*;
 import javafx.scene.effect.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -15,8 +14,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.application.Platform;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -224,9 +221,7 @@ public class ViewStartScreen extends Application {
         dropDown.getItems().add("Purple");
         dropDown.setOnAction((event) ->{
             int selectedIndex = dropDown.getSelectionModel().getSelectedIndex();
-            System.out.println(selectedIndex);
         });
-        System.out.println(dropDown.getValue());
             /* adds first class to subject array list
                directs to main interface
              */
@@ -243,7 +238,12 @@ public class ViewStartScreen extends Application {
 
                 runMainScreen(subjectArrayList, tempColor);
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("ERROR");
+                alert.setHeaderText("INPUT ERROR");
+                alert.setContentText("YOUR GRADE, " + "'" + ((grade.getText())) + "'" + " IS NOT A NUMBER" +
+                        "\nTRY AGAIN");
+                alert.showAndWait();
             }
         });
 
@@ -358,7 +358,7 @@ public class ViewStartScreen extends Application {
                 throw new RuntimeException(ex);
             }
         });
-        OptionButton backButton = new OptionButton("Back to main screen", screenWidth / 5, screenHeight / 17.5);
+        OptionButton backButton = new OptionButton("Back to main screen", screenWidth / 3, screenHeight / 10);
         backButton.setOnAction((ActionEvent e) -> {
             try {
                 runMainScreen(subjectArrayList, selectedIndex);

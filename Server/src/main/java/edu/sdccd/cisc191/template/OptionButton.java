@@ -3,6 +3,8 @@ package edu.sdccd.cisc191.template;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 import javax.swing.text.html.ImageView;
 import java.awt.event.MouseEvent;
@@ -13,11 +15,13 @@ public class OptionButton extends Button {
     private double height;
     private boolean isClicked;
     private Paint textColor;
+    private Font font = Font.font("Montserrat", FontWeight.BOLD, 18);
 
     public OptionButton (String text, double width, double height) {
         setText(text);
         setPrefWidth(width);
         setPrefHeight(height);
+        setFont(font);
     }
     public void changeTextColor(Paint color){
         setTextFill(color);
