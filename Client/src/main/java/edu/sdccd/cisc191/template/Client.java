@@ -17,34 +17,29 @@ import java.io.*;
  */
 
 public class Client {
-    private Socket clientSocket;
-    private PrintWriter out;
-    private BufferedReader in;
+    public static final String VEHICLE_URL = "http://webservice-1271959.us-east-1.elb.amazonaws.com/Server/vehicle.jsp";
 
-    public void startConnection(String ip, int port) throws IOException {
-        clientSocket = new Socket(ip, port);
-        out = new PrintWriter(clientSocket.getOutputStream(), true);
-        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+    public VehicleResponse sendRequest(int year, String make, String model) throws Exception {
+        StringBuilder response = new StringBuilder();
+        BufferedReader br = new BufferedReader(new InputStreamReader(new URL(VEHICLE_URL + "?year=" + year + "&make=" + make + "&model=" + model).openStream()));
+        String line;
+        // reading from the urlconnection using the bufferedreader
+        while ((line = br.readLine()) != null)
+        {
+            response.append(line);
+            response.append(System.lineSeparator());
+        }
+        br.close();
+        return VehicleResponse.fromJSON(response.toString());
     }
 
-    public VehicleResponse sendRequest() throws Exception {
-        out.println(VehicleRequest.toJSON(new VehicleRequest(2020, "Tesla", "3")));
-        return VehicleResponse.fromJSON(in.readLine());
-    }
-
-    public void stopConnection() throws IOException {
-        in.close();
-        out.close();
-        clientSocket.close();
-    }
     public static void main(String[] args) {
         Client client = new Client();
         try {
-            client.startConnection("127.0.0.1", 4444);
-            System.out.println(client.sendRequest().toString());
-            client.stopConnection();
+            System.out.println(client.sendRequest(2024, "Subaru", "Impreza"));
         } catch(Exception e) {
-            e.printStackTrace();
+            System.err.println("An error has occurred: " + e.getMessage());
+            System.exit(1);
         }
     }
 } //end class Client
