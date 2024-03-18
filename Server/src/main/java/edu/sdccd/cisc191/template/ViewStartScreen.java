@@ -231,6 +231,7 @@ public class ViewStartScreen extends Application {
                 selectedIndex = dropDown.getSelectionModel().getSelectedIndex();
                 Subject tempSubject = new Subject(name.getText(), Double.parseDouble(grade.getText()));
                 tempSubject.setColor(selectedIndex);
+                tempSubject.setGradeInClass(Double.parseDouble(grade.getText()));
                 int tempColor = tempSubject.getColor();
 
 
@@ -304,7 +305,7 @@ public class ViewStartScreen extends Application {
         // set individual color for each subject
 
         for (Subject subject : a) {
-            OptionButton button = new OptionButton(subject.getNameOfSubject(), screenWidth / 3, screenHeight / 10);
+            OptionButton button = new OptionButton(subject.getNameOfSubject() + " - " + subject.getGradeInClass() + "%", screenWidth / 3, screenHeight / 10);
             button.changeTextColor(subject.getColor()); // Set color based on subject
             button.setOnAction((ActionEvent e) -> {
                 try {
@@ -423,7 +424,7 @@ public class ViewStartScreen extends Application {
 
 
     public void addAssignment(int subjectIndex) {
-        Subject subject = subjectArrayList.get(subjectIndex); // Get the subject from the ArrayList
+        Subject subject = subjectArrayList.get(subjectIndex);
         Label assignmentNameLabel = new Label("Enter name of Assignment:");
         TextField assignmentNameField = new TextField();
 
@@ -449,7 +450,7 @@ public class ViewStartScreen extends Application {
             // Add the assignment to the subject's ArrayList
             subject.addAssignment(assignment);
             try {
-                runMainScreen(subjectArrayList, selectedIndex); // Refresh the main screen with the updated assignment list
+                runMainScreen(subjectArrayList, selectedIndex);
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
@@ -536,4 +537,9 @@ public class ViewStartScreen extends Application {
         }
         return subjectSave;
     }
+
+
+
+
+
 }

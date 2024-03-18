@@ -30,6 +30,7 @@ public class Assignment {
         totalPoints = 0;
         assignmentPercentage = 0;
     }
+
     public Assignment(Assignment a) {
         nameOfAssignment = a.nameOfAssignment;
         daysUntilDueDate = a.daysUntilDueDate;
@@ -38,6 +39,7 @@ public class Assignment {
         totalPoints = a.totalPoints;
         assignmentPercentage = a.assignmentPercentage;
     }
+
     public String getNameOfAssignment() {
         return nameOfAssignment;
     }
@@ -49,6 +51,7 @@ public class Assignment {
     public int getPointsOfAssignment() {
         return pointsOfAssignment;
     }
+
     public void setPointsOfAssignment(int pointsOfAssignment) {
         this.pointsOfAssignment = pointsOfAssignment;
     }
@@ -56,19 +59,19 @@ public class Assignment {
     public int getTotalPoints() {
         return totalPoints;
     }
+
     public void setTotalPoints(int totalPoints) {
         this.totalPoints = totalPoints;
     }
 
     public double getAssignmentPercentage() {
-        assignmentPercentage = ((double) pointsOfAssignment /totalPoints) * 100;
+        assignmentPercentage = ((double) pointsOfAssignment / totalPoints) * 100;
         return assignmentPercentage;
     }
 
     public void setAssignmentPercentage(double percentage) {
         assignmentPercentage = percentage;
     }
-
 
 
 //    public int getEstInMinutes() {
@@ -94,4 +97,20 @@ public class Assignment {
     public void setDaysUntilDueDate(int daysUntilDueDate) {
         this.daysUntilDueDate = daysUntilDueDate;
     }
+
+
+    public String[] getAssignmentArray() {
+        String[] assignmentArray = new String[7];
+
+        assignmentArray[0] = nameOfAssignment;
+        assignmentArray[1] = String.valueOf(daysUntilDueDate);
+        assignmentArray[2] = String.valueOf(pointsOfAssignment);
+        assignmentArray[3] = String.valueOf(totalPoints);
+        assignmentArray[4] = String.valueOf(assignmentPercentage);
+        assignmentArray[5] = String.valueOf(busyWork);
+
+
+        return assignmentArray;
+    }
+
 }
