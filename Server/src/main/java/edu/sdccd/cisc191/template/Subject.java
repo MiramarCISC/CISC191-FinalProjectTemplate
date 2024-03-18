@@ -9,7 +9,6 @@ public class Subject {
     private ArrayList<Assignment> assignmentList;
 
 
-
     private int color;
 
     public Subject() {
@@ -87,8 +86,6 @@ public class Subject {
     }
 
 
-
-
     public int getColor() {
         return color;
     }
@@ -96,4 +93,62 @@ public class Subject {
     public void setColor(int color) {
         this.color = color;
     }
+
+
+    /**
+     * for the 2D array thing also should we have javadocs for any of these methods in our project
+     *
+     * @return
+     * @author Simon Nguyen
+     */
+    public String[][] convertAssignmentListTo2DArray() {
+        int numRows = assignmentList.size();
+        int numCols = 0;
+
+
+        /*  make sure we have enough slots to fit all the assignments if they have different
+        amount of stuff in it
+        */
+
+        for (Assignment assignment : assignmentList) {
+            int assignmentNumCols = assignment.getAssignmentArray().length;
+            if (assignmentNumCols > numCols) {
+                numCols = assignmentNumCols;
+            }
+        }
+
+            String[][] assignmentArray = new String[numRows][numCols];
+
+            for (int i = 0; i < numRows; i++) {
+                Assignment temp = assignmentList.get(i);
+
+                String[] assignmentDetails = temp.getAssignmentArray();
+                assignmentArray[i] = assignmentDetails;
+            }
+
+
+
+        return assignmentArray;
+        }
+
+    public String convertAssignmentListToString() {
+        String result = "";
+
+        String[][] assignmentArray = convertAssignmentListTo2DArray();
+
+        for (String[] row : assignmentArray) {
+            for (String element : row) {
+                result += element + " ";
+            }
+            result += "\n";
+        }
+
+        return result;
+    }
+
+
+
 }
+
+
+
