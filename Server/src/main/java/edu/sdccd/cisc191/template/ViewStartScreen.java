@@ -165,6 +165,13 @@ public class ViewStartScreen extends Application {
 //                throw new RuntimeException(ex);
 //            }
 //        });
+        importTextButton.setOnAction((ActionEvent e)-> {
+            try {
+                convertPlainTextToSubject();
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
 
         buttons.setStyle("-fx-background-color: #FFF1DC");
         buttons.setAlignment(Pos.CENTER);
@@ -572,40 +579,40 @@ public class ViewStartScreen extends Application {
         return subjectSave;
     }
 
-//    public ArrayList<Subject> convertPlainTextToSubject(){
-//        // Create a TextField on new page for the user to input the schedule text
-//        TextField scheduleText = new TextField();
-//        scheduleText.setPrefSize(screenWidth, screenHeight/3);
-//
-//        // Creates a confirm button to process the entered text when done
-//        OptionButton confirmButton = new OptionButton("Confirm", screenWidth / 6, screenHeight / 10);
-//
-//        confirmButton.setOnAction((ActionEvent e)-> {
-//            String[] tokens = scheduleText.getText().split(",");
-//            ArrayList<Subject> subjectSave = new ArrayList<>();
-//            for (int i = 0; i < tokens.length; i++) {
-//                Subject tempSubject = new Subject(tokens[0], Boolean.parseBoolean(tokens[2]), Double.parseDouble(tokens[1]));
-//                tempSubject.setColor(Integer.parseInt(tokens[3]));
-//                subjectSave.add(tempSubject);
-//            }
-//            try {
-//                // After processing the text, switch to the main screen
-//                runMainScreen(subjectSave, selectedIndex);
-//            } catch (Exception ex) {
-//                throw new RuntimeException(ex);
-//            }
-//        });
-//
-//        // Create a VBox to hold the text input field and the confirm button
-//        VBox buttons = new VBox(20, scheduleText, confirmButton);
-//        buttons.setAlignment(Pos.CENTER);
-//
-//        // Set up the layout
-//        layout = new BorderPane(buttons);
-//        sceneClassName = new Scene(layout, screenWidth, screenHeight); // Set scene dimensions
-//        switchScene(sceneClassName, "Import Schedule From Text");
-//        stage.show();
-//
-//        return null; // Return null for now, the actual subjects will be returned after processing the text
-//    }
+    public void convertPlainTextToSubject(){
+        // Create a TextArea on new page for the user to input the schedule text
+        TextArea scheduleText = new TextArea();
+        scheduleText.setPrefSize(screenWidth, screenHeight/3);
+
+        // Creates a confirm button to process the entered text when done
+        OptionButton confirmButton = new OptionButton("Confirm", screenWidth / 6, screenHeight / 10);
+        ArrayList<Subject> subjectSave = new ArrayList<>();
+        confirmButton.setOnAction((ActionEvent e)-> {
+            String[] tokens = scheduleText.getText().split("\n");
+            String[] tokens1;
+            for (int i = 0; i < tokens.length; i++) {
+                tokens1 = tokens[i].split(",");
+                Subject tempSubject = new Subject(tokens1[0], Boolean.parseBoolean(tokens1[2]), Double.parseDouble(tokens1[1]));
+                tempSubject.setColor(Integer.parseInt(tokens1[3]));
+                subjectSave.add(tempSubject);
+            }
+            subjectArrayList = subjectSave;
+            try {
+                // After processing the text, switch to the main screen
+                runMainScreen(subjectArrayList, selectedIndex);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        // Create a VBox to hold the text input field and the confirm button
+        VBox buttons = new VBox(20, scheduleText, confirmButton);
+        buttons.setAlignment(Pos.CENTER);
+
+        // Set up the layout
+        layout = new BorderPane(buttons);
+        sceneClassName = new Scene(layout, screenWidth, screenHeight); // Set scene dimensions
+        switchScene(sceneClassName, "Import Schedule From Text");
+        stage.show();
+    }
 }
