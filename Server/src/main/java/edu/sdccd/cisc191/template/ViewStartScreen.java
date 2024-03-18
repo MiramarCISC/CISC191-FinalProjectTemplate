@@ -59,19 +59,26 @@ public class ViewStartScreen extends Application {
         setupButton.setFont(font);
         setupButton.setWrapText(true);
 
-        //csv file of saved schedule
-        OptionButton importSchedule = new OptionButton("Import Schedule", 500, 100);
-        importSchedule.changeTextColor(Color.web("#34A3ED"));
-        importSchedule.changeBackGroundColor();
-        importSchedule.setFont(font);
-        importSchedule.setWrapText(true);
+        //button for import of csv file of saved schedule
+        OptionButton importCSVButton = new OptionButton("Import from File", 500, 100);
+        importCSVButton.changeTextColor(Color.web("#34A3ED"));
+        importCSVButton.changeBackGroundColor();
+        importCSVButton.setFont(font);
+        importCSVButton.setWrapText(true);
+
+        //button for import from text field (from website save)
+        OptionButton importTextButton = new OptionButton("Import from Text", 500, 100);
+        importTextButton.changeTextColor(Color.web("#34A3ED"));
+        importTextButton.changeBackGroundColor();
+        importTextButton.setFont(font);
+        importTextButton.setWrapText(true);
 
         //title and credits to the authors
         Label title = new Label("Schedule and Homework Tracker");
         Label credits = new Label("Credits: Logan, Simon, Theo, Willy");
         title.setFont(font);
         //organize title and setup button to be spaced accordingly, set it in center
-        VBox buttons = new VBox(screenHeight / 120, title, setupButton, importSchedule);
+        VBox buttons = new VBox(screenHeight / 120, title, setupButton, importCSVButton, importTextButton);
         Image image = new Image(new FileInputStream("Server/src/main/java/edu/sdccd/cisc191/template/Homework-modified.png"));
         Image color = new Image(new FileInputStream("Server/src/main/java/edu/sdccd/cisc191/template/Homework.png"));
         ImageView imageView = new ImageView(image);
@@ -97,20 +104,38 @@ public class ViewStartScreen extends Application {
                     }
                 });
 
-        importSchedule.addEventHandler(MouseEvent.MOUSE_ENTERED,
+        importCSVButton.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
-                        importSchedule.setEffect(glow);
+                        importCSVButton.setEffect(glow);
                         imageView.setImage(color);
 
                     }
                 });
-        importSchedule.addEventHandler(MouseEvent.MOUSE_EXITED,
+        importCSVButton.addEventHandler(MouseEvent.MOUSE_EXITED,
                 new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
-                        importSchedule.setEffect(null);
+                        importCSVButton.setEffect(null);
+                        imageView.setImage(image);
+                    }
+                });
+
+        importTextButton.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        importTextButton.setEffect(glow);
+                        imageView.setImage(color);
+
+                    }
+                });
+        importTextButton.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        importTextButton.setEffect(null);
                         imageView.setImage(image);
                     }
                 });
@@ -123,7 +148,7 @@ public class ViewStartScreen extends Application {
             }
         });
 
-        importSchedule.setOnAction((ActionEvent e)-> {
+        importCSVButton.setOnAction((ActionEvent e)-> {
             subjectArrayList = convertCSVToSubject();
             try {
                 runMainScreen(subjectArrayList, selectedIndex);
@@ -131,6 +156,16 @@ public class ViewStartScreen extends Application {
                 throw new RuntimeException(ex);
             }
         });
+
+//        importTextButton.setOnAction((ActionEvent e)-> {
+//            subjectArrayList = convertPlainTextToSubject();
+//            try {
+//                runMainScreen(subjectArrayList, selectedIndex);
+//            } catch (Exception ex) {
+//                throw new RuntimeException(ex);
+//            }
+//        });
+
         buttons.setStyle("-fx-background-color: #FFF1DC");
         buttons.setAlignment(Pos.CENTER);
         layout = new BorderPane(buttons);
@@ -523,7 +558,7 @@ public class ViewStartScreen extends Application {
                 while(inputStream.hasNextLine()) {
                     String temp = inputStream.nextLine();
                     String[] tokens = temp.split(",");
-                    Subject tempSubject = new Subject(tokens[0],  Boolean.parseBoolean(tokens[2]), Double.parseDouble(tokens[1]));
+                    Subject tempSubject = new Subject(tokens[0], Boolean.parseBoolean(tokens[2]), Double.parseDouble(tokens[1]));
                     tempSubject.setColor(Integer.parseInt(tokens[3]));
                     subjectSave.add(tempSubject);
                 }
@@ -536,4 +571,41 @@ public class ViewStartScreen extends Application {
         }
         return subjectSave;
     }
+
+//    public ArrayList<Subject> convertPlainTextToSubject(){
+//        // Create a TextField on new page for the user to input the schedule text
+//        TextField scheduleText = new TextField();
+//        scheduleText.setPrefSize(screenWidth, screenHeight/3);
+//
+//        // Creates a confirm button to process the entered text when done
+//        OptionButton confirmButton = new OptionButton("Confirm", screenWidth / 6, screenHeight / 10);
+//
+//        confirmButton.setOnAction((ActionEvent e)-> {
+//            String[] tokens = scheduleText.getText().split(",");
+//            ArrayList<Subject> subjectSave = new ArrayList<>();
+//            for (int i = 0; i < tokens.length; i++) {
+//                Subject tempSubject = new Subject(tokens[0], Boolean.parseBoolean(tokens[2]), Double.parseDouble(tokens[1]));
+//                tempSubject.setColor(Integer.parseInt(tokens[3]));
+//                subjectSave.add(tempSubject);
+//            }
+//            try {
+//                // After processing the text, switch to the main screen
+//                runMainScreen(subjectSave, selectedIndex);
+//            } catch (Exception ex) {
+//                throw new RuntimeException(ex);
+//            }
+//        });
+//
+//        // Create a VBox to hold the text input field and the confirm button
+//        VBox buttons = new VBox(20, scheduleText, confirmButton);
+//        buttons.setAlignment(Pos.CENTER);
+//
+//        // Set up the layout
+//        layout = new BorderPane(buttons);
+//        sceneClassName = new Scene(layout, screenWidth, screenHeight); // Set scene dimensions
+//        switchScene(sceneClassName, "Import Schedule From Text");
+//        stage.show();
+//
+//        return null; // Return null for now, the actual subjects will be returned after processing the text
+//    }
 }

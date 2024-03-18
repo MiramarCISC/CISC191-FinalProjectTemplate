@@ -1,9 +1,10 @@
+<%@ page import="edu.sdccd.cisc191.template.ViewStartScreen" %>
 <html>
 <head>
-    <title>NETWORKING TEST EEEEE</title>
+    <title>Saved Schedules for Homework Tracker</title>
 </head>
 <body>
-<h2>Hello World! This is a test of Group7 Architect Assignment</h2>
-    <% out.println("javacodetesting"); %>
+<h2>Stored Schedules:</h2>
+    <% out.println("This is a java print function. Potentially call methods using java"); %>
 </body>
 </html>
