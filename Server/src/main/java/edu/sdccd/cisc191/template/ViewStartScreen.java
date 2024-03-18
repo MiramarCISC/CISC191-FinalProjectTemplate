@@ -148,8 +148,8 @@ public class ViewStartScreen extends Application {
             }
         });
 
-        importCSVButton.setOnAction((ActionEvent e)-> {
-            subjectArrayList = convertCSVToSubject();
+        importCSVButton.setOnAction((ActionEvent e) -> {
+            subjectArrayList = convertCSVFileToSubject();
             try {
                 runMainScreen(subjectArrayList, selectedIndex);
             } catch (Exception ex) {
@@ -157,15 +157,7 @@ public class ViewStartScreen extends Application {
             }
         });
 
-//        importTextButton.setOnAction((ActionEvent e)-> {
-//            subjectArrayList = convertPlainTextToSubject();
-//            try {
-//                runMainScreen(subjectArrayList, selectedIndex);
-//            } catch (Exception ex) {
-//                throw new RuntimeException(ex);
-//            }
-//        });
-        importTextButton.setOnAction((ActionEvent e)-> {
+        importTextButton.setOnAction((ActionEvent e) -> {
             try {
                 convertPlainTextToSubject();
             } catch (Exception ex) {
@@ -261,7 +253,7 @@ public class ViewStartScreen extends Application {
         dropDown.getItems().add("Green");
         dropDown.getItems().add("Orange");
         dropDown.getItems().add("Purple");
-        dropDown.setOnAction((event) ->{
+        dropDown.setOnAction((event) -> {
             int selectedIndex = dropDown.getSelectionModel().getSelectedIndex();
         });
             /* adds first class to subject array list
@@ -319,7 +311,7 @@ public class ViewStartScreen extends Application {
     /**
      * @param a subjectArrayList, used to have the proper amount of buttons
      * @throws Exception prevents anything from not compiling
-     *                   TODO deal with weird user inputs
+     *                                     TODO deal with weird user inputs
      */
     public void runMainScreen(ArrayList<Subject> a, int colorNumber) throws Exception {
         Label classList = new Label("Your Classes");
@@ -369,8 +361,8 @@ public class ViewStartScreen extends Application {
             }
         });
         OptionButton saveSchedule = new OptionButton("Save Schedule", screenWidth / 5, screenHeight / 17.5);
-        saveSchedule.setOnAction((ActionEvent e)-> {
-            convertSubjectToCSV(subjectArrayList);
+        saveSchedule.setOnAction((ActionEvent e) -> {
+            convertSubjectToCSV(a);
         });
         HBox bottomButtons = new HBox(screenWidth / 1.5, addClass, saveSchedule);
         bottomButtons.setAlignment(Pos.BOTTOM_LEFT);
@@ -384,7 +376,7 @@ public class ViewStartScreen extends Application {
     /**
      * @param subjectArrayIndex index of subjectArray i.e which subject does the user want to access
      *                          dear God did I do anything correctly
-     *                          TODO deal with weird user inputs
+     *                                                   TODO deal with weird user inputs
      */
     public void viewAssignmentList(int subjectArrayIndex) {
         Subject subject = new Subject(subjectArrayList.get(subjectArrayIndex));
@@ -439,7 +431,6 @@ public class ViewStartScreen extends Application {
         Label assignmentLabel = new Label("Assignment Name: " + selectedAssignment.getNameOfAssignment() + "\n" +
                 "Assignment Points Earned: " + Double.toString(selectedAssignment.getPointsOfAssignment()) + "\n" + "Total Points Possible: " + Double.toString(selectedAssignment.getTotalPoints())
                 + "\n" + "Grade of Assignment: " + (selectedAssignment.getAssignmentPercentage()));
-
 
 
         // Create a button to go back to the assignment list
@@ -505,7 +496,7 @@ public class ViewStartScreen extends Application {
     }
 
     /**
-     *  Convert the list of subjects to a CSV file
+     * Convert the list of subjects to a CSV file
      *
      * @param a The list of subjects to be converted.
      */
@@ -516,30 +507,21 @@ public class ViewStartScreen extends Application {
         fc.setInitialFileName("My_Schedule.txt");
         fc.getExtensionFilters().add(availableFiles);
         File saveLocation = fc.showSaveDialog(stage);
-        try (FileWriter writer = new FileWriter(saveLocation)){
-            for (int i = 0; i < a.size(); i++){
-                if(a.get(i).isWeighted()) {
-                    writer.append(a.get(i).getNameOfSubject())
-                            .append(',')
-                            .append(String.valueOf(a.get(i).getGradeInClass()))
-                            .append(',')
-                            .append("true")
-                            .append(',')
-                            .append(String.valueOf(a.get(i).getColor()))
-                            .append(',')
-                            .append('\n');
+        try (FileWriter writer = new FileWriter(saveLocation)) {
+            for (int i = 0; i < a.size(); i++) {
+                writer.append(a.get(i).getNameOfSubject())
+                        .append(',')
+                        .append(String.valueOf(a.get(i).getGradeInClass()))
+                        .append(',')
+                        .append(String.valueOf(a.get(i).isWeighted()))
+                        .append(',')
+                        .append(String.valueOf(a.get(i).getColor()))
+                        .append(',');
+                ArrayList<Assignment> temp = a.get(i).getAssignmentList();
+                for (int j = 0; j < temp.size(); j++) {
+                    writer.append(temp.get(j).getNameOfAssignment()).append(',');
                 }
-                else{
-                    writer.append(a.get(i).getNameOfSubject())
-                            .append(',')
-                            .append(String.valueOf(a.get(i).getGradeInClass()))
-                            .append(',')
-                            .append("false")
-                            .append(',')
-                            .append(String.valueOf(a.get(i).getColor()))
-                            .append(',')
-                            .append('\n');
-                }
+                writer.append("\n");
             }
             writer.close();
 
@@ -551,49 +533,57 @@ public class ViewStartScreen extends Application {
 
     /**
      * allows the user to import a previously saved schedule in the form of a csv file
+     *
      * @return subject array to be imported
      */
-    public ArrayList<Subject> convertCSVToSubject() {
+    public ArrayList<Subject> convertCSVFileToSubject() {
         FileChooser fc = new FileChooser();
         fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("TXT Files", "*.TXT"),
                 new FileChooser.ExtensionFilter("txt files", "*.txt"));
         File inFile = fc.showOpenDialog(null);
         ArrayList<Subject> subjectSave = new ArrayList<>();
         if (inFile != null) {
-            try{
+            try {
                 Scanner inputStream = new Scanner(inFile);
-                while(inputStream.hasNextLine()) {
+                while (inputStream.hasNextLine()) {
+                    ArrayList<Assignment> assignments = new ArrayList<>();
                     String temp = inputStream.nextLine();
                     String[] tokens = temp.split(",");
                     Subject tempSubject = new Subject(tokens[0], Boolean.parseBoolean(tokens[2]), Double.parseDouble(tokens[1]));
                     tempSubject.setColor(Integer.parseInt(tokens[3]));
+                    for (int i = 4; i < tokens.length; i++) {
+                        assignments.add(new Assignment(tokens[i]));
+                    }
+                    tempSubject.setAssignmentList(assignments);
                     subjectSave.add(tempSubject);
                 }
-            }catch (FileNotFoundException e) {
+            } catch (FileNotFoundException e) {
                 e.getMessage();
             }
-        }
-        else {
+        } else {
             System.out.println("Invalid file");
         }
         return subjectSave;
     }
 
-    public void convertPlainTextToSubject(){
+    public void convertPlainTextToSubject() {
         // Create a TextArea on new page for the user to input the schedule text
         TextArea scheduleText = new TextArea();
-        scheduleText.setPrefSize(screenWidth, screenHeight/3);
+        scheduleText.setPrefSize(screenWidth, screenHeight / 3);
 
         // Creates a confirm button to process the entered text when done
         OptionButton confirmButton = new OptionButton("Confirm", screenWidth / 6, screenHeight / 10);
         ArrayList<Subject> subjectSave = new ArrayList<>();
-        confirmButton.setOnAction((ActionEvent e)-> {
+        ArrayList<Assignment> assignments = new ArrayList<>();
+        confirmButton.setOnAction((ActionEvent e) -> {
             String[] tokens = scheduleText.getText().split("\n");
             String[] tokens1;
             for (int i = 0; i < tokens.length; i++) {
                 tokens1 = tokens[i].split(",");
                 Subject tempSubject = new Subject(tokens1[0], Boolean.parseBoolean(tokens1[2]), Double.parseDouble(tokens1[1]));
                 tempSubject.setColor(Integer.parseInt(tokens1[3]));
+                assignments.add(new Assignment(tokens[4]));
+                tempSubject.setAssignmentList(assignments);
                 subjectSave.add(tempSubject);
             }
             subjectArrayList = subjectSave;
@@ -614,5 +604,22 @@ public class ViewStartScreen extends Application {
         sceneClassName = new Scene(layout, screenWidth, screenHeight); // Set scene dimensions
         switchScene(sceneClassName, "Import Schedule From Text");
         stage.show();
+    }
+
+    //yikes.
+    public String convertEverythingToString(ArrayList<Subject> a) {
+        String finalString = "";
+        String temp = "";
+        for (int i = 0; i < a.size(); i++) {
+            temp = a.get(i).getNameOfSubject() + ',' + String.valueOf(a.get(i).getGradeInClass()) + ',' +
+                    String.valueOf(a.get(i).isWeighted()) + ',' + String.valueOf(a.get(i).getColor()) + ',';
+            finalString += temp;
+            ArrayList<Assignment> assignments = a.get(i).getAssignmentList();
+            for (int j = 0; j < assignments.size(); j++) {
+                finalString += assignments.get(j).getNameOfAssignment() + (',');
+            }
+            finalString += "\n";
+        }
+        return finalString;
     }
 }
