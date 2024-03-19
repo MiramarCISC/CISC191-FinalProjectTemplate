@@ -7,7 +7,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 import javax.swing.text.html.ImageView;
-import java.awt.event.MouseEvent;
 
 public class OptionButton extends Button {
     private String text;
@@ -45,15 +44,15 @@ public class OptionButton extends Button {
                 break;
             case 3:
                 setTextFill(Color.web("#00FF00"));
-                setStyle("-fx-background-color: #ff7777");
+                setStyle("-fx-background-color: #166137");
                 break;
             case 4:
                 setTextFill(Color.web("#FFA500"));
-                setStyle("-fx-background-color: #ff7777");
+                setStyle("-fx-background-color: #e89313");
                 break;
             case 5:
                 setTextFill(Color.web("#A020F0"));
-                setStyle("-fx-background-color: #ff7777");
+                setStyle("-fx-background-color: #5a0b6e");
             default:
         }
     }

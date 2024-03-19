@@ -1,37 +1,40 @@
 package edu.sdccd.cisc191.template;
 
-import javafx.event.ActionEvent;
 import javafx.application.Application;
-import javafx.event.EventHandler;
+import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.effect.*;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import javafx.application.Platform;
-
-import java.io.*;
-import java.util.ArrayList;
-import java.awt.Checkbox;
-import java.util.Scanner;
-import javax.swing.*;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Scanner;
 public class ViewStartScreen extends Application {
     private int screenWidth, screenHeight; //allows buttons to be scaled accordingly
     private int selectedIndex;
     private BorderPane layout;
     private Stage stage;
-    private Scene startScene, sceneClassName;
-    private String temp;
+    private Scene sceneClassName;
     private ArrayList<Subject> subjectArrayList = new ArrayList<>();
+
+    private String savedSchedule;
 
     /**
      * @param stage the primary stage for this application, onto which
@@ -42,7 +45,7 @@ public class ViewStartScreen extends Application {
      *              Initial screen that the user sees
      *              Hooray for javafx
      */
-    public void start(Stage stage) throws FileNotFoundException {
+    public void start(Stage stage) throws IOException {
         //variables???
         Glow glow = new Glow();
         glow.setLevel(0.2);
@@ -78,67 +81,19 @@ public class ViewStartScreen extends Application {
         Label credits = new Label("Credits: Logan, Simon, Theo, Willy");
         title.setFont(font);
         //organize title and setup button to be spaced accordingly, set it in center
-        VBox buttons = new VBox(screenHeight / 120, title, setupButton, importCSVButton, importTextButton);
-        Image image = new Image(new FileInputStream("Server/src/main/java/edu/sdccd/cisc191/template/Homework-modified.png"));
-        Image color = new Image(new FileInputStream("Server/src/main/java/edu/sdccd/cisc191/template/Homework.png"));
+        VBox buttons = new VBox((double) screenHeight / 120, title, setupButton, importCSVButton, importTextButton);
+        Image image = new Image(Files.newInputStream(Paths.get("Server/src/main/java/edu/sdccd/cisc191/template/Homework-modified.png")));
+        Image color = new Image(Files.newInputStream(Paths.get("Server/src/main/java/edu/sdccd/cisc191/template/Homework.png")));
         ImageView imageView = new ImageView(image);
         imageView.setFitHeight(150);
         imageView.setFitWidth(150);
         buttons.getChildren().addAll(imageView);
 
-        setupButton.addEventHandler(MouseEvent.MOUSE_ENTERED,
-                new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        setupButton.setEffect(glow);
-                        imageView.setImage(color);
+        buttonEffects(glow, setupButton, image, color, imageView);
 
-                    }
-                });
-        setupButton.addEventHandler(MouseEvent.MOUSE_EXITED,
-                new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        setupButton.setEffect(null);
-                        imageView.setImage(image);
-                    }
-                });
+        buttonEffects(glow, importCSVButton, image, color, imageView);
 
-        importCSVButton.addEventHandler(MouseEvent.MOUSE_ENTERED,
-                new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        importCSVButton.setEffect(glow);
-                        imageView.setImage(color);
-
-                    }
-                });
-        importCSVButton.addEventHandler(MouseEvent.MOUSE_EXITED,
-                new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        importCSVButton.setEffect(null);
-                        imageView.setImage(image);
-                    }
-                });
-
-        importTextButton.addEventHandler(MouseEvent.MOUSE_ENTERED,
-                new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        importTextButton.setEffect(glow);
-                        imageView.setImage(color);
-
-                    }
-                });
-        importTextButton.addEventHandler(MouseEvent.MOUSE_EXITED,
-                new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        importTextButton.setEffect(null);
-                        imageView.setImage(image);
-                    }
-                });
+        buttonEffects(glow, importTextButton, image, color, imageView);
 
         setupButton.setOnAction((ActionEvent e) -> {
             try {
@@ -172,55 +127,42 @@ public class ViewStartScreen extends Application {
         buttons = new VBox(credits);
         buttons.setAlignment(Pos.BOTTOM_RIGHT);
         layout.setBottom(buttons);
-        startScene = new Scene(layout, screenWidth, screenHeight);
+        Scene startScene = new Scene(layout, screenWidth, screenHeight);
         startScene.setFill(Color.web("#81c483"));
         stage.setTitle("Schedule and Homework Tracker");
         stage.setScene(startScene);
         stage.show();
     }
 
+    /**
+     *
+     * @param glow, the amount of the glow when hovering/interacting with a button
+     * @param setupButton, the button which will be imbued with given effects
+     * @param image,
+     * @param color
+     * @param imageView
+     */
+    private void buttonEffects(Glow glow, OptionButton setupButton, Image image, Image color, ImageView imageView) {
+        setupButton.addEventHandler(MouseEvent.MOUSE_ENTERED, event -> {
+            setupButton.setEffect(glow);
+            imageView.setImage(color);
+
+        });
+        setupButton.addEventHandler(MouseEvent.MOUSE_EXITED, event -> {
+            setupButton.setEffect(null);
+            imageView.setImage(image);
+        });
+    }
+
     public static void main(String[] args) {
         launch();
     }
 
-    /*
-      (change to javadoc when uncommenting code)
-      Asks the user for how many classes they have
-      updates global variable subjectArrayList according to the user
-      directs to runSetup2()
-     */
-
-   /* public void runSetup1() throws Exception{
-
-        TextField answers = new TextField("100");
-        answers.setPrefSize(screenWidth/2, screenHeight/8);
-
-        Label promptClasses = new Label("How many classes with homework do you have?");
-
-        OptionButton confirm = new OptionButton("Confirm", screenWidth/4, screenHeight/16);
-        confirm.setOnAction((ActionEvent e)-> {
-            //TODO make sure user only inputs integers
-            subjectArrayList = new ArrayList<>(Integer.parseInt(answers.getText()));
-            amountOfClasses = Integer.parseInt(answers.getText());
-            try {
-                runSetup2();
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
-            }
-        });
-        VBox buttons = new VBox(screenHeight/60, promptClasses, answers, confirm);
-        layout = new BorderPane(buttons);
-        sceneClassName = new Scene(layout, screenWidth, screenHeight);
-        stage.setTitle("Set Schedule");
-        stage.setScene(sceneClassName);
-        stage.show();
-    }
-*/
 
     /**
      * First screen the user sees when
      *
-     * @throws Exception
+     * @throws Exception when there's error :)
      */
     public void runSetup2() throws Exception {
         Font font = Font.font("Montserrat", FontWeight.BOLD, 18);
@@ -228,22 +170,22 @@ public class ViewStartScreen extends Application {
         Label promptName = new Label("Enter the name of the class you would like to add");
         TextField name = new TextField();
         name.setFont(font);
-        name.setPrefSize(screenWidth / 2, screenHeight / 10);
-        name.setMaxWidth(screenWidth / 2);
+        name.setPrefSize(screenWidth / 2.0, screenHeight / 10.0);
+        name.setMaxWidth(screenWidth / 2.0);
         promptName.setFont(font);
 
-        CheckBox promtWeighted = new CheckBox("Is the class weighted?");
-        promtWeighted.setFont(font);
+        CheckBox promptWeighted = new CheckBox("Is the class weighted?");
+        promptWeighted.setFont(font);
 
         Label promptGrade = new Label("What is your current grade in the class?");
         promptGrade.setFont(font);
 
         TextField grade = new TextField();
-        grade.setPrefSize(screenWidth / 2, screenHeight / 8);
-        grade.setMaxWidth(screenWidth / 2);
+        grade.setPrefSize(screenWidth / 2.0, screenHeight / 8.0);
+        grade.setMaxWidth(screenWidth / 2.0);
         grade.setFont(font);
-        //prevents any compiler errors when adding to sujectArrayList
-        OptionButton confirm = new OptionButton("Confirm", screenWidth / 6, screenHeight / 24);
+        //prevents any compiler errors when adding to subjectArrayList
+        OptionButton confirm = new OptionButton("Confirm", screenWidth / 6.0, screenHeight / 24.0);
         Label colorChoice = new Label("What color would you like the subject to be?");
         colorChoice.setFont(font);
         ChoiceBox<String> dropDown = new ChoiceBox<>();
@@ -286,7 +228,7 @@ public class ViewStartScreen extends Application {
 
 
         buttons.setStyle("-fx-background-color: #FFF1DC;");
-        buttons.getChildren().addAll(promptName, name, promptGrade, grade, promtWeighted, colorChoice, dropDown, confirm);
+        buttons.getChildren().addAll(promptName, name, promptGrade, grade, promptWeighted, colorChoice, dropDown, confirm);
         buttons.setAlignment(Pos.CENTER);
         layout = new BorderPane(buttons);
 
@@ -298,7 +240,7 @@ public class ViewStartScreen extends Application {
     }
 
     /**
-     * this is done in like every method so i wanted it to be convenient
+     * switchScene to handle repetitive action
      *
      * @param scene scene to switch to
      * @param title title of new scene
@@ -311,34 +253,19 @@ public class ViewStartScreen extends Application {
     /**
      * @param a subjectArrayList, used to have the proper amount of buttons
      * @throws Exception prevents anything from not compiling
-     *                                     TODO deal with weird user inputs
      */
     public void runMainScreen(ArrayList<Subject> a, int colorNumber) throws Exception {
         Label classList = new Label("Your Classes");
         classList.setStyle("-fx-font-size: 20; -fx-underline: true; -fx-font-weight: bold;");
-        VBox classes = new VBox(screenHeight / 240, classList);
+        VBox classes = new VBox(screenHeight / 240.0, classList);
         classes.setStyle("-fx-background-color: #FFF1DC;");
         classes.setAlignment(Pos.TOP_LEFT);
-        /* for (int i = 0; i < a.size(); i++) {
-            OptionButton button = new OptionButton(a.get(i).getNameOfSubject(), screenWidth / 3, screenHeight / 10);
-            //i helps keep track of which subject is which
-            button.changeTextColor(colorNumber);
-            int finalI = i;
-            try {
-                button.setOnAction((ActionEvent e) -> {
-                    viewAssignmentList(finalI);
-                });
-            } catch (Exception e) {
-
-                throw new RuntimeException(e);
-            }
-            classes.getChildren().add(button);
-        } */
 
         // set individual color for each subject
-
         for (Subject subject : a) {
             OptionButton button = new OptionButton(subject.getNameOfSubject(), screenWidth / 3, screenHeight / 10);
+
+
             button.changeTextColor(subject.getColor()); // Set color based on subject
             button.setOnAction((ActionEvent e) -> {
                 try {
@@ -352,7 +279,7 @@ public class ViewStartScreen extends Application {
         }
 
         //allows user to add another class to the list
-        OptionButton addClass = new OptionButton("Add Class", screenWidth / 5, screenHeight / 17.5);
+        OptionButton addClass = new OptionButton("Add Class", screenWidth / 3, screenHeight / 17.5);
         addClass.setOnAction((ActionEvent e) -> {
             try {
                 runSetup2();
@@ -360,7 +287,7 @@ public class ViewStartScreen extends Application {
                 throw new RuntimeException(ex);
             }
         });
-        OptionButton saveSchedule = new OptionButton("Save Schedule", screenWidth / 5, screenHeight / 17.5);
+        OptionButton saveSchedule = new OptionButton("Save Schedule", screenWidth / 3, screenHeight / 17.5);
         saveSchedule.setOnAction((ActionEvent e) -> {
             convertSubjectToCSV(a);
         });
@@ -382,10 +309,12 @@ public class ViewStartScreen extends Application {
         Subject subject = new Subject(subjectArrayList.get(subjectArrayIndex));
         ArrayList<Assignment> tempArray = subject.getAssignmentList();
         Label nameOfSubject = new Label(subjectArrayList.get(subjectArrayIndex).getNameOfSubject());
-        VBox assignments = new VBox(screenHeight / 240, nameOfSubject);
+        nameOfSubject.setStyle("-fx-font-size: 20; -fx-underline: true; -fx-font-weight: bold;");
+
+        VBox assignments = new VBox(screenHeight / 240.0, nameOfSubject);
         assignments.setStyle("-fx-background-color: #FFF1DC;");
         assignments.setAlignment(Pos.TOP_LEFT);
-        OptionButton addAssignment = new OptionButton("Add Assignment", screenWidth / 5, screenHeight / 17.5);
+        OptionButton addAssignment = new OptionButton("Add Assignment", screenWidth / 3.0, screenHeight / 17.5);
         addAssignment.setOnAction((ActionEvent e) -> {
             try {
                 addAssignment(subjectArrayIndex);
@@ -393,7 +322,7 @@ public class ViewStartScreen extends Application {
                 throw new RuntimeException(ex);
             }
         });
-        OptionButton backButton = new OptionButton("Back to main screen", screenWidth / 3, screenHeight / 10);
+        OptionButton backButton = new OptionButton("Back", screenWidth / 3.0, screenHeight / 17.5);
         backButton.setOnAction((ActionEvent e) -> {
             try {
                 runMainScreen(subjectArrayList, selectedIndex);
@@ -403,7 +332,7 @@ public class ViewStartScreen extends Application {
         });
         for (int i = 0; i < tempArray.size(); i++) {
             Assignment assignment = tempArray.get(i);
-            OptionButton button = new OptionButton(assignment.getNameOfAssignment(), screenWidth / 3, screenHeight / 10);
+            OptionButton button = new OptionButton(assignment.getNameOfAssignment(), screenWidth / 3.0, screenHeight / 10.0);
             int finalI = i;
             button.setOnAction((ActionEvent e) -> {
                 try {
@@ -429,12 +358,11 @@ public class ViewStartScreen extends Application {
 
         // Create labels to display assignment details
         Label assignmentLabel = new Label("Assignment Name: " + selectedAssignment.getNameOfAssignment() + "\n" +
-                "Assignment Points Earned: " + Double.toString(selectedAssignment.getPointsOfAssignment()) + "\n" + "Total Points Possible: " + Double.toString(selectedAssignment.getTotalPoints())
-                + "\n" + "Grade of Assignment: " + (selectedAssignment.getAssignmentPercentage()));
+                "Total Points Possible: " + Double.toString(selectedAssignment.getTotalPoints()));
 
 
         // Create a button to go back to the assignment list
-        OptionButton backButton = new OptionButton("Back to Assignment List", screenWidth / 5, screenHeight / 17.5);
+        OptionButton backButton = new OptionButton("Back to Assignment List", screenWidth / 5.0, screenHeight / 17.5);
         backButton.setOnAction((ActionEvent e) -> {
             try {
                 viewAssignmentList(subjectIndex);
@@ -444,7 +372,7 @@ public class ViewStartScreen extends Application {
         });
 
         // Create a VBox to hold the labels and button
-        VBox assignmentInfoLayout = new VBox(screenHeight / 60, assignmentLabel, backButton);
+        VBox assignmentInfoLayout = new VBox(screenHeight / 60.0, assignmentLabel, backButton);
         assignmentInfoLayout.setAlignment(Pos.CENTER);
 
         // Set the layout for the scene
@@ -454,33 +382,43 @@ public class ViewStartScreen extends Application {
         stage.show();
     }
 
-
+     // points earned is killed bc homework planner assumes assignments have not been done yet
     public void addAssignment(int subjectIndex) {
         Subject subject = subjectArrayList.get(subjectIndex); // Get the subject from the ArrayList
         Label assignmentNameLabel = new Label("Enter name of Assignment:");
         TextField assignmentNameField = new TextField();
 
-        Label assignmentPointsLabel = new Label("Enter amount of points earned on Assignment:");
-        TextField assignmentPointsField = new TextField();
+        //Label assignmentPointsLabel = new Label("Enter amount of points earned on Assignment:");
+         // TextField assignmentPointsField = new TextField();
 
-        Label assignmentTotalPointsLabel = new Label("Enter max number of points for Assignment:");
+        Label assignmentTotalPointsLabel = new Label("Enter number of points for Assignment:");
         TextField assignmentTotalPointsField = new TextField();
 
-        assignmentNameField.setPrefSize(screenWidth / 2, screenHeight / 8);
-        assignmentPointsField.setPrefSize(screenWidth / 2, screenHeight / 20);
-        assignmentTotalPointsField.setPrefSize(screenWidth / 2, screenHeight / 20);
+        assignmentNameField.setPrefSize(screenWidth / 2.0, screenHeight / 8.0);
+        // assignmentPointsField.setPrefSize(screenWidth / 2.0, screenHeight / 20.0);
+        assignmentTotalPointsField.setPrefSize(screenWidth / 2.0, screenHeight / 20.0);
 
-        OptionButton confirmButton = new OptionButton("Confirm", screenWidth / 6, screenHeight / 24);
+        OptionButton confirmButton = new OptionButton("Confirm", screenWidth / 6.0, screenHeight / 24.0);
         confirmButton.setOnAction((ActionEvent e) -> {
-            String assignmentName = assignmentNameField.getText();
-            int assignmentPoints = Integer.parseInt(assignmentPointsField.getText());
-            int totalAssignmentPoints = Integer.parseInt(assignmentTotalPointsField.getText());
-            // Create a new Assignment object with the entered name
-            Assignment assignment = new Assignment(assignmentName);
-            assignment.setPointsOfAssignment(assignmentPoints);
-            assignment.setTotalPoints(totalAssignmentPoints);
-            // Add the assignment to the subject's ArrayList
-            subject.addAssignment(assignment);
+            try {
+                String assignmentName = assignmentNameField.getText();
+                // int assignmentPoints = Integer.parseInt(assignmentPointsField.getText());
+                int totalAssignmentPoints = Integer.parseInt(assignmentTotalPointsField.getText());
+                // Create a new Assignment object with the entered name
+                Assignment assignment = new Assignment(assignmentName);
+                // assignment.setPointsOfAssignment(assignmentPoints);
+                assignment.setTotalPoints(totalAssignmentPoints);
+                // Add the assignment to the subject's ArrayList
+                subject.addAssignment(assignment);
+            }
+            catch (Exception error) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("ERROR");
+                alert.setHeaderText("INPUT ERROR");
+                alert.setContentText("YOUR GRADE, " + "'" + ((assignmentTotalPointsField.getText())) + "'" + " IS NOT A NUMBER" +
+                        "\nTRY AGAIN");
+                alert.showAndWait();
+            }
             try {
                 runMainScreen(subjectArrayList, selectedIndex); // Refresh the main screen with the updated assignment list
             } catch (Exception ex) {
@@ -488,7 +426,7 @@ public class ViewStartScreen extends Application {
             }
         });
 
-        VBox buttons = new VBox(screenHeight / 60, assignmentNameLabel, assignmentNameField, assignmentPointsLabel, assignmentPointsField, assignmentTotalPointsLabel, assignmentTotalPointsField, confirmButton);
+        VBox buttons = new VBox(screenHeight / 60.0, assignmentNameLabel, assignmentNameField, assignmentTotalPointsLabel, assignmentTotalPointsField, confirmButton);
         layout = new BorderPane(buttons);
         sceneClassName = new Scene(layout, screenWidth, screenHeight);
         switchScene(sceneClassName, "Add Assignment");
@@ -508,18 +446,18 @@ public class ViewStartScreen extends Application {
         fc.getExtensionFilters().add(availableFiles);
         File saveLocation = fc.showSaveDialog(stage);
         try (FileWriter writer = new FileWriter(saveLocation)) {
-            for (int i = 0; i < a.size(); i++) {
-                writer.append(a.get(i).getNameOfSubject())
+            for (Subject subject : a) {
+                writer.append(subject.getNameOfSubject())
                         .append(',')
-                        .append(String.valueOf(a.get(i).getGradeInClass()))
+                        .append(String.valueOf(subject.getGradeInClass()))
                         .append(',')
-                        .append(String.valueOf(a.get(i).isWeighted()))
+                        .append(String.valueOf(subject.isWeighted()))
                         .append(',')
-                        .append(String.valueOf(a.get(i).getColor()))
+                        .append(String.valueOf(subject.getColor()))
                         .append(',');
-                ArrayList<Assignment> temp = a.get(i).getAssignmentList();
-                for (int j = 0; j < temp.size(); j++) {
-                    writer.append(temp.get(j).getNameOfAssignment()).append(',');
+                ArrayList<Assignment> temp = subject.getAssignmentList();
+                for (Assignment assignment : temp) {
+                    writer.append(assignment.getNameOfAssignment()).append(',');
                 }
                 writer.append("\n");
             }
@@ -527,7 +465,6 @@ public class ViewStartScreen extends Application {
 
             //msg to javafx success
         } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -569,27 +506,29 @@ public class ViewStartScreen extends Application {
     public void convertPlainTextToSubject() {
         // Create a TextArea on new page for the user to input the schedule text
         TextArea scheduleText = new TextArea();
-        scheduleText.setPrefSize(screenWidth, screenHeight / 3);
+        scheduleText.setPrefSize(screenWidth, screenHeight / 3.0);
 
         // Creates a confirm button to process the entered text when done
-        OptionButton confirmButton = new OptionButton("Confirm", screenWidth / 6, screenHeight / 10);
+        OptionButton confirmButton = new OptionButton("Confirm", screenWidth / 6.0, screenHeight / 10);
         ArrayList<Subject> subjectSave = new ArrayList<>();
-        ArrayList<Assignment> assignments = new ArrayList<>();
         confirmButton.setOnAction((ActionEvent e) -> {
             String[] tokens = scheduleText.getText().split("\n");
             String[] tokens1;
             for (int i = 0; i < tokens.length; i++) {
+                ArrayList<Assignment> assignments = new ArrayList<>();
                 tokens1 = tokens[i].split(",");
                 Subject tempSubject = new Subject(tokens1[0], Boolean.parseBoolean(tokens1[2]), Double.parseDouble(tokens1[1]));
                 tempSubject.setColor(Integer.parseInt(tokens1[3]));
-                assignments.add(new Assignment(tokens[4]));
+                for (int j = 4; j < tokens1.length; j++) {
+                    assignments.add(new Assignment(tokens1[j]));
+                }
                 tempSubject.setAssignmentList(assignments);
                 subjectSave.add(tempSubject);
+
             }
-            subjectArrayList = subjectSave;
             try {
                 // After processing the text, switch to the main screen
-                runMainScreen(subjectArrayList, selectedIndex);
+                runMainScreen(subjectSave, selectedIndex);
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
@@ -606,20 +545,47 @@ public class ViewStartScreen extends Application {
         stage.show();
     }
 
-    //yikes.
+    /**
+     * used for tomcat activities
+     * @param a subject array to convert
+     * @return string consisting of all schedule info
+     */
     public String convertEverythingToString(ArrayList<Subject> a) {
         String finalString = "";
         String temp = "";
-        for (int i = 0; i < a.size(); i++) {
-            temp = a.get(i).getNameOfSubject() + ',' + String.valueOf(a.get(i).getGradeInClass()) + ',' +
-                    String.valueOf(a.get(i).isWeighted()) + ',' + String.valueOf(a.get(i).getColor()) + ',';
+        for (Subject subject : a) {
+            temp = subject.getNameOfSubject() + ',' + String.valueOf(subject.getGradeInClass()) + ',' +
+                    String.valueOf(subject.isWeighted()) + ',' + String.valueOf(subject.getColor()) + ',';
             finalString += temp;
-            ArrayList<Assignment> assignments = a.get(i).getAssignmentList();
+            ArrayList<Assignment> assignments = subject.getAssignmentList();
             for (int j = 0; j < assignments.size(); j++) {
                 finalString += assignments.get(j).getNameOfAssignment() + (',');
             }
             finalString += "\n";
         }
         return finalString;
+    }
+    public void chooseSchedule(ArrayList<Subject> a){
+        OptionButton saveFile = new OptionButton("Save as File", screenWidth/3.0, screenHeight/2.0);
+        OptionButton saveRemote = new OptionButton("Save Remotely", screenWidth/3.0, screenHeight/2.0);
+        HBox buttons = new HBox(50,saveFile, saveRemote);
+        buttons.setAlignment(Pos.CENTER);
+
+        saveFile.setOnAction((ActionEvent e) -> {
+            convertSubjectToCSV(a);
+        });
+
+        saveRemote.setOnAction((ActionEvent e) -> {
+           //TODO figure this out for me logan
+           savedSchedule = convertEverythingToString(a);
+        });
+        //set layout
+        layout = new BorderPane(buttons);
+        sceneClassName = new Scene(layout, screenWidth, screenHeight);
+            switchScene(sceneClassName, "Choose Save Option");
+        stage.show();
+    }
+    public String getSavedSchedule() {
+        return savedSchedule;
     }
 }
