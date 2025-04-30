@@ -4,8 +4,9 @@ Intermediate Java Programming Final Project Template
 1. Maven
 2. Git
 3. JDK 21
+4. JavaFX
 ## Building
-mvn clean install
+mvn clean instal
 ## Running
 java -jar Server/target/Server-1.0.0.jar  
 java -jar Client/target/Client-1.0.0.jar
@@ -15,3 +16,4 @@ Shared classes between client and server modules.
 The server application that handles multiple clients.
 ## Client Module
 The client application used to connect to the server.
+

@@ -4,49 +4,62 @@ import java.net.*;
 import java.io.*;
 
 /**
- * This program is a server that takes connection requests on
- * the port specified by the constant LISTENING_PORT.  When a
- * connection is opened, the program sends the current time to
- * the connected socket.  The program will continue to receive
- * and process connections until it is killed (by a CONTROL-C,
- * for example).  Note that this server processes each connection
- * as it is received, rather than creating a separate thread
- * to process the connection.
+ * A multi-threaded server that listens for connection requests on a specified port
+ * and handles each client connection in a separate thread.
+ *
+ *  The server sends the current time to connected clients and continues running
+ * indefinitely until it is terminated manually. It uses the {@link ClientHandler}
+ * class to process individual client connections.
+ *
+ * @version 1.0.0
+ * @author Andy Ly
+ * @see ClientHandler
  */
 public class Server {
-    private ServerSocket serverSocket;
-    private Socket clientSocket;
-    private PrintWriter out;
-    private BufferedReader in;
 
-    public void start(int port) throws Exception {
-        serverSocket = new ServerSocket(port);
-        clientSocket = serverSocket.accept();
-        out = new PrintWriter(clientSocket.getOutputStream(), true);
-        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-
-        String inputLine;
-        while ((inputLine = in.readLine()) != null) {
-            CustomerRequest request = CustomerRequest.fromJSON(inputLine);
-            CustomerResponse response = new CustomerResponse(request.getId(), "Jane", "Doe");
-            out.println(CustomerResponse.toJSON(response));
-        }
-    }
-
-    public void stop() throws IOException {
-        in.close();
-        out.close();
-        clientSocket.close();
-        serverSocket.close();
-    }
+    /**
+     * The entry point of the server application. Sets up the server to listen on
+     * port 4444, accepts client connections, and delegates processing to
+     * ClientHandler instances running in separate threads.
+     *
+     * @param args Command-line arguments (not used in this application).
+     */
 
     public static void main(String[] args) {
-        Server server = new Server();
+        ServerSocket serverSocket = null;
+
         try {
-            server.start(4444);
-            server.stop();
-        } catch(Exception e) {
+            // Initialize the server to listen on port 4444 with a backlog of 4096.
+            serverSocket = new ServerSocket(4445, 4096);
+
+            System.out.println("Server started on port 4444");
+
+            // Enable address reuse to allow multiple connections from the same host.
+            serverSocket.setReuseAddress(true);
+
+            // Continuously wait for client connections.
+            while (true) {
+                Socket client = serverSocket.accept();
+
+                // Log the new client connection.
+                System.out.println("New client connected: " + client.getInetAddress().getHostAddress());
+
+                // Handle the client connection in a separate thread.
+                ClientHandler clientSocket = new ClientHandler(client);
+                new Thread(clientSocket).start();
+            }
+        } catch (IOException e) {
+            // Print any exceptions that occur during server operation.
             e.printStackTrace();
+        } finally {
+            // Ensure the server socket is closed when the server terminates.
+            if (serverSocket != null) {
+                try {
+                    serverSocket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
-} //end class Server
+}

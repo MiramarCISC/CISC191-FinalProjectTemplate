@@ -1,0 +1,98 @@
+/* General Table Styling */
+.custom-table {
+    -fx-background-color: #ffffff;
+    -fx-table-cell-border-color: transparent;
+    -fx-padding: 5px;
+}
+
+/* Table Column Headers */
+.custom-table .column-header-background {
+    -fx-background-color: #E73879;
+}
+
+.custom-table .column-header, .custom-table .filler {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.custom-table .column-header .label {
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+}
+
+/* Table Cells */
+.custom-table .table-cell {
+    -fx-padding: 8px;
+    -fx-font-size: 14px;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.custom-table .table-row-cell:even {
+    -fx-background-color: #ffffff;
+}
+
+/* Hover effect for rows */
+.custom-table .table-row-cell:hover {
+    -fx-background-color: #FCC737;
+}
+
+/* Selected row */
+.custom-table .table-row-cell:selected {
+    -fx-background-color: #F26B0F;
+    -fx-text-fill: #ffffff;
+}
+
+.button {
+    -fx-background-color: #4a90e2;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 16px;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 4, 0, 0, 2);
+}
+
+/* Hover Effect */
+.button:hover {
+    -fx-background-color: #3c7dc2;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 6, 0, 0, 3);
+}
+
+/* Pressed Effect */
+.button:pressed {
+    -fx-background-color: #336ba6;
+    -fx-translate-y: 1px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 3, 0, 0, 1);
+}
+
+/* Disabled Button */
+.button:disabled {
+    -fx-background-color: #cfd7df;
+    -fx-text-fill: #9aa5b1;
+    -fx-cursor: default;
+    -fx-effect: none;
+}
+
+
+/* styles.css */
+.bet-box {
+    -fx-background-color: #F26B0F;
+    -fx-background-radius: 10;
+    -fx-padding: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.5, 0, 0);
+}
+.bet-box-label {
+    -fx-font-size: 15;
+    -fx-text-fill: white;
+}
+.bet-info-button {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #F26B0F;
+    -fx-border-radius: 5;
+    -fx-cursor: hand;
+}
+.bet-info-button:hover {
+    -fx-background-color: #e0e0e0;
+}
